@@ -11,7 +11,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <link href=" {{ url_for('static', filename='favicon.ico') }}" rel="shortcut icon">
+    <title>Drip-Hub</title>
   </head>
 
 
@@ -21,34 +22,34 @@
 
     <!-- Navbar with Image and text -->
 
+    <!-- <nav class="navbar navbar-expand-md bg-primary sticky-top"> -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand"  href="/">
         <img src="{{ url_for('static', filename='favicon.ico') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo"> Drip-Hub</a>
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline ml-auto">
           <input class="form-control mr-sm-2" type="search" placeholder="Search our Store">
           <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
         </form>
 
-        <ul class="navbar-nav my-2 my-lg-0">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Sign In</button>
-            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Help ?</button>
-            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">View Cart</button>
+            <a href="/" class="btn btn-outline-danger my-2 my-sm-0">Sign In</a>
+            
+            <div class="btn-group">
+              <button type="button" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                More
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item btn-outline-danger" type="button ">Contact Us</button>
+                <button class="dropdown-item btn-outline-danger" type="button">About Drip-Hub</button>
+                <button class="dropdown-item btn-outline-danger" type="button">Sell on Drip-Hub</button>
+              </div>
+            </div>
+
+            <a href="/" class="btn btn-outline-danger my-2 my-sm-0">View Cart</a>
           </li>
         </ul>
 
