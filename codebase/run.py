@@ -28,11 +28,6 @@ class products(db.Model):
 	availableDiscount = db.Column(db.String(10), nullable=False) # Y / N
 	dateEntered = db.Column(db.String(50), nullable=False) # Auto-Generated During Input
 
-class category(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	categoryName = db.Column(db.String(20), nullable=False)
-	dateEntered = db.Column(db.String(50), nullable=False) # Auto-Generated During Input
-
 class brand(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	brandName = db.Column(db.String(20), nullable=False)
@@ -195,4 +190,5 @@ def home():
 
 
 if __name__ == '__main__':
+	db.create_all()
 	app.run(debug=True, host='0.0.0.0')
