@@ -85,6 +85,7 @@ class sellers(db.Model):
 	companyLogo = db.Column(db.String(60), nullable=False) # If not available, Drip-Hub provides a default
 
 	# Address information may be different from the home address (customer table).
+	approved = db.Column(db.String(10), nullable=False) # Y / N
 	address = db.Column(db.String(60), nullable=False)
 	additionalInfo = db.Column(db.String(60), nullable=False)
 	city = db.Column(db.String(60), nullable=False)
