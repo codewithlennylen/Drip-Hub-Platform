@@ -1,10 +1,12 @@
 from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dripBase.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # ################# ############# PRODUCTS ################ #####################
 
@@ -23,9 +25,9 @@ class products(db.Model):
 	availableGender = db.Column(db.String(25), nullable=False)
 	availableQuantity = db.Column(db.Integer(), nullable=False)
 
-	ratingID = db.Column(db.String(50), nullable=False) # From Customers' Experiences
-	discount = db.Column(db.Integer(), nullable=False) # Percentage Discount
-	availableDiscount = db.Column(db.String(10), nullable=False) # Y / N
+	ratingID = db.Column(db.String(50), nullable=True) # From Customers' Experiences
+	discount = db.Column(db.Integer(), nullable=True) # Percentage Discount
+	availableDiscount = db.Column(db.String(10), nullable=True) # Y / N
 	dateEntered = db.Column(db.String(50), nullable=False) # Auto-Generated During Input
 
 class brand(db.Model):
@@ -42,6 +44,7 @@ class material(db.Model):
 class category(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	categoryName = db.Column(db.String(20), nullable=False)
+	picturePath = db.Column(db.String(100), nullable=False)
 	dateEntered = db.Column(db.String(50), nullable=False) # Auto-Generated During Input
 
 class rating(db.Model):
