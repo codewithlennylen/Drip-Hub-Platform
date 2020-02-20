@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4e50db623d77
+Revision ID: a47325b39f42
 Revises: 
-Create Date: 2020-02-20 18:40:12.083949
+Create Date: 2020-02-20 20:14:44.628714
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4e50db623d77'
+revision = 'a47325b39f42'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,26 +36,6 @@ def upgrade():
     op.create_index(op.f('ix_admin_phone2'), 'admin', ['phone2'], unique=False)
     op.create_index(op.f('ix_admin_pword'), 'admin', ['pword'], unique=False)
     op.create_index(op.f('ix_admin_timeStamp'), 'admin', ['timeStamp'], unique=False)
-    op.create_table('brand',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('brandName', sa.String(length=20), nullable=False),
-    sa.Column('brandLogo', sa.String(length=30), nullable=False),
-    sa.Column('timeStamp', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_brand_brandLogo'), 'brand', ['brandLogo'], unique=False)
-    op.create_index(op.f('ix_brand_brandName'), 'brand', ['brandName'], unique=False)
-    op.create_index(op.f('ix_brand_timeStamp'), 'brand', ['timeStamp'], unique=False)
-    op.create_table('category',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('categoryName', sa.String(length=20), nullable=False),
-    sa.Column('picPath', sa.String(length=100), nullable=True),
-    sa.Column('timeStamp', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_category_categoryName'), 'category', ['categoryName'], unique=False)
-    op.create_index(op.f('ix_category_picPath'), 'category', ['picPath'], unique=False)
-    op.create_index(op.f('ix_category_timeStamp'), 'category', ['timeStamp'], unique=False)
     op.create_table('customers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('fname', sa.String(length=60), nullable=False),
@@ -81,19 +61,16 @@ def upgrade():
     op.create_index(op.f('ix_customers_pword'), 'customers', ['pword'], unique=False)
     op.create_index(op.f('ix_customers_region'), 'customers', ['region'], unique=False)
     op.create_index(op.f('ix_customers_timeStamp'), 'customers', ['timeStamp'], unique=False)
-    op.create_table('material',
+    op.create_table('orders',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('materialName', sa.String(length=20), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('customer_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['customer_id'], ['customers.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_material_materialName'), 'material', ['materialName'], unique=False)
-    op.create_index(op.f('ix_material_timeStamp'), 'material', ['timeStamp'], unique=False)
-    op.create_table('order_details',
+    op.create_index(op.f('ix_orders_timeStamp'), 'orders', ['timeStamp'], unique=False)
+    op.create_table('orderdetails',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('orderID', sa.Integer(), nullable=False),
-    sa.Column('productID', sa.Integer(), nullable=False),
-    sa.Column('shipperID', sa.Integer(), nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
     sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('discount', sa.Integer(), nullable=False),
@@ -102,25 +79,18 @@ def upgrade():
     sa.Column('color', sa.String(length=60), nullable=True),
     sa.Column('fulfilledDate', sa.String(length=20), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('order_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_order_details_color'), 'order_details', ['color'], unique=False)
-    op.create_index(op.f('ix_order_details_discount'), 'order_details', ['discount'], unique=False)
-    op.create_index(op.f('ix_order_details_fulfilledDate'), 'order_details', ['fulfilledDate'], unique=False)
-    op.create_index(op.f('ix_order_details_price'), 'order_details', ['price'], unique=False)
-    op.create_index(op.f('ix_order_details_quantity'), 'order_details', ['quantity'], unique=False)
-    op.create_index(op.f('ix_order_details_size'), 'order_details', ['size'], unique=False)
-    op.create_index(op.f('ix_order_details_timeStamp'), 'order_details', ['timeStamp'], unique=False)
-    op.create_index(op.f('ix_order_details_total'), 'order_details', ['total'], unique=False)
-    op.create_table('orders',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('customerID', sa.Integer(), nullable=False),
-    sa.Column('transactionCode', sa.String(length=60), nullable=False),
-    sa.Column('timeStamp', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_orders_timeStamp'), 'orders', ['timeStamp'], unique=False)
-    op.create_index(op.f('ix_orders_transactionCode'), 'orders', ['transactionCode'], unique=False)
+    op.create_index(op.f('ix_orderdetails_color'), 'orderdetails', ['color'], unique=False)
+    op.create_index(op.f('ix_orderdetails_discount'), 'orderdetails', ['discount'], unique=False)
+    op.create_index(op.f('ix_orderdetails_fulfilledDate'), 'orderdetails', ['fulfilledDate'], unique=False)
+    op.create_index(op.f('ix_orderdetails_price'), 'orderdetails', ['price'], unique=False)
+    op.create_index(op.f('ix_orderdetails_quantity'), 'orderdetails', ['quantity'], unique=False)
+    op.create_index(op.f('ix_orderdetails_size'), 'orderdetails', ['size'], unique=False)
+    op.create_index(op.f('ix_orderdetails_timeStamp'), 'orderdetails', ['timeStamp'], unique=False)
+    op.create_index(op.f('ix_orderdetails_total'), 'orderdetails', ['total'], unique=False)
     op.create_table('payment',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('transactionCode', sa.String(length=60), nullable=False),
@@ -131,6 +101,8 @@ def upgrade():
     sa.Column('sellerReturns', sa.Integer(), nullable=False),
     sa.Column('total', sa.Integer(), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('order_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_payment_dripQuota'), 'payment', ['dripQuota'], unique=False)
@@ -141,24 +113,49 @@ def upgrade():
     op.create_index(op.f('ix_payment_timeStamp'), 'payment', ['timeStamp'], unique=False)
     op.create_index(op.f('ix_payment_total'), 'payment', ['total'], unique=False)
     op.create_index(op.f('ix_payment_transactionCode'), 'payment', ['transactionCode'], unique=False)
+    op.create_table('shippers',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('companyName', sa.String(length=60), nullable=False),
+    sa.Column('companyLogo', sa.String(length=60), nullable=False),
+    sa.Column('phone1', sa.String(length=60), nullable=False),
+    sa.Column('phone2', sa.String(length=60), nullable=True),
+    sa.Column('email1', sa.String(length=60), nullable=False),
+    sa.Column('email2', sa.String(length=60), nullable=True),
+    sa.Column('address', sa.String(length=60), nullable=False),
+    sa.Column('additionalInfo', sa.String(length=60), nullable=False),
+    sa.Column('city', sa.String(length=60), nullable=False),
+    sa.Column('region', sa.String(length=60), nullable=False),
+    sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('order_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_shippers_additionalInfo'), 'shippers', ['additionalInfo'], unique=False)
+    op.create_index(op.f('ix_shippers_address'), 'shippers', ['address'], unique=False)
+    op.create_index(op.f('ix_shippers_city'), 'shippers', ['city'], unique=False)
+    op.create_index(op.f('ix_shippers_companyLogo'), 'shippers', ['companyLogo'], unique=False)
+    op.create_index(op.f('ix_shippers_companyName'), 'shippers', ['companyName'], unique=False)
+    op.create_index(op.f('ix_shippers_email1'), 'shippers', ['email1'], unique=False)
+    op.create_index(op.f('ix_shippers_email2'), 'shippers', ['email2'], unique=False)
+    op.create_index(op.f('ix_shippers_phone1'), 'shippers', ['phone1'], unique=False)
+    op.create_index(op.f('ix_shippers_phone2'), 'shippers', ['phone2'], unique=False)
+    op.create_index(op.f('ix_shippers_region'), 'shippers', ['region'], unique=False)
+    op.create_index(op.f('ix_shippers_timeStamp'), 'shippers', ['timeStamp'], unique=False)
     op.create_table('products',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('productName', sa.String(length=60), nullable=False),
     sa.Column('productDescription', sa.String(length=255), nullable=False),
     sa.Column('productPrice', sa.Integer(), nullable=False),
-    sa.Column('categoryID', sa.Integer(), nullable=False),
-    sa.Column('brandID', sa.Integer(), nullable=False),
-    sa.Column('materialID', sa.Integer(), nullable=False),
-    sa.Column('sellerID', sa.Integer(), nullable=False),
     sa.Column('picturePath', sa.String(length=100), nullable=False),
     sa.Column('availableSize', sa.String(length=20), nullable=False),
     sa.Column('availableColor', sa.String(length=100), nullable=False),
     sa.Column('availableGender', sa.String(length=25), nullable=False),
     sa.Column('availableQuantity', sa.Integer(), nullable=False),
-    sa.Column('ratingID', sa.String(length=50), nullable=True),
     sa.Column('discount', sa.Integer(), nullable=True),
     sa.Column('availableDiscount', sa.Integer(), nullable=True),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('orderdetails_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['orderdetails_id'], ['orderdetails.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_products_availableColor'), 'products', ['availableColor'], unique=False)
@@ -171,18 +168,52 @@ def upgrade():
     op.create_index(op.f('ix_products_picturePath'), 'products', ['picturePath'], unique=False)
     op.create_index(op.f('ix_products_productDescription'), 'products', ['productDescription'], unique=False)
     op.create_index(op.f('ix_products_productName'), 'products', ['productName'], unique=False)
-    op.create_index(op.f('ix_products_ratingID'), 'products', ['ratingID'], unique=False)
     op.create_index(op.f('ix_products_timeStamp'), 'products', ['timeStamp'], unique=False)
+    op.create_table('brand',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('brandName', sa.String(length=20), nullable=False),
+    sa.Column('brandLogo', sa.String(length=30), nullable=False),
+    sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('product_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_brand_brandLogo'), 'brand', ['brandLogo'], unique=False)
+    op.create_index(op.f('ix_brand_brandName'), 'brand', ['brandName'], unique=False)
+    op.create_index(op.f('ix_brand_timeStamp'), 'brand', ['timeStamp'], unique=False)
+    op.create_table('category',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('categoryName', sa.String(length=20), nullable=False),
+    sa.Column('picPath', sa.String(length=100), nullable=True),
+    sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('product_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_category_categoryName'), 'category', ['categoryName'], unique=False)
+    op.create_index(op.f('ix_category_picPath'), 'category', ['picPath'], unique=False)
+    op.create_index(op.f('ix_category_timeStamp'), 'category', ['timeStamp'], unique=False)
+    op.create_table('material',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('materialName', sa.String(length=20), nullable=False),
+    sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('product_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_material_materialName'), 'material', ['materialName'], unique=False)
+    op.create_index(op.f('ix_material_timeStamp'), 'material', ['timeStamp'], unique=False)
     op.create_table('rating',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('r', sa.Integer(), nullable=False),
     sa.Column('review', sa.String(length=100), nullable=True),
-    sa.Column('productID', sa.Integer(), nullable=True),
-    sa.Column('customerID', sa.Integer(), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('product_id', sa.Integer(), nullable=True),
+    sa.Column('customer_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['customer_id'], ['customers.id'], ),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_rating_productID'), 'rating', ['productID'], unique=False)
     op.create_index(op.f('ix_rating_r'), 'rating', ['r'], unique=False)
     op.create_index(op.f('ix_rating_review'), 'rating', ['review'], unique=False)
     op.create_index(op.f('ix_rating_timeStamp'), 'rating', ['timeStamp'], unique=False)
@@ -198,6 +229,8 @@ def upgrade():
     sa.Column('city', sa.String(length=60), nullable=False),
     sa.Column('region', sa.String(length=60), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
+    sa.Column('product_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_sellers_additionalInfo'), 'sellers', ['additionalInfo'], unique=False)
@@ -209,49 +242,11 @@ def upgrade():
     op.create_index(op.f('ix_sellers_region'), 'sellers', ['region'], unique=False)
     op.create_index(op.f('ix_sellers_specialty'), 'sellers', ['specialty'], unique=False)
     op.create_index(op.f('ix_sellers_timeStamp'), 'sellers', ['timeStamp'], unique=False)
-    op.create_table('shippers',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('companyName', sa.String(length=60), nullable=False),
-    sa.Column('companyLogo', sa.String(length=60), nullable=False),
-    sa.Column('phone1', sa.String(length=60), nullable=False),
-    sa.Column('phone2', sa.String(length=60), nullable=True),
-    sa.Column('email1', sa.String(length=60), nullable=False),
-    sa.Column('email2', sa.String(length=60), nullable=True),
-    sa.Column('address', sa.String(length=60), nullable=False),
-    sa.Column('additionalInfo', sa.String(length=60), nullable=False),
-    sa.Column('city', sa.String(length=60), nullable=False),
-    sa.Column('region', sa.String(length=60), nullable=False),
-    sa.Column('timeStamp', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_shippers_additionalInfo'), 'shippers', ['additionalInfo'], unique=False)
-    op.create_index(op.f('ix_shippers_address'), 'shippers', ['address'], unique=False)
-    op.create_index(op.f('ix_shippers_city'), 'shippers', ['city'], unique=False)
-    op.create_index(op.f('ix_shippers_companyLogo'), 'shippers', ['companyLogo'], unique=False)
-    op.create_index(op.f('ix_shippers_companyName'), 'shippers', ['companyName'], unique=False)
-    op.create_index(op.f('ix_shippers_email1'), 'shippers', ['email1'], unique=False)
-    op.create_index(op.f('ix_shippers_email2'), 'shippers', ['email2'], unique=False)
-    op.create_index(op.f('ix_shippers_phone1'), 'shippers', ['phone1'], unique=False)
-    op.create_index(op.f('ix_shippers_phone2'), 'shippers', ['phone2'], unique=False)
-    op.create_index(op.f('ix_shippers_region'), 'shippers', ['region'], unique=False)
-    op.create_index(op.f('ix_shippers_timeStamp'), 'shippers', ['timeStamp'], unique=False)
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_index(op.f('ix_shippers_timeStamp'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_region'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_phone2'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_phone1'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_email2'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_email1'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_companyName'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_companyLogo'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_city'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_address'), table_name='shippers')
-    op.drop_index(op.f('ix_shippers_additionalInfo'), table_name='shippers')
-    op.drop_table('shippers')
     op.drop_index(op.f('ix_sellers_timeStamp'), table_name='sellers')
     op.drop_index(op.f('ix_sellers_specialty'), table_name='sellers')
     op.drop_index(op.f('ix_sellers_region'), table_name='sellers')
@@ -265,10 +260,19 @@ def downgrade():
     op.drop_index(op.f('ix_rating_timeStamp'), table_name='rating')
     op.drop_index(op.f('ix_rating_review'), table_name='rating')
     op.drop_index(op.f('ix_rating_r'), table_name='rating')
-    op.drop_index(op.f('ix_rating_productID'), table_name='rating')
     op.drop_table('rating')
+    op.drop_index(op.f('ix_material_timeStamp'), table_name='material')
+    op.drop_index(op.f('ix_material_materialName'), table_name='material')
+    op.drop_table('material')
+    op.drop_index(op.f('ix_category_timeStamp'), table_name='category')
+    op.drop_index(op.f('ix_category_picPath'), table_name='category')
+    op.drop_index(op.f('ix_category_categoryName'), table_name='category')
+    op.drop_table('category')
+    op.drop_index(op.f('ix_brand_timeStamp'), table_name='brand')
+    op.drop_index(op.f('ix_brand_brandName'), table_name='brand')
+    op.drop_index(op.f('ix_brand_brandLogo'), table_name='brand')
+    op.drop_table('brand')
     op.drop_index(op.f('ix_products_timeStamp'), table_name='products')
-    op.drop_index(op.f('ix_products_ratingID'), table_name='products')
     op.drop_index(op.f('ix_products_productName'), table_name='products')
     op.drop_index(op.f('ix_products_productDescription'), table_name='products')
     op.drop_index(op.f('ix_products_picturePath'), table_name='products')
@@ -280,6 +284,18 @@ def downgrade():
     op.drop_index(op.f('ix_products_availableDiscount'), table_name='products')
     op.drop_index(op.f('ix_products_availableColor'), table_name='products')
     op.drop_table('products')
+    op.drop_index(op.f('ix_shippers_timeStamp'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_region'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_phone2'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_phone1'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_email2'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_email1'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_companyName'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_companyLogo'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_city'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_address'), table_name='shippers')
+    op.drop_index(op.f('ix_shippers_additionalInfo'), table_name='shippers')
+    op.drop_table('shippers')
     op.drop_index(op.f('ix_payment_transactionCode'), table_name='payment')
     op.drop_index(op.f('ix_payment_total'), table_name='payment')
     op.drop_index(op.f('ix_payment_timeStamp'), table_name='payment')
@@ -289,21 +305,17 @@ def downgrade():
     op.drop_index(op.f('ix_payment_dripQuotaTotal'), table_name='payment')
     op.drop_index(op.f('ix_payment_dripQuota'), table_name='payment')
     op.drop_table('payment')
-    op.drop_index(op.f('ix_orders_transactionCode'), table_name='orders')
+    op.drop_index(op.f('ix_orderdetails_total'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_timeStamp'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_size'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_quantity'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_price'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_fulfilledDate'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_discount'), table_name='orderdetails')
+    op.drop_index(op.f('ix_orderdetails_color'), table_name='orderdetails')
+    op.drop_table('orderdetails')
     op.drop_index(op.f('ix_orders_timeStamp'), table_name='orders')
     op.drop_table('orders')
-    op.drop_index(op.f('ix_order_details_total'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_timeStamp'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_size'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_quantity'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_price'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_fulfilledDate'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_discount'), table_name='order_details')
-    op.drop_index(op.f('ix_order_details_color'), table_name='order_details')
-    op.drop_table('order_details')
-    op.drop_index(op.f('ix_material_timeStamp'), table_name='material')
-    op.drop_index(op.f('ix_material_materialName'), table_name='material')
-    op.drop_table('material')
     op.drop_index(op.f('ix_customers_timeStamp'), table_name='customers')
     op.drop_index(op.f('ix_customers_region'), table_name='customers')
     op.drop_index(op.f('ix_customers_pword'), table_name='customers')
@@ -315,14 +327,6 @@ def downgrade():
     op.drop_index(op.f('ix_customers_address'), table_name='customers')
     op.drop_index(op.f('ix_customers_additionalInfo'), table_name='customers')
     op.drop_table('customers')
-    op.drop_index(op.f('ix_category_timeStamp'), table_name='category')
-    op.drop_index(op.f('ix_category_picPath'), table_name='category')
-    op.drop_index(op.f('ix_category_categoryName'), table_name='category')
-    op.drop_table('category')
-    op.drop_index(op.f('ix_brand_timeStamp'), table_name='brand')
-    op.drop_index(op.f('ix_brand_brandName'), table_name='brand')
-    op.drop_index(op.f('ix_brand_brandLogo'), table_name='brand')
-    op.drop_table('brand')
     op.drop_index(op.f('ix_admin_timeStamp'), table_name='admin')
     op.drop_index(op.f('ix_admin_pword'), table_name='admin')
     op.drop_index(op.f('ix_admin_phone2'), table_name='admin')

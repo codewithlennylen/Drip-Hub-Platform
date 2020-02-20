@@ -8,47 +8,53 @@ class products(db.Model):
 	productName = db.Column(db.String(60), index=True, nullable=False)
 	productDescription = db.Column(db.String(255), index=True, nullable=False)
 	productPrice = db.Column(db.Integer(), nullable=False)
-	categoryID = db.Column(db.Integer(), nullable=False)
-	brandID = db.Column(db.Integer(), nullable=False)
-	materialID = db.Column(db.Integer(), nullable=False)
-	sellerID = db.Column(db.Integer(), nullable=False)
+
+	categoryid = db.relationship('category', backref='cid', lazy='dynamic')
+	brandid = db.relationship('brand', backref='bid', lazy='dynamic')
+	materialid = db.relationship('material', backref='mid', lazy='dynamic')
+	sellerid = db.relationship('sellers', backref='sid', lazy='dynamic')
+	ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
+
 	picturePath = db.Column(db.String(100), index=True, nullable=False)
 	availableSize = db.Column(db.String(20), index=True, nullable=False)
 	availableColor = db.Column(db.String(100), index=True, nullable=False)
 	availableGender = db.Column(db.String(25), index=True, nullable=False)
 	availableQuantity = db.Column(db.Integer(), index=True, nullable=False)
 
-	ratingID = db.Column(db.String(50), index=True, nullable=True) # From Customers' Experiences
 	discount = db.Column(db.Integer(), index=True, nullable=True) # Percentage Discount
 	availableDiscount = db.Column(db.Integer(), index=True, nullable=True) # 1 / 0
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-
+	orderdetails_id = db.Column(db.Integer, db.ForeignKey('orderdetails.id'))
 
 class brand(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	brandName = db.Column(db.String(20), index=True, nullable=False)
 	brandLogo = db.Column(db.String(30), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 class material(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	materialName = db.Column(db.String(20), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 class category(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	categoryName = db.Column(db.String(20), index=True, nullable=False)	
 	picPath = db.Column(db.String(100), index=True, nullable=True)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 class rating(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	r = db.Column(db.Integer, index=True, nullable=False)
 	review = db.Column(db.String(100), index=True, nullable=True) # Leaving a review is optional
-	productID = db.Column(db.Integer, index=True, nullable=True)
-	customerID = db.Column(db.Integer, nullable=False)
+	# productID = db.Column(db.Integer, index=True, nullable=True)
+	# customerID = db.Column(db.Integer, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -62,6 +68,9 @@ class customers(db.Model):
 	phone2 = db.Column(db.String(60), nullable=True) # Second Phone Number is optional
 	email = db.Column(db.String(60), index=True,nullable=False) # Auto-send notifications
 	pword = db.Column(db.String(100), index=True,nullable=False)
+
+	orderid = db.relationship('orders', backref='oid', lazy='dynamic')
+	ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
 
 	# Address information can be added later in the application or checkout.
 	address = db.Column(db.String(60), index=True, nullable=True)
@@ -89,6 +98,7 @@ class sellers(db.Model):
 	city = db.Column(db.String(60), index=True, nullable=False)
 	region = db.Column(db.String(60), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -111,7 +121,7 @@ class shippers(db.Model):
 	region = db.Column(db.String(60), index=True, nullable=False)
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 # -----------------------------------------------------------------------------------
 
 
@@ -134,17 +144,24 @@ class admin(db.Model):
 
 class orders(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	customerID = db.Column(db.Integer(), nullable=False)
-	transactionCode = db.Column(db.String(60), index=True, nullable=False)
+	# customerID = db.Column(db.Integer(), nullable=False)
+	# transactionCode = db.Column(db.String(60), index=True, nullable=False) # Get this info from payment table
+
+	orderdetailsid = db.relationship('orderdetails', backref='odid', lazy='dynamic')
+	paymentid = db.relationship('payment', backref='pid', lazy='dynamic')
+	shipperid = db.relationship('shippers', backref='sid', lazy='dynamic')
 
 	# Date the order was placed
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
-class orderDetails(db.Model):
+class orderdetails(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	orderID = db.Column(db.Integer(), nullable=False)
-	productID = db.Column(db.Integer(), nullable=False)
-	shipperID = db.Column(db.Integer(), nullable=False)
+	# orderID = db.Column(db.Integer(), nullable=False)
+	# productID = db.Column(db.Integer(), nullable=False)
+	# shipperID = db.Column(db.Integer(), nullable=False) # Handled by the orders table
+
+	product_id = db.relationship('products', backref='pid', lazy='dynamic')
 
 	price = db.Column(db.Integer(), index=True, nullable=False)
 	quantity = db.Column(db.Integer(), index=True, nullable=False)
@@ -155,6 +172,7 @@ class orderDetails(db.Model):
 	fulfilledDate = db.Column(db.String(20), index=True, nullable=False) #Date/N
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -177,5 +195,5 @@ class payment(db.Model):
 	total = db.Column(db.Integer(), index=True, nullable=False)
 	
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 # -----------------------------------------------------------------------------------
