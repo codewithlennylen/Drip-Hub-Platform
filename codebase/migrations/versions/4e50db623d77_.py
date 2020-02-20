@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 754e4047ba8f
+Revision ID: 4e50db623d77
 Revises: 
-Create Date: 2020-02-20 16:59:17.609626
+Create Date: 2020-02-20 18:40:12.083949
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '754e4047ba8f'
+revision = '4e50db623d77'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -177,12 +177,12 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('r', sa.Integer(), nullable=False),
     sa.Column('review', sa.String(length=100), nullable=True),
-    sa.Column('customers', sa.Integer(), nullable=False),
+    sa.Column('productID', sa.Integer(), nullable=True),
     sa.Column('customerID', sa.Integer(), nullable=False),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_rating_customers'), 'rating', ['customers'], unique=False)
+    op.create_index(op.f('ix_rating_productID'), 'rating', ['productID'], unique=False)
     op.create_index(op.f('ix_rating_r'), 'rating', ['r'], unique=False)
     op.create_index(op.f('ix_rating_review'), 'rating', ['review'], unique=False)
     op.create_index(op.f('ix_rating_timeStamp'), 'rating', ['timeStamp'], unique=False)
@@ -265,7 +265,7 @@ def downgrade():
     op.drop_index(op.f('ix_rating_timeStamp'), table_name='rating')
     op.drop_index(op.f('ix_rating_review'), table_name='rating')
     op.drop_index(op.f('ix_rating_r'), table_name='rating')
-    op.drop_index(op.f('ix_rating_customers'), table_name='rating')
+    op.drop_index(op.f('ix_rating_productID'), table_name='rating')
     op.drop_table('rating')
     op.drop_index(op.f('ix_products_timeStamp'), table_name='products')
     op.drop_index(op.f('ix_products_ratingID'), table_name='products')
