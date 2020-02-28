@@ -10,7 +10,7 @@ class Config(object):
 	# SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
 	# 	'sqlite:///'+ os.path.join(basedir,'dripBase.db')
 
-	SQLALCHEMY_DATABASE_URI = 'mysql://epiz_25263875:importmysql254@sql110.epizy.com/epiz_25263875_dripbase'
+	SQLALCHEMY_DATABASE_URI = 'mysql://root:''@localhost/dripbase'
 	# MYSQL_USER = 'epiz_25263875'
 	# MYSQL_PASSWORD = 'importmysql254'
 	# MYSQL_HOST = 'sql110.epizy.com'
