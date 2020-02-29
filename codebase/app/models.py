@@ -7,24 +7,25 @@ class products(db.Model):
 	id = db.Column(db.Integer, index=True, primary_key=True)
 	productName = db.Column(db.String(60), index=True, nullable=False)
 	productDescription = db.Column(db.String(255), index=True, nullable=False)
-	productPrice = db.Column(db.Integer(), nullable=False)
+	productPrice = db.Column(db.Integer, nullable=False)
 
 	categoryid = db.relationship('category', backref='cid', lazy='dynamic')
 	brandid = db.relationship('brand', backref='bid', lazy='dynamic')
 	materialid = db.relationship('material', backref='mid', lazy='dynamic')
 	sellerid = db.relationship('sellers', backref='sid', lazy='dynamic')
 	ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
+	orderdetailsid = db.relationship('orderdetails', backref='oid', lazy='dynamic')
 
 	picturePath = db.Column(db.String(100), index=True, nullable=False)
 	availableSize = db.Column(db.String(20), index=True, nullable=False)
 	availableColor = db.Column(db.String(100), index=True, nullable=False)
 	availableGender = db.Column(db.String(25), index=True, nullable=False)
-	availableQuantity = db.Column(db.Integer(), index=True, nullable=False)
+	availableQuantity = db.Column(db.Integer, index=True, nullable=False)
 
-	discount = db.Column(db.Integer(), index=True, nullable=True) # Percentage Discount
-	availableDiscount = db.Column(db.Integer(), index=True, nullable=True) # 1 / 0
+	discount = db.Column(db.Integer, index=True, nullable=True) # Percentage Discount
+	availableDiscount = db.Column(db.Integer, index=True, nullable=True) # 1 / 0
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	orderdetails_id = db.Column(db.Integer, db.ForeignKey('orderdetails.id'))
+	# orderdetails_id = db.Column(db.Integer, db.ForeignKey('orderdetails.id'))
 
 class brand(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -54,7 +55,7 @@ class rating(db.Model):
 	# customerID = db.Column(db.Integer, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+	# customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -70,7 +71,7 @@ class customers(db.Model):
 	pword = db.Column(db.String(100), index=True,nullable=False)
 
 	orderid = db.relationship('orders', backref='oid', lazy='dynamic')
-	ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
+	# ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
 
 	# Address information can be added later in the application or checkout.
 	address = db.Column(db.String(60), index=True, nullable=True)
@@ -86,7 +87,7 @@ class customers(db.Model):
 class sellers(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	# Must be a customer first befrore you can sell.
-	custID = db.Column(db.Integer(), nullable=False) # More on this later
+	custID = db.Column(db.Integer, nullable=False) # More on this later
 	companyName = db.Column(db.String(60), index=True, nullable=False)
 	specialty = db.Column(db.String(60), index=True, nullable=False)
 	companyLogo = db.Column(db.String(60), index=True, nullable=False) # If not available, Drip-Hub provides a default
@@ -144,7 +145,7 @@ class admin(db.Model):
 
 class orders(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	# customerID = db.Column(db.Integer(), nullable=False)
+	# customerID = db.Column(db.Integer, nullable=False)
 	# transactionCode = db.Column(db.String(60), index=True, nullable=False) # Get this info from payment table
 
 	orderdetailsid = db.relationship('orderdetails', backref='odid', lazy='dynamic')
@@ -157,22 +158,23 @@ class orders(db.Model):
 
 class orderdetails(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	# orderID = db.Column(db.Integer(), nullable=False)
-	# productID = db.Column(db.Integer(), nullable=False)
-	# shipperID = db.Column(db.Integer(), nullable=False) # Handled by the orders table
+	# orderID = db.Column(db.Integer, nullable=False)
+	# productID = db.Column(db.Integer, nullable=False)
+	# shipperID = db.Column(db.Integer, nullable=False) # Handled by the orders table
 
-	product_id = db.relationship('products', backref='pid', lazy='dynamic')
+	# product_id = db.relationship('products', backref='pid', lazy='dynamic')
 
-	price = db.Column(db.Integer(), index=True, nullable=False)
-	quantity = db.Column(db.Integer(), index=True, nullable=False)
-	discount = db.Column(db.Integer(), index=True, nullable=False)
-	total = db.Column(db.Integer(), index=True, nullable=False)
+	price = db.Column(db.Integer, index=True, nullable=False)
+	quantity = db.Column(db.Integer, index=True, nullable=False)
+	discount = db.Column(db.Integer, index=True, nullable=False)
+	total = db.Column(db.Integer, index=True, nullable=False)
 	size = db.Column(db.String(60), index=True, nullable=False)
 	color = db.Column(db.String(60), index=True, nullable=True)
 	fulfilledDate = db.Column(db.String(20), index=True, nullable=False) #Date/N
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -180,19 +182,19 @@ class orderdetails(db.Model):
 
 # This is not a very future-proof model. More thought has to be invested in this section!
 class payment(db.Model):
-	id = db.Column(db.Integer(), primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	transactionCode = db.Column(db.String(60), index=True, nullable=False) # M-PESA
 	
-	paidTotal = db.Column(db.Integer(), index=True, nullable=False)
-	shipperPrice = db.Column(db.Integer(), index=True, nullable=False)
-	dripQuota = db.Column(db.Integer(), index=True, nullable=False) # Percentage of unit price
-	dripQuotaTotal = db.Column(db.Integer(), index=True, nullable=False)
+	paidTotal = db.Column(db.Integer, index=True, nullable=False)
+	shipperPrice = db.Column(db.Integer, index=True, nullable=False)
+	dripQuota = db.Column(db.Integer, index=True, nullable=False) # Percentage of unit price
+	dripQuotaTotal = db.Column(db.Integer, index=True, nullable=False)
 
 	# paidTotal-(shipperPrice+dripQuotaTotal)
 	# Back to seller
-	sellerReturns = db.Column(db.Integer(), index=True, nullable=False)
+	sellerReturns = db.Column(db.Integer, index=True, nullable=False)
 	
-	total = db.Column(db.Integer(), index=True, nullable=False)
+	total = db.Column(db.Integer, index=True, nullable=False)
 	
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
