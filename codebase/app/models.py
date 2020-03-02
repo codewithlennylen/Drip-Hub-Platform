@@ -9,12 +9,13 @@ class products(db.Model):
 	productDescription = db.Column(db.String(255), index=True, nullable=False)
 	productPrice = db.Column(db.Integer, nullable=False)
 
-	categoryid = db.relationship('category', backref='cid', lazy='dynamic')
-	brandid = db.relationship('brand', backref='bid', lazy='dynamic')
-	materialid = db.relationship('material', backref='mid', lazy='dynamic')
-	sellerid = db.relationship('sellers', backref='sid', lazy='dynamic')
-	ratingid = db.relationship('rating', backref='rid', lazy='dynamic')
-	orderdetailsid = db.relationship('orderdetails', backref='oid', lazy='dynamic')
+	categoryid = db.Column(db.Integer, index=True, nullable=True)
+	brandid = db.Column(db.Integer, index=True, nullable=True)
+	materialid = db.Column(db.Integer, index=True, nullable=True)
+	
+	sellerid = db.Column(db.Integer, index=True, nullable=True)
+	# ratingid = db.Column(db.Integer, index=True, nullable=True)
+	# orderdetailsid = db.Column(db.Integer, index=True, nullable=True)
 
 	picturePath = db.Column(db.String(100), index=True, nullable=False)
 	availableSize = db.Column(db.String(20), index=True, nullable=False)
