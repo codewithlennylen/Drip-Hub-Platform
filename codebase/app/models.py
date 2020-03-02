@@ -12,7 +12,7 @@ class products(db.Model):
 	categoryid = db.Column(db.Integer, index=True, nullable=True)
 	brandid = db.Column(db.Integer, index=True, nullable=True)
 	materialid = db.Column(db.Integer, index=True, nullable=True)
-	
+
 	sellerid = db.Column(db.Integer, index=True, nullable=True)
 	# ratingid = db.Column(db.Integer, index=True, nullable=True)
 	# orderdetailsid = db.Column(db.Integer, index=True, nullable=True)
@@ -33,30 +33,29 @@ class brand(db.Model):
 	brandName = db.Column(db.String(20), index=True, nullable=False)
 	brandLogo = db.Column(db.String(30), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
 
 class material(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	materialName = db.Column(db.String(20), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
 
 class category(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	categoryName = db.Column(db.String(20), index=True, nullable=False)	
 	picPath = db.Column(db.String(100), index=True, nullable=True)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
 
 class rating(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	r = db.Column(db.Integer, index=True, nullable=False)
 	review = db.Column(db.String(100), index=True, nullable=True) # Leaving a review is optional
-	# productID = db.Column(db.Integer, index=True, nullable=True)
-	# customerID = db.Column(db.Integer, nullable=False)
+
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-	# customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+
 
 # -----------------------------------------------------------------------------------
 
@@ -100,7 +99,7 @@ class sellers(db.Model):
 	city = db.Column(db.String(60), index=True, nullable=False)
 	region = db.Column(db.String(60), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
 
 # -----------------------------------------------------------------------------------
 
