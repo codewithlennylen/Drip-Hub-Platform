@@ -10,5 +10,5 @@ class Config(object):
 	# SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
 	# 	'sqlite:///'+ os.path.join(basedir,'dripBase.db')
 
-	SQLALCHEMY_DATABASE_URI = 'mysql://root:''@localhost/dripbasetest'
+	SQLALCHEMY_DATABASE_URI = 'mysql://root:''@localhost/dripbasetest' # Dripbase test doesn't use rating-products relationship
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
