@@ -28,6 +28,10 @@ class products(db.Model):
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 	# orderdetails_id = db.Column(db.Integer, db.ForeignKey('orderdetails.id'))
 
+	# def __repr__(self):
+	# 	return f"product('{self.productName}','{self.productDescription}','{self.productPrice}')"
+
+
 class brand(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	brandName = db.Column(db.String(20), index=True, nullable=False)
