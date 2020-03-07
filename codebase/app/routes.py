@@ -7,3 +7,8 @@ from app.models import *
 def index():
 	c = category.query.all()
 	return render_template('homepage.html', c = c)
+
+
+@app.route('/gen/')
+def general():
+	return render_template('genproducts.html')
