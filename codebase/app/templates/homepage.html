@@ -7,7 +7,7 @@
   
   <div class="col mb-4">
     <div class="card">
-      <a class="text-danger" href="/">
+      <a class="text-danger" href="/gen/ffashion/">
       <img src="{{ url_for('static', filename='female/female.jpg') }}" class="card-img-top" alt="...">
 
       <div class="card-footer bg-white">
@@ -19,7 +19,7 @@
 
   <div class="col mb-4">
     <div class="card">
-      <a class="text-danger" href="/">
+      <a class="text-danger" href="/gen/mfashion/">
       <img src="{{ url_for('static', filename='men/men.jpg') }}" class="card-img-top" alt="...">
 
       <div class="card-footer bg-white">
@@ -31,7 +31,7 @@
 
   <div class="col mb-4">
     <div class="card">
-      <a class="text-danger" href="/">
+      <a class="text-danger" href="/gen/kfashion/">
       <img src="{{ url_for('static', filename='kids/kids.jpg') }}" class="card-img-top" alt="...">
 
       <div class="card-footer bg-white">
@@ -43,7 +43,7 @@
 
   <div class="col mb-4">
     <div class="card">
-      <a class="text-danger" href="/">
+      <a class="text-danger" href="/gen/narrivals/">
       <img src="{{ url_for('static', filename='female/default.png') }}" class="card-img-top" alt="...">
 
       <div class="card-footer bg-white">
@@ -62,7 +62,7 @@
 
   {% for categories in c %}
 
-    <a class="text-danger" href="/">
+    <a class="text-danger" href="/gen/{{ categories.categoryName }}/">
     <div class="col mb-4">
       <div class="card">
         <img src="{{ url_for('static', filename='logo.png').replace('logo.png', categories.picPath) }}" class="card-img-top" alt="{{ categories.categoryName }}">
