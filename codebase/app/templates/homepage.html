@@ -9,12 +9,10 @@
     <div class="card">
       <a class="text-danger" href="/">
       <img src="{{ url_for('static', filename='female/female.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
+
+      <div class="card-footer bg-white">
         <h5 class="card-title text-dark">Ladies' Fashion</h5></a>
         <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
       </div>
     </div>
   </div>
@@ -23,12 +21,10 @@
     <div class="card">
       <a class="text-danger" href="/">
       <img src="{{ url_for('static', filename='men/men.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
+
+      <div class="card-footer bg-white">
         <h5 class="card-title text-dark">Men's Fashion</h5></a>
         <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
       </div>
     </div>
   </div>
@@ -37,12 +33,10 @@
     <div class="card">
       <a class="text-danger" href="/">
       <img src="{{ url_for('static', filename='kids/kids.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
+
+      <div class="card-footer bg-white">
         <h5 class="card-title text-dark">Kids' Fashion</h5></a>
         <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
       </div>      
     </div>
   </div>
@@ -51,12 +45,10 @@
     <div class="card">
       <a class="text-danger" href="/">
       <img src="{{ url_for('static', filename='female/default.png') }}" class="card-img-top" alt="...">
-      <div class="card-body">
+
+      <div class="card-footer bg-white">
         <h5 class="card-title text-dark">New Arrivals!</h5></a>
         <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
       </div>      
     </div>
   </div>
@@ -74,10 +66,8 @@
     <div class="col mb-4">
       <div class="card">
         <img src="{{ url_for('static', filename='logo.png').replace('logo.png', categories.picPath) }}" class="card-img-top" alt="{{ categories.categoryName }}">
-<!--         <div class="card-body">
-          <h5 class="card-title text-dark">{{ categories.categoryName }}</h5>
-        </div> -->
-        <div class="card-footer">
+
+        <div class="card-footer bg-white">
           <h5 class="card-title text-dark">{{ categories.categoryName }}</h5>
         </div>
       </div>
