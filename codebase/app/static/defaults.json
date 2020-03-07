@@ -1,0 +1,7 @@
+{
+	// Default images sizes :> To be cropped for uniformity
+	"images":{			// width,height :> Maintain 16:9 aspect ratio
+		"main_cards" : [272,153],
+		"category_cards" : [160,90]
+	}
+}
