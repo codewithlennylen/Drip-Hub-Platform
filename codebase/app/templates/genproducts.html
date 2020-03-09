@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="row row-cols-1 my-4 row-cols-md-2">
+<!-- <div class="row row-cols-1 my-4 row-cols-md-2">
 
   
   <div class="col mb-4">
@@ -55,20 +55,20 @@
 
 </div>
 
-
+ -->
 
 <div class="card-deck">
 <div class="row row-cols-1 row-cols-md-4">
 
-  {% for categories in c %}
+  {% for items in prods %}
 
-    <a class="text-danger" href="/gen/{{ categories.categoryName }}/">
+    <a class="text-danger" href="/gen/{{ items.productName }}/">
     <div class="col mb-4">
       <div class="card">
-        <img src="{{ url_for('static', filename='logo.png').replace('logo.png', categories.picPath) }}" class="card-img-top" alt="{{ categories.categoryName }}">
+        <img src="{{ url_for('static', filename='logo.png').replace('logo.png', items.picturePath) }}" class="card-img-top" alt="{{ items.productName }}">
 
         <div class="card-footer bg-white">
-          <h5 class="card-title text-dark">{{ categories.categoryName }}</h5>
+          <h5 class="card-title text-dark">{{ items.productName }}</h5>
         </div>
       </div>
     </div>
