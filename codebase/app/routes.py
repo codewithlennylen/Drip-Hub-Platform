@@ -16,9 +16,9 @@ def index():
 
 @app.route('/gen/<string:category_name>/')
 def general(category_name):
-	if category_name in main_cards: # Different filter for the main_cards
+	if category_name in main_cards: # FILTER :> Different filter for the main_cards
 		pass
-	else:							# Get all products(+ details) in category x
+	else:							# FILTER :> Get all products(+ details) in category x
 		cat = category.query.filter_by(categoryName = category_name).first()
 		catID = cat.id
 
