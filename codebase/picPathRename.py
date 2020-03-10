@@ -40,6 +40,7 @@ for i in range(runs):
 	rsize = str(random.choice(sizes))
 	rcolor = str(random.choice(colors))
 	rqty = int(random.randrange(1,50))
+	radult = int(random.randrange(0,2))
 
 	if rgender == 'unisex':
 		ppath = 'male/'+str(cc[rcat])+'/'+str(cc[rcat])+'.jpg'
@@ -51,7 +52,7 @@ for i in range(runs):
 	p = products(productName='Cool '+str(cc[rcat]), productDescription='Coolest on the market',
 		productPrice=rprice, categoryid=rcat, brandid=rbrand,materialid=rmaterial,sellerid=1,
 		picturePath=str(ppath),availableSize=rsize,
-		availableColor=rcolor, availableGender=rgender, availableQuantity=rqty)
+		availableColor=rcolor, availableGender=rgender, availableQuantity=rqty,adultOrNot=radult)
 
 
 	print(p.productName)
@@ -66,6 +67,7 @@ for i in range(runs):
 	print(p.availableColor)
 	print(p.availableGender)
 	print(p.availableQuantity)
-	db.session.add(p)
+	print(p.adultOrNot)
+	# db.session.add(p)
 
-db.session.commit()
+# db.session.commit()

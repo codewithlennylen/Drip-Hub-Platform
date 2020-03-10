@@ -22,6 +22,7 @@ class products(db.Model):
 	availableColor = db.Column(db.String(100), index=True, nullable=False)
 	availableGender = db.Column(db.String(25), index=True, nullable=False)
 	availableQuantity = db.Column(db.Integer, index=True, nullable=False)
+	adultOrNot = db.Column(db.Integer, index=True, nullable=False) # 0-Kid , 1-Adult
 
 	discount = db.Column(db.Integer, index=True, nullable=True) # Percentage Discount
 	availableDiscount = db.Column(db.Integer, index=True, nullable=True) # 1 / 0
