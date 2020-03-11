@@ -3,6 +3,7 @@ from app.models import *
 from os import path
 import os
 import random
+import time
 
 print('Done')
 
@@ -22,7 +23,8 @@ ccc = {0: 'None', 1: 'Belts', 2: 'Blazers', 3: 'Gloves', 4: 'Hats', 5: 'Jackets'
 		12: 'Shorts', 13: 'Socks', 14: 'Suits', 15: 'Sweaters', 16: 'Sweatpants', 
 		17: 'T-Shirts', 18: 'Trousers', 19: 'Underwears', 20: 'Watches'}
 
-runs = 5
+runs = 200
+counter = 0
 genders = ['male', 'female','unisex']
 colors = ['blue', 'red', 'green','pink', 'white', 'black','yellow',"'red', 'green'","'white', 'black'",
 				"'green','pink'"]
@@ -68,6 +70,15 @@ for i in range(runs):
 	print(p.availableGender)
 	print(p.availableQuantity)
 	print(p.adultOrNot)
-	# db.session.add(p)
+	
+	db.session.add(p)
+	db.session.commit()
 
-# db.session.commit()
+	print('------------------------------ ---------------------- ----------------')
+	print('# '+str(i)+'#\t Added '+str(p.productName)+' successfully')
+
+	time.sleep(0.2) # results to 5 operations per second
+	counter = i
+
+
+print ("Total Items Added : "+str(counter))

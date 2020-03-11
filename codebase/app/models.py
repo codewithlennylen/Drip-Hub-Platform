@@ -14,8 +14,6 @@ class products(db.Model):
 	materialid = db.Column(db.Integer, index=True, nullable=True)
 
 	sellerid = db.Column(db.Integer, index=True, nullable=True)
-	# ratingid = db.Column(db.Integer, index=True, nullable=True)
-	# orderdetailsid = db.Column(db.Integer, index=True, nullable=True)
 
 	picturePath = db.Column(db.String(100), index=True, nullable=False)
 	availableSize = db.Column(db.String(20), index=True, nullable=False)
@@ -27,10 +25,6 @@ class products(db.Model):
 	discount = db.Column(db.Integer, index=True, nullable=True) # Percentage Discount
 	availableDiscount = db.Column(db.Integer, index=True, nullable=True) # 1 / 0
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	# orderdetails_id = db.Column(db.Integer, db.ForeignKey('orderdetails.id'))
-
-	# def __repr__(self):
-	# 	return f"product('{self.productName}','{self.productDescription}','{self.productPrice}')"
 
 
 class brand(db.Model):
@@ -151,7 +145,7 @@ class admin(db.Model):
 class orders(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	# customerID = db.Column(db.Integer, nullable=False)
-	# transactionCode = db.Column(db.String(60), index=True, nullable=False) # Get this info from payment table
+	transactionCode = db.Column(db.String(60), index=True, nullable=False) # Get this info from payment table
 
 	orderdetailsid = db.relationship('orderdetails', backref='odid', lazy='dynamic')
 	paymentid = db.relationship('payment', backref='pid', lazy='dynamic')
