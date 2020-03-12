@@ -49,11 +49,12 @@ class category(db.Model):
 
 class rating(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	r = db.Column(db.Integer, index=True, nullable=False)
+	product_id = db.Column(db.Integer, index=True, nullable=False) # Which product's being rated?
+	r = db.Column(db.Integer, index=True, nullable=False) # 0-5
 	review = db.Column(db.String(100), index=True, nullable=True) # Leaving a review is optional
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+	# product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 
 # -----------------------------------------------------------------------------------

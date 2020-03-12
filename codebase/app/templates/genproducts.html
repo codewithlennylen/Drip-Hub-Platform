@@ -8,17 +8,28 @@
 
   {% for items in prods %}
 
-    <a class="text-danger" href="/gen/{{ items.productName }}/">
     <div class="col mb-4">
       <div class="card">
-        <img src="{{ url_for('static', filename='logo.png').replace('logo.png', items.picturePath) }}" class="card-img-top" alt="{{ items.productName }}">
+        <a class="text-danger" href="/gen/{{ items.productName }}/">
+          <img src="{{ url_for('static', filename='logo.png').replace('logo.png', items.picturePath) }}" class="card-img-top" alt="{{ items.productName }}">
+        </a>
+        
+        <div class="card-body">
+          <a class="text-danger" href="/gen/{{ items.productName }}/">
+            <h5 class="card-title text-dark">{{ items.productName }}</h5>
+          </a>
+          <p class="card-text">{{ items.productDescription }}</p>
+        </div>
 
         <div class="card-footer bg-white">
-          <h5 class="card-title text-dark">{{ items.productName }}</h5>
+          <a class="btn btn-danger" href="/gen/{{ items.productName }}/">
+            Ksh. {{ items.productPrice }} /=
+          </a>
         </div>
+
       </div>
     </div>
-    </a>
+    
 
   {% endfor %}
 
