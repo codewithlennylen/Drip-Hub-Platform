@@ -54,7 +54,6 @@ class rating(db.Model):
 	review = db.Column(db.String(100), index=True, nullable=True) # Leaving a review is optional
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	# product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 
 # -----------------------------------------------------------------------------------
