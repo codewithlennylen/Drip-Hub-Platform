@@ -8,6 +8,7 @@ productIDs = 206
 rats = 6
 reviews = ['Good Product', 'Bad Product','Loved it','Hated it','Reliable seller']
 
+startTime = time.time()
 
 for i in range(runs):
 	print('-------------------------------------------')
@@ -27,29 +28,5 @@ for i in range(runs):
 	print('\t Added Review #. '+str(i+1)+' Successfully')
 	time.sleep(0.2)
 
-# prods = products.query.filter_by(categoryid = 18).all()
 
-# def get_ratings(productid):
-# 	# get all ratings for a certain product
-# 	ratings = rating.query.filter_by(product_id=productid).all()
-	
-# 	# This part of the function returns the average rating (out of 5)
-# 	rNum = 0
-# 	counter = 0
-# 	reviewNum = []
-# 	for i in ratings:
-# 		rNum += int(i.r)
-# 		counter += 1
-
-# 	return (rNum//counter) # get integer rating out of 5 Stars 
-
-
-# for i in prods:
-# 	print (get_ratings(productid=i.id))
-# 	print('# '+str(i)+' # ProductID : '+str(i.id))
-
-# ratingss = rating.query.filter_by(product_id=1).all()
-
-# for i in ratingss:
-# 	print(i.r)
-
+print ('\n\n ** Process took : '+str(time.time()-startTime)+' seconds == '+str((time.time()-startTime)/60)+' minutes')
