@@ -8,14 +8,17 @@ main_cards = ['mfashion','ffashion','kfashion','narrivals']
 
 def get_ratings(productid):
 	# get all ratings for a certain product
-	ratings = rating.query.filter_by(product_id = productid).all()
+	ratings = rating.query.filter_by(product_id = 1).all()
 	
+	# This part of the function returns the average rating (out of 5)
 	rNum = 0
+	counter = 0
 	reviewNum = []
-	for count,i in enumerate(ratings.r):
-		rNum += int(i)
+	for i in ratings:
+		rNum += int(i.r)
+		counter += 1
 
-	return (rNum//count) # get integer rating out of 5 Stars 
+	return (rNum//counter) # get integer rating out of 5 Stars 
 
 
 @app.route('/')
@@ -35,6 +38,6 @@ def general(category_name):
 		prods = products.query.filter_by(categoryid = cat.id).all()
 		
 		for i in prods:
-			ratin = get_ratings(i.id)
+			ratin = get_ratings(productid = i.id)
 
 	return render_template('genproducts.html', prods=prods, ratin = ratin)

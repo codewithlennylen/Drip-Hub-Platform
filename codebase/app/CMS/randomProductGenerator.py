@@ -1,7 +1,5 @@
 from app import db
 from app.models import *
-from os import path
-import os
 import random
 import time
 
