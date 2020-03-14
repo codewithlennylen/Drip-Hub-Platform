@@ -3,7 +3,6 @@ from app.models import rating, products
 from app import db
 
 
-# prods = products.query.filter_by(categoryid = 5).all()
 
 def get_ratings(productid):
 	# get all ratings for a certain product
@@ -22,16 +21,21 @@ def get_ratings(productid):
 
 
 
-for i in range(205):
-	# i += 1
+for i in range(205): # For all products in products table
+	i += 1 # Avoid the zero index
 
-	print('--------- CATEGORY ID: ' +str(i+1)+'  ------------------')
-	prods = products.query.filter_by(categoryid = int(i+1)).all()
+	print('--------------- PRODUCT ID: ' +str(i)+'  ------------------')
+	prods = products.query.filter_by(id = i).first()
 	
-	for j in prods:
-		print('ProductID : '+str(j.id)+' Rating : '+str(get_ratings(productid=j.id)))
 
-# ratingss = rating.query.filter_by(product_id=18).all()
+	print('ProductID : '+str(prods.id)+' Rating : '+str(get_ratings(productid=int(prods.id))))
 
-# for i in ratingss:
-# 	print(i.r)
+
+
+''' 
+	I had to manually insert random reviews to two products that had none!
+'''
+# ra = rating(product_id=198, r=5, review='Good Product')
+
+# db.session.add(ra)
+# db.session.commit()
