@@ -8,7 +8,7 @@ main_cards = ['mfashion','ffashion','kfashion','narrivals']
 
 def get_ratings(productid):
 	# get all ratings for a certain product
-	ratings = rating.query.filter_by(product_id = 1).all()
+	ratings = rating.query.filter_by(product_id = productid).all()
 	
 	# This part of the function returns the average rating (out of 5)
 	rNum = 0
@@ -37,7 +37,13 @@ def general(category_name):
 		cat = category.query.filter_by(categoryName = category_name).first()
 		prods = products.query.filter_by(categoryid = cat.id).all()
 		
+		# This Dictionary object stores the productID:rating
+		# Accessible in the genProducts template to render individual ratings
+		## Should work since the prods object is rendered without a problem
+		### 1. ratin = {}
+		### 2. ratin = []
 		for i in prods:
+			# This seems to work for now but I am not conviced 100% !
 			ratin = get_ratings(productid = i.id)
 
 	return render_template('genproducts.html', prods=prods, ratin = ratin)
