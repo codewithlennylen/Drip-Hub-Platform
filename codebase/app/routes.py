@@ -18,8 +18,9 @@ def get_ratings(productid):
 		rNum += int(i.r)
 		counter += 1
 
-	return (rNum//counter) # get integer rating out of 5 Stars 
+	rats = (rNum//counter) # get integer rating out of 5 Stars 
 
+	return rats,counter
 
 @app.route('/')
 @app.route('/index/')
@@ -44,6 +45,7 @@ def general(category_name):
 		### 2. ratin = []
 		for i in prods:
 			# This seems to work for now but I am not conviced 100% !
+			# Fetches tuple :> (rating, no_of_reviews)
 			ratin = get_ratings(productid = i.id)
 
 	return render_template('genproducts.html', prods=prods, ratin = ratin)

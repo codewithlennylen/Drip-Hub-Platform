@@ -16,7 +16,9 @@ def get_ratings(productid):
 		rNum += int(i.r)
 		counter += 1
 
-	return (rNum//counter) # get integer rating out of 5 Stars 
+	rats = (rNum//counter) # get integer rating out of 5 Stars 
+
+	return rats,counter
 
 
 
@@ -28,7 +30,7 @@ for i in range(205): # For all products in products table
 	prods = products.query.filter_by(id = i).first()
 	
 
-	print('ProductID : '+str(prods.id)+' Rating : '+str(get_ratings(productid=int(prods.id))))
+	print('ProductID : '+str(prods.id)+' Rating : '+str(get_ratings(productid=int(prods.id))[0]))
 
 
 
