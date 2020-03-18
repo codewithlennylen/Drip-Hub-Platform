@@ -27,13 +27,32 @@ def get_ratings(productid):
 def index():
 	# Get all categories in the database categories table.
 	# * main_cards aren't part of this query
-	c = category.query.all()
+	c = category.query.order_by("categoryName").all() # Get the categories in alphabetical order
 	return render_template('homepage.html', c = c)
 
 @app.route('/gen/<string:category_name>/')
 def general(category_name):
 	if category_name in main_cards: # FILTER :> Different filter for the main_cards
-		pass
+		if category_name == 'mfashion':
+			prods = products.query.filter_by(availableGender='male'or'unisex').all()
+			for i in prods:
+				ratin = get_ratings(productid = i.id)
+
+		elif category_name == 'ffashion':
+			prods = products.query.filter_by(availableGender='female'or'unisex').all()
+			for i in prods:
+				ratin = get_ratings(productid = i.id)
+
+		elif category_name == 'kfashion':
+			prods = products.query.filter_by(adultOrNot=0).all()
+			for i in prods:
+				ratin = get_ratings(productid = i.id)
+
+		else:
+			prods = products.query.order_by('timeStamp').all()
+			for i in prods:
+				ratin = get_ratings(productid = i.id)
+
 	else:							# FILTER :> Get all products(+ details) in category x
 		cat = category.query.filter_by(categoryName = category_name).first()
 		prods = products.query.filter_by(categoryid = cat.id).all()
