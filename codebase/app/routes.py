@@ -32,39 +32,36 @@ def index():
 
 @app.route('/gen/<string:category_name>/')
 def general(category_name):
+	# Pass a dictionary object to genproducts template:{<product>:(rating),..}
+	proDict = {}
 	if category_name in main_cards: # FILTER :> Different filter for the main_cards
 		if category_name == 'mfashion':
 			prods = products.query.filter_by(availableGender='male'or'unisex').all()
 			for i in prods:
-				ratin = get_ratings(productid = i.id)
+				proDict[i] = get_ratings(productid = i.id)
+				# ratin = get_ratings(productid = i.id)
 
 		elif category_name == 'ffashion':
 			prods = products.query.filter_by(availableGender='female'or'unisex').all()
 			for i in prods:
-				ratin = get_ratings(productid = i.id)
+				proDict[i] = get_ratings(productid = i.id)
 
 		elif category_name == 'kfashion':
 			prods = products.query.filter_by(adultOrNot=0).all()
 			for i in prods:
-				ratin = get_ratings(productid = i.id)
+				proDict[i] = get_ratings(productid = i.id)
 
 		else:
 			prods = products.query.order_by('timeStamp').all()
 			for i in prods:
-				ratin = get_ratings(productid = i.id)
+				proDict[i] = get_ratings(productid = i.id)
 
 	else:							# FILTER :> Get all products(+ details) in category x
 		cat = category.query.filter_by(categoryName = category_name).first()
 		prods = products.query.filter_by(categoryid = cat.id).all()
 		
-		# This Dictionary object stores the productID:rating
-		# Accessible in the genProducts template to render individual ratings
-		## Should work since the prods object is rendered without a problem
-		### 1. ratin = {}
-		### 2. ratin = []
 		for i in prods:
-			# This seems to work for now but I am not conviced 100% !
-			# Fetches tuple :> (rating, no_of_reviews)
-			ratin = get_ratings(productid = i.id)
+			proDict[i] = get_ratings(productid = i.id)
 
-	return render_template('genproducts.html', prods=prods, ratin = ratin)
+	return render_template('genproducts.html', proDict = proDict)
+	# return render_template('genproducts.html', prods=prods, ratin = ratin)
