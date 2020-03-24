@@ -7,7 +7,7 @@
 
 {% if toggle == 1 %}
   {% for cat in c %}
-    <div class="card text-center">
+    <div class="card mb-3 text-center">
       <div class="card-header bg-white">
         <a href="#" class="btn btn-outline-danger">{{ cat.categoryName }}</a>
       </div>
@@ -18,8 +18,8 @@
 
     {% for prods in proDict %}
       {% if prods.categoryid == cat.id %}
-          <div class="col mb-4">
-            <div class="card min-vw-100 h-100">
+          <div class="col mb-3">
+            <div class="card w-100 p-2 h-100" style="width: 18rem;">
               <a class="text-danger" href="/gen/{{ prods.productName }}/">
                 <img src="{{ url_for('static', filename='logo.png').replace('logo.png', prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
               </a>
@@ -94,8 +94,8 @@
 
   {% for prods in proDict %}
 
-    <div class="col mb-4">
-      <div class="card w-75 h-100">
+    <div class="col mb-3">
+      <div class="card w-100 p-2 h-100">
         <a class="text-danger" href="/gen/{{ prods.productName }}/">
           <img src="{{ url_for('static', filename='logo.png').replace('logo.png', prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
         </a>
