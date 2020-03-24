@@ -34,34 +34,42 @@ def index():
 def general(category_name):
 	# Pass a dictionary object to genproducts template:{<product>:(rating),..}
 	proDict = {}
+	# Get the categories in alphabetical order
+	c = category.query.order_by("categoryName").all()
+	toggle = 0
 	if category_name in main_cards: # FILTER :> Different filter for the main_cards
 		if category_name == 'mfashion':
 			prods = products.query.filter_by(availableGender='male'or'unisex').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 				# ratin = get_ratings(productid = i.id)
 
 		elif category_name == 'ffashion':
 			prods = products.query.filter_by(availableGender='female'or'unisex').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 		elif category_name == 'kfashion':
 			prods = products.query.filter_by(adultOrNot=0).all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 		else:
 			prods = products.query.order_by('timeStamp').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 	else:							# FILTER :> Get all products(+ details) in category x
 		cat = category.query.filter_by(categoryName = category_name).first()
 		prods = products.query.filter_by(categoryid = cat.id).all()
+		toggle = 0
 		
 		for i in prods:
 			proDict[i] = get_ratings(productid = i.id)
 
-	return render_template('genproducts.html', proDict = proDict)
+	return render_template('genproducts.html', proDict = proDict, c = c, toggle = toggle)
 	# return render_template('genproducts.html', prods=prods, ratin = ratin)
