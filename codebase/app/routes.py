@@ -81,5 +81,8 @@ def general(category_name):
 def prodView(product_id):
 	# Get the product with the matching ID
 	prod = products.query.filter_by(id = product_id).first()
+	brands = brand.query.filter_by(id = prod.brandid).first()
+	proDict = {}
+	proDict[prod] = [list(get_ratings(productid = product_id)), brands.brandName]
 
-	return render_template('productview.html', prod = prod)
+	return render_template('productview.html', proDict = proDict)

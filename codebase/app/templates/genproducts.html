@@ -23,7 +23,7 @@
           <div class="col mb-3">
             <div class="card shadow-sm p-2 h-100" > <!-- style="width: 18rem;" == Non-responsive -->
               <a class="text-danger" href="/provw/{{ prods.id }}/">
-                <img src="{{ url_for('static', filename='logo.png').replace('logo.png', prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
+                <img src="{{ url_for('static', filename=prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
               </a>
               
               <div class="card-body">
@@ -99,7 +99,7 @@
       <div class="col mb-3">
         <div class="card shadow-sm p-2 h-100">
           <a class="text-danger" href="/provw/{{ prods.id }}/">
-            <img src="{{ url_for('static', filename='logo.png').replace('logo.png', prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
+            <img src="{{ url_for('static', filename=prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
           </a>
           
           <div class="card-body">
