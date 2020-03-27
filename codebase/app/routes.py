@@ -73,3 +73,13 @@ def general(category_name):
 
 	return render_template('genproducts.html', proDict = proDict, c = c, toggle = toggle)
 	# return render_template('genproducts.html', prods=prods, ratin = ratin)
+
+
+# REMEMBER TO PREVENT DATA EXFILTRATION VIA ENUMERATION!
+# ADD UNIQUE PID FIELD IN DB :> YOUTUBE VIDEO IDs >>> PRODUCT IDs
+@app.route('/provw/<int:product_id>/') # A product's ID is its unique identifier!
+def prodView(product_id):
+	# Get the product with the matching ID
+	prod = products.query.filter_by(id = product_id).first()
+
+	return render_template('productview.html', prod = prod)
