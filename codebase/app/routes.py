@@ -85,4 +85,4 @@ def prodView(product_id):
 	proDict = {}
 	proDict[prod] = [list(get_ratings(productid = product_id)), brands.brandName]
 
-	return render_template('productview.html', proDict = proDict)
+	return render_template('productview2.html', proDict = proDict)
