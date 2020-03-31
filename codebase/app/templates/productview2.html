@@ -8,7 +8,7 @@
 
   {% for pdt in proDict %}
 
-    <div class="card w-100 mr-2" >
+    <div class="card w-100 mr-2 mb-2" >
       <div class="row no-gutters">
 
         <div class="col-md-4">
@@ -74,7 +74,6 @@
             <h6 class="card-title text-dark">Color : </h6>
             <h6 class="card-title text-dark">Size  : </h6>
             <h6 class="card-title text-dark">Material : </h6>
-            <h6 class="card-title text-dark">Quantity : </h6>
 
           </div>
 
@@ -88,7 +87,7 @@
 
   {% endfor %}
 
-  <div class="card border-left"><!-- 
+  <div class="card border-left mb-2"><!-- 
     <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
       <h5 class="card-title">Delivery Info</h5>
@@ -107,6 +106,38 @@
 </div>
 
 
+
+<div class="card-group">
+
+  {% for pdt in proDict %}
+
+    <div class="card w-100 mr-2 mb-2">
+      <div class="card-body">
+        <h5 class="card-title">Product Description</h5>
+        <p class="card-text">{{ pdt.productDescription }}</p>
+        <h5 class="card-title">Product Specifications</h5>
+        <ul>          
+          <li><p class="card-text">Category : {{ proDict[pdt][3] }}</p></li>
+          <li><p class="card-text">Brand : {{ proDict[pdt][1] }}</p></li>
+          <li><p class="card-text">Material : {{ proDict[pdt][2] }}</p></li>
+          <li><p class="card-text">availableColor : {{ pdt.availableColor }}</p></li>
+          <li><p class="card-text">availableSize : {{ pdt.availableSize }}</p></li>
+        </ul>      
+      </div>
+    </div>
+
+    <div class="card border-left">
+      <div class="card-body">
+        <h5 class="card-title">What's In The Box</h5>
+        <ol>
+          <li><p class="card-text">{{ pdt.productName }}</p></li>
+        </ol>
+      </div>
+    </div>
+
+  {% endfor %}
+
+</div>
 
 
 {% endblock content %}
