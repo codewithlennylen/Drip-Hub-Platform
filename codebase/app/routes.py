@@ -34,34 +34,61 @@ def index():
 def general(category_name):
 	# Pass a dictionary object to genproducts template:{<product>:(rating),..}
 	proDict = {}
+	# Get the categories in alphabetical order
+	c = category.query.order_by("categoryName").all()
+	toggle = 0
 	if category_name in main_cards: # FILTER :> Different filter for the main_cards
 		if category_name == 'mfashion':
 			prods = products.query.filter_by(availableGender='male'or'unisex').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 				# ratin = get_ratings(productid = i.id)
 
 		elif category_name == 'ffashion':
 			prods = products.query.filter_by(availableGender='female'or'unisex').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 		elif category_name == 'kfashion':
 			prods = products.query.filter_by(adultOrNot=0).all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 		else:
 			prods = products.query.order_by('timeStamp').all()
+			toggle = 1
 			for i in prods:
 				proDict[i] = get_ratings(productid = i.id)
 
 	else:							# FILTER :> Get all products(+ details) in category x
 		cat = category.query.filter_by(categoryName = category_name).first()
 		prods = products.query.filter_by(categoryid = cat.id).all()
+		toggle = 0
 		
 		for i in prods:
 			proDict[i] = get_ratings(productid = i.id)
 
-	return render_template('genproducts.html', proDict = proDict)
+	return render_template('genproducts.html', proDict = proDict, c = c, toggle = toggle)
 	# return render_template('genproducts.html', prods=prods, ratin = ratin)
+
+
+# REMEMBER TO PREVENT DATA EXFILTRATION VIA ENUMERATION!
+# ADD UNIQUE PID FIELD IN DB :> YOUTUBE VIDEO IDs >>> PRODUCT IDs
+@app.route('/provw/<int:product_id>/') # A product's ID is its unique identifier!
+def prodView(product_id):
+	# Get the product with the matching ID
+	prod = products.query.filter_by(id = product_id).first()
+	brands = brand.query.filter_by(id = prod.brandid).first()
+	materials = material.query.filter_by(id = prod.materialid).first()
+	categorys = category.query.filter_by(id = prod.categoryid).first()
+	
+	proDict = {}
+	proDict[prod] = [list(get_ratings(productid = product_id)),
+					brands.brandName,
+					materials.materialName,
+					categorys.categoryName]
+
+	return render_template('productview2.html', proDict = proDict)

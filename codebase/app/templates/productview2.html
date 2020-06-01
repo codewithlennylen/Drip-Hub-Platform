@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+<div class="card-group">
+
+  {% for pdt in proDict %}
+
+    <div class="card w-100 mr-2 mb-2" >
+      <div class="row no-gutters">
+
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename=pdt.picturePath) }}" class="card-img" alt="{{ pdt.productName }}">
+        </div>
+
+        <div class="col-md-8">
+          <div class="card-body">
+            <a class="text-danger" href="#">
+              <h5 class="card-title text-dark">{{ pdt.productName }}</h5>
+            </a>
+
+            {# Ratings #}
+            {% if proDict[pdt][0][0] == 5 %}
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% elif proDict[pdt][0][0] == 4 %}
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% elif proDict[pdt][0][0] == 3 %}
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% elif proDict[pdt][0][0] == 2 %}
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% elif proDict[pdt][0][0] == 1 %}
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% else %}
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+            {% endif %}
+            
+            <p class="card-text"><b>Brand : <a class="text-danger" href="#">{{ proDict[pdt][1] }}</a></b></p>
+
+            <hr>
+
+            <h5 class="card-title text-dark">Select Your Features</h5>
+            <h6 class="card-title text-dark">Color : </h6>
+            <h6 class="card-title text-dark">Size  : </h6>
+            <h6 class="card-title text-dark">Material : </h6>
+
+          </div>
+
+            <div class="card-footer bg-white">
+              <a class="btn btn-block btn-danger rounded-pill" href="#">Add to Cart - Ksh. {{ pdt.productPrice }} /=</a>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+
+  {% endfor %}
+
+  <div class="card border-left mb-2"><!-- 
+    <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+      <h5 class="card-title">Delivery Info</h5>
+      <p class="card-text">Delivery is the process of transporting goods from a source location to a predefined destination. There are different delivery types. Cargo are primarily delivered via roads and railroads on land, shipping lanes on the sea and airline networks in the air.</p>
+
+      <h5 class="card-title">Return Policy</h5>
+      <p class="card-text">If for any reason the customer is not satisfied with their purchase we provide a returns service. However, restrictions may apply to certain merchandise, as detailed below and as updated from time to time.  Proof of purchase is required to receive a full refund.</p>
+    </div>
+
+    <div class="card-footer bg-white">
+          <a class="btn btn-block btn-danger rounded-pill" href="#">More About This</a>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+<div class="card-group">
+
+  {% for pdt in proDict %}
+
+    <div class="card w-100 mr-2 mb-2">
+      <div class="card-body">
+        <h5 class="card-title">Product Description</h5>
+        <p class="card-text">{{ pdt.productDescription }}</p>
+        <h5 class="card-title">Product Specifications</h5>
+        <ul>          
+          <li><p class="card-text">Category : {{ proDict[pdt][3] }}</p></li>
+          <li><p class="card-text">Brand : {{ proDict[pdt][1] }}</p></li>
+          <li><p class="card-text">Material : {{ proDict[pdt][2] }}</p></li>
+          <li><p class="card-text">availableColor : {{ pdt.availableColor }}</p></li>
+          <li><p class="card-text">availableSize : {{ pdt.availableSize }}</p></li>
+        </ul>      
+      </div>
+    </div>
+
+    <div class="card border-left">
+      <div class="card-body">
+        <h5 class="card-title">What's In The Box</h5>
+        <ol>
+          <li><p class="card-text">{{ pdt.productName }}</p></li>
+        </ol>
+      </div>
+    </div>
+
+  {% endfor %}
+
+</div>
+
+
+{% endblock content %}
