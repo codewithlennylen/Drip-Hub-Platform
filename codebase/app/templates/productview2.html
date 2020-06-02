@@ -21,7 +21,7 @@
               <h5 class="card-title text-dark">{{ pdt.productName }}</h5>
             </a>
 
-            {# Ratings #}
+            {# Ratings -> Incredibly inefficient(Lengthy and Repetitive) but works! #}
             {% if proDict[pdt][0][0] == 5 %}
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div class="card border-left">
+    <div class="card border-left mb-2">
       <div class="card-body">
         <h5 class="card-title">What's In The Box</h5>
         <ol>
@@ -137,6 +137,74 @@
 
   {% endfor %}
 
+</div>
+
+
+<div class="card mb-3" style="max-width: 100%;">
+  <div class="row no-gutters">
+
+    <div class="col-md-4">
+      <h5 class="card-title ml-3 mt-3">Overall Customer Ratings</h5>
+      {% for pdt in proDict %}
+
+        {# Ratings -> Incredibly inefficient(Lengthy and Repetitive) but works! #}
+        {% if proDict[pdt][0][0] == 5 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% elif proDict[pdt][0][0] == 4 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% elif proDict[pdt][0][0] == 3 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% elif proDict[pdt][0][0] == 2 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% elif proDict[pdt][0][0] == 1 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% else %}
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+
+        {% endif %}
+      {% endfor %}
+
+
+    </div>
+
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Customer Reviews</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 
