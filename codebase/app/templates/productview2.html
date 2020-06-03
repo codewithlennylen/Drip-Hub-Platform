@@ -145,6 +145,8 @@
 
     <div class="col-md-4">
       <h5 class="card-title ml-3 mt-3">Overall Customer Ratings</h5>
+
+       <!-- <img src="{{ url_for('static', filename='star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}"> -->
       
       {% for pdt in proDict %}
 
@@ -164,11 +166,17 @@
           <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
 
         {% elif proDict[pdt][0][0] == 3 %}
+        <!-- <img src="{{ url_for('static', filename='star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}"> -->
+        <div class="jumbotron">
+          <!-- <h2 class="display-1 text-center text-warning">3/5</h2> -->
+          <img src="{{ url_for('static', filename='star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+        
           <span class="fa fa-star checked ml-3"></span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star "></span>
           <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+        </div>
 
         {% elif proDict[pdt][0][0] == 2 %}
           <span class="fa fa-star checked ml-3"></span>
@@ -194,13 +202,63 @@
         {% endif %}
       {% endfor %}
 
-
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-7">
       <div class="card-body">
         <h5 class="card-title">Customer Reviews</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <hr>
+
+        {% for review_tuple in reviews %}
+
+          {% if review_tuple[0] == 5 %}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked">{{ review_tuple[2] }}</span>
+
+          {% elif review_tuple[0] == 4 %}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+
+          {% elif review_tuple[0] == 3 %}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+
+          {% elif review_tuple[0] == 2 %}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">{{ review_tuple[2] }}<span>
+
+          {% elif review_tuple[0] == 1 %}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+
+          {% else %}
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+
+          {% endif %}
+
+          <p class="card-text">{{ review_tuple[1] }}</p>
+
+        {% endfor %}
+
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
     </div>

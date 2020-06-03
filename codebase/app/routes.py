@@ -22,6 +22,21 @@ def get_ratings(productid):
 
 	return rats,counter
 
+
+def get_reviews(productid):
+	# get all ratings for a certain product
+	reviews = rating.query.filter_by(product_id = productid).all()
+
+	reviews_list = []
+	for rObject in reviews:
+		r = rObject.r
+		review = rObject.review
+		time = str(rObject.timeStamp).split(' ')[0]
+		reviews_list.append((r, review, time))
+
+	return reviews_list
+
+
 @app.route('/')
 @app.route('/index/')
 def index():
@@ -74,7 +89,6 @@ def general(category_name):
 	return render_template('genproducts.html', proDict = proDict, c = c, toggle = toggle)
 	# return render_template('genproducts.html', prods=prods, ratin = ratin)
 
-
 # REMEMBER TO PREVENT DATA EXFILTRATION VIA ENUMERATION!
 # ADD UNIQUE PID FIELD IN DB :> YOUTUBE VIDEO IDs >>> PRODUCT IDs
 @app.route('/provw/<int:product_id>/') # A product's ID is its unique identifier!
@@ -91,4 +105,6 @@ def prodView(product_id):
 					materials.materialName,
 					categorys.categoryName]
 
-	return render_template('productview2.html', proDict = proDict)
+	reviews = get_reviews(product_id)
+
+	return render_template('productview2.html', proDict = proDict, reviews = reviews)
