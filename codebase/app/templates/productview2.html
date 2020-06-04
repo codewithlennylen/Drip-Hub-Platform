@@ -152,24 +152,30 @@
 
         {# Ratings -> Incredibly inefficient(Lengthy and Repetitive) but works! #}
         {% if proDict[pdt][0][0] == 5 %}
-          <span class="fa fa-star checked ml-3"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          <div class="jumbotron">
+            <img src="{{ url_for('static', filename='utils/star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+            <span class="fa fa-star checked ml-3"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          </div>
 
         {% elif proDict[pdt][0][0] == 4 %}
-          <span class="fa fa-star checked ml-3"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          <div class="jumbotron">
+            <img src="{{ url_for('static', filename='utils/star4.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+            <span class="fa fa-star checked ml-3"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          </div>
 
         {% elif proDict[pdt][0][0] == 3 %}
         <!-- <img src="{{ url_for('static', filename='star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}"> -->
         <div class="jumbotron">
           <!-- <h2 class="display-1 text-center text-warning">3/5</h2> -->
-          <img src="{{ url_for('static', filename='star5.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+          <img src="{{ url_for('static', filename='utils/star3.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
         
           <span class="fa fa-star checked ml-3"></span>
           <span class="fa fa-star checked"></span>
@@ -179,25 +185,34 @@
         </div>
 
         {% elif proDict[pdt][0][0] == 2 %}
-          <span class="fa fa-star checked ml-3"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          <div class="jumbotron">
+            <img src="{{ url_for('static', filename='utils/star2.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+            <span class="fa fa-star checked ml-3"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          </div>
 
         {% elif proDict[pdt][0][0] == 1 %}
-          <span class="fa fa-star checked ml-3"></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          <div class="jumbotron">
+           <img src="{{ url_for('static', filename='utils/star1.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+            <span class="fa fa-star checked ml-3"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          </div>
 
         {% else %}
-          <span class="fa fa-star ml-3"></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star "></span>
-          <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          <div class="jumbotron">
+            <img src="{{ url_for('static', filename='utils/star0.jpg') }}" class="card-img w-25" alt="{{ 'Star 5' }}">
+            <span class="fa fa-star ml-3"></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star "></span>
+            <span class="fa fa-star ">   ({{ proDict[pdt][0][1] }} Reviews)</span>
+          </div>
 
         {% endif %}
       {% endfor %}
