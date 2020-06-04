@@ -224,55 +224,59 @@
         <h5 class="card-title">Customer Reviews</h5>
         <hr>
 
-        {% for review_tuple in reviews %}
+        <ol>
+          {% for review_tuple in reviews %}
+          
+            <li>
+              {% if review_tuple[0] == 5 %}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"><b> on {{ review_tuple[2] }}</b></span>
 
-          {% if review_tuple[0] == 5 %}
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked">{{ review_tuple[2] }}</span>
+              {% elif review_tuple[0] == 4 %}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "><b> on {{ review_tuple[2] }}</b></span>
 
-          {% elif review_tuple[0] == 4 %}
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+              {% elif review_tuple[0] == 3 %}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "><b> on {{ review_tuple[2] }}</b></span>
 
-          {% elif review_tuple[0] == 3 %}
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+              {% elif review_tuple[0] == 2 %}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "><b> on {{ review_tuple[2] }}</b></span>
 
-          {% elif review_tuple[0] == 2 %}
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star ">{{ review_tuple[2] }}<span>
+              {% elif review_tuple[0] == 1 %}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "><b> on {{ review_tuple[2] }}</b></span>
 
-          {% elif review_tuple[0] == 1 %}
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+              {% else %}
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "><b> on {{ review_tuple[2] }}</b></span>
 
-          {% else %}
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star "></span>
-            <span class="fa fa-star ">{{ review_tuple[2] }}</span>
+              {% endif %}
+            </li>
 
-          {% endif %}
+            <p class="card-text">{{ review_tuple[1] }}</p>
 
-          <p class="card-text">{{ review_tuple[1] }}</p>
-
-        {% endfor %}
+          {% endfor %}
+        </ol>
 
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
