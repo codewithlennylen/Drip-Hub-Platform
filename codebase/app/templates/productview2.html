@@ -71,48 +71,48 @@
             <hr>
 
             <h5 class="card-title text-dark">Select Your Features</h5>
-            <h6 class="card-title text-dark">Color : </h6>
+<!--             <h6 class="card-title text-dark">Color : </h6>
             <h6 class="card-title text-dark">Size  : </h6>
-            <h6 class="card-title text-dark">Material : </h6>
+            <h6 class="card-title text-dark">Material : </h6> -->
 
             <form>
               <!-- <div class="form-group">
                 <label for="exampleFormControlInput1">Email address</label>
                 <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
               </div> -->
+
               <div class="form-group row">
                 <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Color :</label>
+                
                 <div class="col-sm-8">
-                <select class="form-control" id="exampleFormControlSelect1">
-                
-                  <option class="form-control">1</option>
-                  <option class="form-control">2</option>
-                  <option class="form-control">3</option>
-                  <option class="form-control">4</option>
-                  <option class="form-control">5</option>
-                
-                </select>
+                  <select class="form-control btn-outline-danger" id="exampleFormControlSelect1">
+                    {% for color in pdt.availableColor.split(',') %}
+                      <option class="form-control btn-outline-danger">{{ color.strip("'") }}</option>
+                    {% endfor %}
+                  </select>
                 </div>
               </div>
-             <div class="form-group  form-inline">
-                <label for="exampleFormControlSelect1">Size : </label>
-                <select class="form-control ml-3" id="exampleFormControlSelect1">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+
+             <div class="form-group row">
+                <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Size :</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control btn-outline-danger" id="exampleFormControlSelect1">
+                    {% for size in pdt.availableSize.split(',') %}
+                      <option class="form-control btn-outline-danger">{{ size.strip("'") }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="form-group  form-inline">
-                <label for="exampleFormControlSelect1">Material : </label>
-                <select class="form-control ml-3" id="exampleFormControlSelect1">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+
+              <div class="form-group row">
+                <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Material :</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control btn-outline-danger" id="exampleFormControlSelect1">
+                    <option class="form-control btn-outline-danger">{{ proDict[pdt][2] }}</option>
+                  </select>
+                </div>
               </div>
 
               <div class="card-footer bg-white">
