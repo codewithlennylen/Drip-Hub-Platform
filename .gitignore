@@ -1,9 +1,8 @@
-
-*.pyc
 codebase/app/__pycache__/routes.cpython-37.pyc
 codebase/app/__pycache__/routes.cpython-37.pyc
 codebase/app/__pycache__/models.cpython-37.pyc
 codebase/app/__pycache__/routes.cpython-37.pyc
 codebase/CMSTemp/
 codebase/trash/
+codebase/app/config.py
 *.pyc
