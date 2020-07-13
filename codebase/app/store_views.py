@@ -43,7 +43,7 @@ def index():
 	# Get all categories in the database categories table.
 	# * main_cards aren't part of this query
 	c = category.query.order_by("categoryName").all() # Get the categories in alphabetical order
-	return render_template('homepage.html', c = c)
+	return render_template('store_templates/homepage.html', c = c)
 
 @app.route('/gen/<string:category_name>/')
 def general(category_name):
@@ -86,7 +86,7 @@ def general(category_name):
 		for i in prods:
 			proDict[i] = get_ratings(productid = i.id)
 
-	return render_template('genproducts.html', proDict = proDict, c = c, toggle = toggle)
+	return render_template('store_templates/genproducts.html', proDict = proDict, c = c, toggle = toggle)
 	# return render_template('genproducts.html', prods=prods, ratin = ratin)
 
 # REMEMBER TO PREVENT DATA EXFILTRATION VIA ENUMERATION!
@@ -107,4 +107,4 @@ def prodView(product_id):
 
 	reviews = get_reviews(product_id)
 
-	return render_template('productview2.html', proDict = proDict, reviews = reviews)
+	return render_template('store_templates/productview2.html', proDict = proDict, reviews = reviews)

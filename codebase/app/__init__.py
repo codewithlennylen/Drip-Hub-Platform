@@ -10,4 +10,4 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from app import store_views, models
+from app import store_views, UMS_views, models

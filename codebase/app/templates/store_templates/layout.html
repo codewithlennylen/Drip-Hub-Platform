@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html lang="en">
+
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Icon Library and CSS Files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/rasta.css') }}">
+
+    <link href=" {{ url_for('static', filename='logo.png') }}" rel="shortcut icon">
+    <title>Thrift_Trendy</title>
+  </head>
+
+
+  <body>
+  <div class="container-fluid bg-light">
+
+
+    <!-- Navbar with Image and text -->
+
+    <!-- Sticky navbar - hide driphub logo. this also auto fixes to top -->
+    <!-- Still need to work on the spacing to align the layout better -->
+    <!-- The search bar should still be visible - sticky?? -->
+
+
+    <!-- <nav class="navbar navbar-expand-md bg-primary sticky-top"> -->
+    <nav class="navbar shadow-sm border navbar-expand-lg navbar-light bg-white mb-3">
+      <a class="navbar-brand"  href="/">
+        <img src="{{ url_for('static', filename='logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo"> Thrift_Trendy</a>
+
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerLen">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerLen">
+
+        <form class="form-inline ml-auto">
+          <input class="form-control mw-100 px-5 mr-2" type="search" placeholder="Search our Store">
+          <button class="btn btn-outline-danger my-2 px-4 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a href="/" class="btn btn-outline-danger my-2 px-4 my-sm-0">Sign In</a>
+            
+            <div class="btn-group">
+              <button type="button" class="btn px-auto btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                More
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a href="/" class="btn my-2 px-auto my-sm-0">Contact Us</a>
+                <a href="/" class="btn my-2 px-auto my-sm-0">About Thrift_Trendy</a>
+                <a href="/" class="btn my-2 px-auto my-sm-0">Need Help ?</a>
+              </div>
+            </div>
+
+            <a href="/" class="btn btn-outline-danger my-2 px-3 my-sm-0">View Cart</a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+
+    
+    {% block content %}
+
+    {% endblock content %}
+
+    <hr>
+      <!-- Footer -->
+    <footer class="page-footer bg-secondary sticky-bottom">
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">
+        <h6><a class="p-3 mb-2 nav-link text-light" href="/">© 2020 Copyright: Thrift_Trendy.com</a></h6>
+      </div>
+      <!-- Copyright -->
+
+    </footer>
+
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+
+  </div>
+  </body>
+
+
+</html>
