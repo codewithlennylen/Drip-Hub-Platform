@@ -2,48 +2,31 @@
 
 {% block content %}
 
-
-    <h1>Sign In</h1>
-
-    <form action="" method="post" novalidate>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      
-      <div class="form-group">
-        <label for="InputEmail1">{{ form.email.label }}</label>
-        <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
-        <!-- {{ form.email(size=100) }} -->
+    <div class="card border-secondary shadow-2">
+      <div class="card-header text-center">
+        <h3>Sign In</h3>
       </div>
-      
-      <div class="form-group">
-        <label for="InputPassword1">{{ form.password.label }}</label>
-        <input type="password" class="form-control" id="InputPassword1">
+
+        <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+              
+            <div class="form-group ml-4 mt-2">
+                <label for="inputEmail">Email address</label>
+                <input type="email" class="form-control border-secondary" id="inputEmail" aria-describedby="emailHelp">
+            </div>
+
+            <div class="form-group ml-4">
+                <label for="inputPassord">Password</label>
+                <input type="password" class="form-control border-secondary" id="inputPassord">
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Sign In</button>
+        </form>
+
+      <div class="card-footer text-muted text-center">
+        Date & Time Here??
       </div>
-      <!-- {{ form.password(size=32) }} -->
-
-      <button type="submit" class="btn btn-outline-danger">{{ form.submit() }}</button>
-      <!-- {{ form.submit() }} -->
-    </form>
-
-
-<!--     <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=100) }}<br>
-            {% for error in form.email.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form> -->
+    </div>
 
 
 {% endblock %}

@@ -2,23 +2,31 @@
 
 {% block content %}
 
+    <div class="card border-secondary shadow-2">
+      <div class="card-header text-center">
+        <h3>Sign In</h3>
+      </div>
 
-    <h1>Create an Account</h1>
-
-
-    <form action="" method="post" novalidate>
+        <form action="" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=100) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
+              
+            <div class="form-group ml-4 mt-2">
+                <label for="inputEmail">Email address</label>
+                <input type="email" class="form-control border-secondary" id="inputEmail" aria-describedby="emailHelp">
+            </div>
+
+            <div class="form-group ml-4">
+                <label for="inputPassord">Password</label>
+                <input type="password" class="form-control border-secondary" id="inputPassord">
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Sign In</button>
+        </form>
+
+      <div class="card-footer text-muted text-center">
+        Date & Time Here??
+      </div>
+    </div>
 
 
 {% endblock %}
