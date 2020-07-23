@@ -4,28 +4,43 @@
 
     <div class="card border-secondary shadow-2">
       <div class="card-header text-center">
-        <h3>Sign In</h3>
+        <h3>Create an Account</h3>
       </div>
 
-        <form action="" method="post">
+        <form action="/register/" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
               
             <div class="form-group ml-4 mt-2">
+                <label for="inputFname">First Name</label>
+                <input type="text" class="form-control border-secondary" id="inputFname" name="inputFname" aria-describedby="emailHelp">
+            </div>
+
+            <div class="form-group ml-4 mt-2">
+                <label for="inputLname">Last Name</label>
+                <input type="text" class="form-control border-secondary" id="inputLname" name="inputLname" aria-describedby="emailHelp">
+            </div>
+
+            <div class="form-group ml-4 mt-2">
+                <label for="inputPhone">Phone Number</label>
+                <input type="text" class="form-control border-secondary" id="inputPhone" name="inputPhone" aria-describedby="emailHelp">
+            </div>
+
+            <div class="form-group ml-4 mt-2">
                 <label for="inputEmail">Email address</label>
-                <input type="email" class="form-control border-secondary" id="inputEmail" aria-describedby="emailHelp">
+                <input type="email" class="form-control border-secondary" id="inputEmail" name="inputEmail" aria-describedby="emailHelp">
             </div>
 
             <div class="form-group ml-4">
-                <label for="inputPassord">Password</label>
-                <input type="password" class="form-control border-secondary" id="inputPassord">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control border-secondary" id="inputPassword" name="inputPassword">
             </div>
 
-            <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Sign In</button>
+            <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Create Account</button>
         </form>
 
-      <div class="card-footer text-muted text-center">
-        Date & Time Here??
-      </div>
+        <div class="card-footer text-muted text-center">
+            Already Have An Account? <strong><a href="/login/" class="text-danger">Sign In Instead</a></strong>
+        </div>
     </div>
 
 
