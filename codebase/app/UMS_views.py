@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from app import app, db, bcrypt
 from app.models import customers
 
@@ -44,6 +44,9 @@ def login_customer(email_address, pasword):
 
 @app.route('/login/', methods=['GET','POST'])
 def login():
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
 	if request.method == 'POST':
 		req = request.form
 
@@ -76,6 +79,9 @@ def login():
 
 @app.route('/register/', methods=['GET','POST'])
 def register():
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
 	if request.method == 'POST':
 		req = request.form
 
@@ -118,3 +124,9 @@ def register():
 			return render_template('UMS_templates/register.html')
 
 	return render_template('UMS_templates/register.html')
+
+
+@app.route('/logout/')
+def logout():
+	logout_user()
+	return redirect(url_for('index'))
