@@ -14,6 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 
 from app import store_views, UMS_views, models

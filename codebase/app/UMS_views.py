@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from app import app, db, bcrypt
 from app.models import customers
 
@@ -71,7 +71,8 @@ def login():
 
 		if status == True:
 			flash(f'Successfully Signed In.')
-			return redirect(url_for("index"))
+			next_page = request.args.get('next')
+			return redirect(next_page) if next_page else redirect(url_for("index"))
 		# else:
 		# 	flash('Login Failed. Ple')
 
@@ -130,3 +131,9 @@ def register():
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+
+
+@app.route('/account/')
+@login_required
+def account():
+	return render_template('UMS_templates/account.html')
