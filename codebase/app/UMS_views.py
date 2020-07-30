@@ -1,4 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
+from flask_login import login_user, current_user
 from app import app, db, bcrypt
 from app.models import customers
 
@@ -31,16 +32,15 @@ def register_user(f_name, l_name, p_number, e_address, pwd):
 		return 'Failed : Exception'
 	
 
-def login_user(email_address, pasword):
-	users = customers.query.filter_by(email=email_address).first()
+def login_customer(email_address, pasword):
+	user = customers.query.filter_by(email=email_address).first()
 
-	if users:
-		if pasword == users.pword: # Correct Credentials
-			return True
-		else:
-			return 'Wrong Email / Password'
+	# Check for Correct Credentials
+	if user and bcrypt.check_password_hash(user.pword, pasword):
+		login_user(user)
+		return True
 	else:
-		return 'Wrong Email / Password'
+		flash("Login Failed. Please Check Your E-mail & Password")
 
 @app.route('/login/', methods=['GET','POST'])
 def login():
@@ -58,20 +58,19 @@ def login():
 			return render_template("UMS_templates/login.html")
 
 		# Proceed to Login the User by verifying from the Database
-		first_name = req['inputFname']
-		last_name = req['inputLname']
-		phone_number = req['inputPhone']
 		email_address = req['inputEmail']
 		pasword = req['inputPassword']
 
 		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
 
-		# Pass the Fields to the register_user() Function
-		login_user(email_address, pasword)
+		# Pass the Fields to the login_customer() Function
+		status = login_customer(email_address, pasword)
 
-
-		flash(f'Successfully Signed In as {request.form["inputEmail"]}:{request.form["inputPassword"]}')
-		return redirect(url_for("index"))
+		if status == True:
+			flash(f'Successfully Signed In.')
+			return redirect(url_for("index"))
+		# else:
+		# 	flash('Login Failed. Ple')
 
 	return render_template('UMS_templates/login.html')
 
@@ -103,19 +102,19 @@ def register():
 		status = register_user(first_name, last_name, phone_number, email_address, pasword)
 
 		if status == 'Success':
-			flash(f'Successfully Registered as {request.form["inputFname"]}:{request.form["inputPhone"]}')
-			return redirect(url_for("index"))
+			flash(f'Your Account has been Set up. Please Sign In')
+			return redirect(url_for("login"))
 		elif status == 'Email Exists':
 			flash(
 				f'That E-mail Already Exists. Please Sign In or Try a Different E-mail')
-			render_template('UMS_templates/register.html')
+			return render_template('UMS_templates/register.html')
 		elif status == 'Failed : Exception':
 			flash(
 				f'Error Occured at Exception')
-			render_template('UMS_templates/register.html')
+			return render_template('UMS_templates/register.html')
 		else:
 			flash(
 				f'This is impossible!!!')
-			render_template('UMS_templates/register.html')
+			return render_template('UMS_templates/register.html')
 
 	return render_template('UMS_templates/register.html')

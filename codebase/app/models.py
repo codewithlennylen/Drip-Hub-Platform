@@ -1,5 +1,11 @@
-from app import db
+from app import db, login_manager
 from datetime import datetime
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+	return customers.query.get(int(user_id))
+
 
 # ################# ############# PRODUCTS ################ #####################
 
@@ -60,7 +66,7 @@ class rating(db.Model):
 
 # ############### ############# CUSTOMERS ################ ######################
 
-class customers(db.Model):
+class customers(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	fname = db.Column(db.String(60), index=True,nullable=False)
 	lname = db.Column(db.String(60), index=True,nullable=False)
