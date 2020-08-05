@@ -51,7 +51,16 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             {% if current_user.is_authenticated %}
-              <a href="{{ url_for('logout') }}" class="btn btn-outline-danger my-2 px-4 my-sm-0">Sign Out</a>
+              <div class="btn-group">
+                <button type="button" class="btn px-auto btn-outline-danger dropdown-toggle" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  My Account
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a href="{{ url_for('account') }}" class="btn my-2 px-auto my-sm-0">My Profile</a>
+                  <a href="{{ url_for('logout') }}" class="btn my-2 px-auto my-sm-0">Log Out</a>
+                </div>
+              </div>
             {% else %}
               <a href="{{ url_for('login') }}" class="btn btn-outline-danger my-2 px-4 my-sm-0">Sign In</a>
             {% endif %}
@@ -62,7 +71,7 @@
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a href="/" class="btn my-2 px-auto my-sm-0">Contact Us</a>
-                <a href="/" class="btn my-2 px-auto my-sm-0">About Thrift_Trendy</a>
+                <a href="/" class="btn my-2 px-auto my-sm-0">About Us</a>
                 <a href="/" class="btn my-2 px-auto my-sm-0">Need Help ?</a>
               </div>
             </div>

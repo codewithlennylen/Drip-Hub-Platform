@@ -72,7 +72,7 @@ def login():
 		if status == True:
 			flash(f'Successfully Signed In.')
 			next_page = request.args.get('next')
-			return redirect(next_page) if next_page else redirect(url_for("index"))
+			return redirect(next_page) if next_page else redirect(url_for('index'))
 		# else:
 		# 	flash('Login Failed. Ple')
 
