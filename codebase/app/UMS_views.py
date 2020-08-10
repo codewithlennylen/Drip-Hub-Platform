@@ -11,6 +11,9 @@ def pword_hash(pwd):
 	return pwd_hash
 
 
+def update_user(f_name, l_name, p_number, e_address,):
+	pass
+
 def register_user(f_name, l_name, p_number, e_address, pwd):
 	# First check whether there is a similar e-mail in the Database
 	user = customers.query.filter_by(email=e_address).first()
@@ -133,7 +136,54 @@ def logout():
 	return redirect(url_for('index'))
 
 
-@app.route('/account/')
+@app.route('/account/', methods=['GET', 'POST'])
 @login_required
 def account():
-	return render_template('UMS_templates/account.html')
+	user_id = current_user.get_id()
+	user_dict = customers.query.filter_by(id=user_id).first()
+	return render_template('UMS_templates/account.html', user_dict=user_dict)
+
+	if request.method == 'POST':
+		# Ask user to input password before continuing
+		req = request.form
+
+		# Server-side Data Validation
+		# missing = False
+		# for _, v in req.items():
+		# 	if v == "":  # Checking for any Missing Fields
+		# 		missing = True
+
+		# if missing:
+		# 	flash("Please Fill in All the Fields")
+		# 	return render_template("UMS_templates/account.html")
+
+		# Proceed to Register the User by adding them to the Database
+		first_name = req['inputFname']
+		last_name = req['inputLname']
+		phone_number = req['inputPhone']
+		phone_number = req['inputPhone2']
+		email_address = req['inputEmail']
+
+		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
+
+		# Pass the Fields to the register_user() Function
+		status = update_user(first_name, last_name,
+		                       phone_number, email_address)
+
+		if status == 'Success':
+			flash(f'Your Account has been Updated.')
+			return redirect(url_for("login"))
+		elif status == 'Email Exists':
+			flash(
+				f'That E-mail Already Exists. Please Sign In or Try a Different E-mail')
+			return render_template('UMS_templates/register.html')
+		elif status == 'Failed : Exception':
+			flash(
+				f'Error Occured at Exception')
+			return render_template('UMS_templates/register.html')
+		else:
+			flash(
+				f'This is impossible!!!')
+			return render_template('UMS_templates/register.html')
+
+	return render_template('UMS_templates/register.html')
