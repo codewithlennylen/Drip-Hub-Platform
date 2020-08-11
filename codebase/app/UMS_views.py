@@ -11,8 +11,26 @@ def pword_hash(pwd):
 	return pwd_hash
 
 
-def update_user(f_name, l_name, p_number, e_address,):
-	pass
+def update_user(user_id, f_name, l_name, p_number, p_number2, e_address):
+	# First check whether there is a similar e-mail in the Database
+	email_exists = customers.query.filter_by(email = e_address).first()
+	user = customers.query.filter_by(id=int(user_id)).first()
+	if email_exists and email_exists.email != user.email:
+		return 'Email Exists'
+
+	user.fname = f_name
+	user.lname = l_name
+	user.phone1 = p_number
+	user.phone2 = p_number2
+	user.email = e_address
+
+	try:
+		db.session.commit()
+		return 'Success'
+	except Exception as e:
+		print(e)
+		return 'Failed : Exception'
+
 
 def register_user(f_name, l_name, p_number, e_address, pwd):
 	# First check whether there is a similar e-mail in the Database
@@ -148,42 +166,47 @@ def account():
 		req = request.form
 
 		# Server-side Data Validation
-		# missing = False
-		# for _, v in req.items():
-		# 	if v == "":  # Checking for any Missing Fields
-		# 		missing = True
+		missing = False
+		# A list that stores the exceptions to empty fields; e.g. phone_number2
+		nullable_list = ['inputPhone2']
+		for k, v in req.items():
+			if v == "" and k not in nullable_list:  # Checking for any Missing Fields
+				missing = True
 
-		# if missing:
-		# 	flash("Please Fill in All the Fields")
-		# 	return render_template("UMS_templates/account.html")
+		if missing:
+			flash("Please Fill in All the Fields")
+			return render_template("UMS_templates/account.html")
 
 		# Proceed to Register the User by adding them to the Database
 		first_name = req['inputFname']
 		last_name = req['inputLname']
 		phone_number = req['inputPhone']
-		phone_number = req['inputPhone2']
+		if req['inputPhone2']:
+			phone_number2 = req['inputPhone2']
+		else:
+			phone_number2 = None
 		email_address = req['inputEmail']
 
 		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
 
 		# Pass the Fields to the register_user() Function
-		status = update_user(first_name, last_name,
-		                       phone_number, email_address)
+		status = update_user(user_id, first_name, last_name,
+		                       phone_number, phone_number2, email_address)
 
 		if status == 'Success':
 			flash(f'Your Account has been Updated.')
-			return redirect(url_for("login"))
+			return redirect(url_for("account"))
 		elif status == 'Email Exists':
 			flash(
-				f'That E-mail Already Exists. Please Sign In or Try a Different E-mail')
-			return render_template('UMS_templates/register.html')
+				f'That E-mail Already Exists. Please Try a Different E-mail')
+			return render_template('UMS_templates/account.html', user_dict=user_dict)
 		elif status == 'Failed : Exception':
 			flash(
 				f'Error Occured at Exception')
-			return render_template('UMS_templates/register.html')
+			return render_template('UMS_templates/account.html', user_dict=user_dict)
 		else:
 			flash(
 				f'This is impossible!!!')
-			return render_template('UMS_templates/register.html')
+			return render_template('UMS_templates/account.html', user_dict=user_dict)
 
-	return render_template('UMS_templates/register.html')
+	return render_template('UMS_templates/account.html', user_dict=user_dict)
