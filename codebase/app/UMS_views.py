@@ -99,7 +99,7 @@ def login():
 
 	return render_template('UMS_templates/login.html')
 
-@app.route('/register/', methods=['GET','POST'])
+@app.route('/register/')
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
@@ -154,12 +154,20 @@ def logout():
 	return redirect(url_for('index'))
 
 
-@app.route('/account/', methods=['GET', 'POST'])
+@app.route('/account/')
 @login_required
 def account():
 	user_id = current_user.get_id()
 	user_dict = customers.query.filter_by(id=user_id).first()
 	return render_template('UMS_templates/account.html', user_dict=user_dict)
+
+	
+
+@app.route('/account_update/', methods=['GET', 'POST'])
+@login_required
+def account_update():
+	user_id = current_user.get_id()
+	user_dict = customers.query.filter_by(id=user_id).first()
 
 	if request.method == 'POST':
 		# Ask user to input password before continuing
@@ -170,12 +178,12 @@ def account():
 		# A list that stores the exceptions to empty fields; e.g. phone_number2
 		nullable_list = ['inputPhone2']
 		for k, v in req.items():
-			if v == "" and k not in nullable_list:  # Checking for any Missing Fields
+			if v == "":#and k not in nullable_list:  # Checking for any Missing Fields
 				missing = True
 
 		if missing:
 			flash("Please Fill in All the Fields")
-			return render_template("UMS_templates/account.html")
+			return render_template("UMS_templates/account.html", user_dict=user_dict)
 
 		# Proceed to Register the User by adding them to the Database
 		first_name = req['inputFname']
@@ -195,7 +203,7 @@ def account():
 
 		if status == 'Success':
 			flash(f'Your Account has been Updated.')
-			return redirect(url_for("account"))
+			return redirect(url_for("account", user_dict=user_dict))
 		elif status == 'Email Exists':
 			flash(
 				f'That E-mail Already Exists. Please Try a Different E-mail')
@@ -209,4 +217,5 @@ def account():
 				f'This is impossible!!!')
 			return render_template('UMS_templates/account.html', user_dict=user_dict)
 
+	# Elif the request is HTTP_GET : 
 	return render_template('UMS_templates/account.html', user_dict=user_dict)
