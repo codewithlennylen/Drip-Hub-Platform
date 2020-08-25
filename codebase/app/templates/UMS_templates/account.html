@@ -11,7 +11,7 @@
                 <h3>Personal Details</h3>
             </div>
             <div class="card-body">
-                <form action="/account_update/" method="post">
+                <form action="/account_update/personal" method="post">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 
                     <div class="form-group ml-4 mt-2">
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="form-group ml-4 mt-2">
-                        <label for="inputPhone">Secondary Phone Number</label>
+                        <label for="inputPhone">Secondary Phone Number (Optional)</label>
                         <input type="text" class="form-control border-secondary" name="inputPhone2" value="{{ user_dict.phone2 if user_dict.phone2 }}"
                             aria-describedby="emailHelp">
                     </div>
@@ -59,7 +59,7 @@
                 <h3>Delivery Information</h3>
             </div>
             <div class="card-body">
-                <form action="/account_update/" method="post">
+                <form action="/account_update/delivery" method="post">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         
                     <div class="form-group ml-4 mt-2">

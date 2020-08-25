@@ -11,6 +11,21 @@ def pword_hash(pwd):
 	return pwd_hash
 
 
+def update_delivery(uid, addr, cty, rgn, add):
+	user = customers.query.filter_by(id=int(uid)).first()
+	
+	user.address = addr
+	user.city = cty
+	user.region = rgn
+	user.additionalInfo = add
+
+	try:
+		db.session.commit()
+		return 'Success'
+	except Exception as e:
+		print(e)
+		return 'Failed : Exception'
+
 def update_user(user_id, f_name, l_name, p_number, p_number2, e_address):
 	# First check whether there is a similar e-mail in the Database
 	email_exists = customers.query.filter_by(email = e_address).first()
@@ -163,59 +178,114 @@ def account():
 
 	
 
-@app.route('/account_update/', methods=['GET', 'POST'])
+@app.route('/account_update/<string:action>', methods=['GET', 'POST'])
 @login_required
-def account_update():
+def account_update(action):
+	''' This rather huge function handles the Data Processing of the Profile Page
+		Updating the User's profile details
+		Updating the User's delivery details
+	'''
 	user_id = current_user.get_id()
 	user_dict = customers.query.filter_by(id=user_id).first()
 
 	if request.method == 'POST':
-		# Ask user to input password before continuing
-		req = request.form
 
-		# Server-side Data Validation
-		missing = False
-		# A list that stores the exceptions to empty fields; e.g. phone_number2
-		nullable_list = ['inputPhone2']
-		for k, v in req.items():
-			if v == "" and k not in nullable_list:  # Checking for any Missing Fields
-				missing = True
+		# Handle the Personal Information
+		if action == 'personal':
+			# Ask user to input password before continuing
+			req = request.form
 
-		if missing:
-			flash("Please Fill in All the Required Fields")
-			return render_template("UMS_templates/account.html", user_dict=user_dict)
+			# Server-side Data Validation
+			missing = False
+			# A list that stores the exceptions to empty fields; e.g. phone_number2
+			nullable_list = ['inputPhone2']
+			for k, v in req.items():
+				if v == "" and k not in nullable_list:  # Checking for any Missing Fields
+					missing = True
 
-		# Proceed to Register the User by adding them to the Database
-		first_name = req['inputFname']
-		last_name = req['inputLname']
-		phone_number = req['inputPhone']
-		if req['inputPhone2']:
-			phone_number2 = req['inputPhone2']
+			if missing:
+				flash("Please Fill in All the Required Fields")
+				return render_template("UMS_templates/account.html", user_dict=user_dict)
+
+			# Proceed to Register the User by adding them to the Database
+			first_name = req['inputFname']
+			last_name = req['inputLname']
+			phone_number = req['inputPhone']
+			if req['inputPhone2']:
+				phone_number2 = req['inputPhone2']
+			else:
+				phone_number2 = None
+			email_address = req['inputEmail']
+
+			# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
+
+			# Pass the Fields to the update_user() Function
+			status = update_user(user_id, first_name, last_name,
+								phone_number, phone_number2, email_address)
+
+			if status == 'Success':
+				flash(f'Your Peronal Info has been Updated.')
+				return redirect(url_for("account", user_dict=user_dict))
+			elif status == 'Email Exists':
+				flash(
+					f'That E-mail Already Exists. Please Try a Different E-mail')
+				return render_template('UMS_templates/account.html', user_dict=user_dict)
+			elif status == 'Failed : Exception':
+				flash(
+					f'Error Occured at Exception')
+				return render_template('UMS_templates/account.html', user_dict=user_dict)
+			else:
+				flash(
+					f'This is impossible!!!')
+				return render_template('UMS_templates/account.html', user_dict=user_dict)
+
+		# Handle the Delivery Information
+		elif action == 'delivery':
+			# Ask user to input password before continuing
+			req = request.form
+			
+			# Server-side Data Validation
+			missing = False
+			# A list that stores the exceptions to empty fields; e.g. phone_number2
+			nullable_list = ['accAdditionalInfo']
+			for k, v in req.items():
+				if v == "" and k not in nullable_list:  # Checking for any Missing Fields
+					missing = True
+
+			if missing:
+				flash("Please Fill in All the Required Fields")
+				return render_template("UMS_templates/account.html", user_dict=user_dict)
+
+			# Proceed to Update the User's Delivery Info by adding /  editing them to the Database
+			addr = req['inputAddress']
+			cty = req['inputCity']
+			rgn = req['inputRegion']
+			if req['accAdditionalInfo']:
+				add = req['accAdditionalInfo']
+			else:
+				add = None
+
+			# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
+
+			# Pass the Fields to the update_delivery() Function
+			status = update_delivery(user_id, addr, cty, rgn, add)
+
+			if status == 'Success':
+				flash(f'Your Delivery Info has been Updated.')
+				return redirect(url_for("account", user_dict=user_dict))
+			elif status == 'Failed : Exception':
+				flash(
+					f'Error Occured at Exception')
+				return render_template('UMS_templates/account.html', user_dict=user_dict)
+			else:
+				flash(
+					f'This is impossible!!!')
+				return render_template('UMS_templates/account.html', user_dict=user_dict)
+
 		else:
-			phone_number2 = None
-		email_address = req['inputEmail']
+			flash('Access Denied:> Invalid URL')
+			redirect(url_for("account", user_dict=user_dict))
 
-		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
-
-		# Pass the Fields to the update_user() Function
-		status = update_user(user_id, first_name, last_name,
-		                       phone_number, phone_number2, email_address)
-
-		if status == 'Success':
-			flash(f'Your Account has been Updated.')
-			return redirect(url_for("account", user_dict=user_dict))
-		elif status == 'Email Exists':
-			flash(
-				f'That E-mail Already Exists. Please Try a Different E-mail')
-			return render_template('UMS_templates/account.html', user_dict=user_dict)
-		elif status == 'Failed : Exception':
-			flash(
-				f'Error Occured at Exception')
-			return render_template('UMS_templates/account.html', user_dict=user_dict)
-		else:
-			flash(
-				f'This is impossible!!!')
-			return render_template('UMS_templates/account.html', user_dict=user_dict)
 
 	# Elif the request is HTTP_GET : 
-	return render_template('UMS_templates/account.html', user_dict=user_dict)
+	return redirect(url_for("account", user_dict=user_dict))
