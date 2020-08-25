@@ -178,11 +178,11 @@ def account_update():
 		# A list that stores the exceptions to empty fields; e.g. phone_number2
 		nullable_list = ['inputPhone2']
 		for k, v in req.items():
-			if v == "":#and k not in nullable_list:  # Checking for any Missing Fields
+			if v == "" and k not in nullable_list:  # Checking for any Missing Fields
 				missing = True
 
 		if missing:
-			flash("Please Fill in All the Fields")
+			flash("Please Fill in All the Required Fields")
 			return render_template("UMS_templates/account.html", user_dict=user_dict)
 
 		# Proceed to Register the User by adding them to the Database
@@ -197,7 +197,7 @@ def account_update():
 
 		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
 
-		# Pass the Fields to the register_user() Function
+		# Pass the Fields to the update_user() Function
 		status = update_user(user_id, first_name, last_name,
 		                       phone_number, phone_number2, email_address)
 
