@@ -21,10 +21,13 @@
             </div>
 
             <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Sign In</button>
+            <small>
+              <strong><a href="{{ url_for('reset_request') }}" class="text-danger m-3">Forgot Your Password?</a></strong>
+            </small>
         </form>
 
       <div class="card-footer text-muted text-center">
-        Don't Have An Account? <strong><a href="/register/" class="text-danger">Sign Up Instead</a></strong>
+        <strong> Don't Have An Account? <a href="/register/" class="text-warning">Sign Up Instead</a></strong>
       </div>
     </div>
 

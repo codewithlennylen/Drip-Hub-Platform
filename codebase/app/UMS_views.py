@@ -1,7 +1,8 @@
 from flask import render_template, redirect, flash, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
-from app import app, db, bcrypt
+from app import app, db, bcrypt, mail
 from app.models import customers
+from flask_mail import Message
 
 
 
@@ -114,7 +115,7 @@ def login():
 
 	return render_template('UMS_templates/login.html')
 
-@app.route('/register/')
+@app.route('/register/', methods=['GET','POST'])
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
@@ -130,6 +131,12 @@ def register():
 
 		if missing:
 			flash("Please Fill in All the Fields")
+			return render_template("UMS_templates/register.html")
+		
+		pwd = req['inputPassword']
+		confirmPwd = req['inputConfirmPassword']
+		if pwd != confirmPwd:
+			flash("The Passwords Do Not Match! Please Try Again.")
 			return render_template("UMS_templates/register.html")
 		
 		# Proceed to Register the User by adding them to the Database
@@ -289,3 +296,93 @@ def account_update(action):
 
 	# Elif the request is HTTP_GET : 
 	return redirect(url_for("account", user_dict=user_dict))
+
+def send_reset_email(user):
+	token = user.get_reset_token()
+	msg = Message('Password Reset Request', 
+					sender='noreply@demo.com', 
+					recipients=[user.email])
+
+	msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request, then simply Ignore this email and no changes will be made
+'''
+
+	mail.send(msg)
+
+
+@app.route("/reset_password/", methods=['GET','POST'])
+def reset_request():
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
+	if request.method == 'POST':
+		req = request.form
+
+		# Server-side Data Validation
+		missing = False
+		for _, v in req.items():
+			if v == "": # Checking for any Missing Fields
+				missing = True 
+
+		if missing:
+			flash("Please Fill in the Form Below")
+			return render_template("UMS_templates/reset_request.html")
+		
+		# Proceed
+		email = req['inputEmail']
+
+		# Verify the Input - email? >> Bootstrap Client-Side Validation ?
+		user = customers.query.filter_by(email=email).first()
+		if user:
+			send_reset_email(user)
+			flash('An email has been sent with instructions to reset your password')
+			return redirect(url_for('login'))
+		else:
+			flash('That email does not Exist. Please Create an Account Instead.')
+			return render_template('UMS_templates/reset_request.html')
+
+	return render_template('UMS_templates/reset_request.html')
+
+
+@app.route("/reset_password/<token>", methods=['GET','POST'])
+def reset_token(token):
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
+	user = customers.verify_reset_token(token)
+	if user is None:
+		flash('That is an Invalid or Expired Token')
+		return redirect(url_for('reset_request'))
+
+	if request.method == 'POST':
+		req = request.form
+
+		# Server-side Data Validation
+		missing = False
+		for _, v in req.items():
+			if v == "": # Checking for any Missing Fields
+				missing = True 
+
+		if missing:
+			flash("Please Fill in the Form Below")
+			return render_template("UMS_templates/reset_password.html")
+
+		pwd = req['inputPassword']
+		confirmPwd = req['inputConfirmPassword']
+		if pwd != confirmPwd:
+			flash("The Passwords Do Not Match! Please Try Again.")
+			return render_template("UMS_templates/reset_password.html")
+		
+		# Otherwise Proceed
+		pasword = pword_hash(req['inputPassword']) # Hash the Password First! 
+
+		# Verify the Input - Password,names, email? >> Bootstrap Client-Side Validation ?
+
+		user.pword = pasword
+		db.session.commit()
+		flash('Your Password has been updated! You are now able to Log In')
+		return redirect(url_for('login'))
+
+	return render_template('UMS_templates/reset_password.html')
