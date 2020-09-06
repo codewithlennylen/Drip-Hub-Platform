@@ -1,0 +1,18 @@
+{
+	"layout":{
+		"name": "drip hub",
+		"logo": "3 drops",
+		"payment" : "M-Pesa",
+		"content" : {
+			"wearables":["shoes","handbags",
+						"T-shirts","etc"]
+		},
+		"theme":[{
+			"background"  : "a sky",
+			"general-look": "jumia - vendor's name down",
+			"foreground"  : "red"
+		}],
+		"AOB" : ["Vendors sell their products[BLOG-Format?]",
+				"we get a cut from the vendors' sales"]
+	}
+}
