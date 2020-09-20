@@ -7,3 +7,4 @@ codebase/trash/
 codebase/env/
 codebase/app/config.py
 *.pyc
+.vscode

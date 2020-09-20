@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, redirect, url_for, session
 from app import app
 from app.models import *
 
@@ -91,8 +91,30 @@ def general(category_name):
 
 # REMEMBER TO PREVENT DATA EXFILTRATION VIA ENUMERATION!
 # ADD UNIQUE PID FIELD IN DB :> YOUTUBE VIDEO IDs >>> PRODUCT IDs
-@app.route('/provw/<int:product_id>/') # A product's ID is its unique identifier!
+@app.route('/provw/<int:product_id>/', methods=['GET','POST']) # A product's ID is its unique identifier!
 def prodView(product_id):
+	if request.method == 'POST':
+		features = request.form
+		featureColor = features['featureColor']
+		featureSize = features['featureSize']
+		featureMaterial = features['featureMaterial']
+		featureQuantity = features['featureQuantity']
+		# featureColor = features.get('featureColor','color?') # .get('dict_key', default_value)
+
+		prod = products.query.filter_by(id = product_id).first()
+		prod_id = prod.id
+		prod_name = prod.productName
+		prod_price = prod.productPrice
+		prod_total = prod_price * int(featureQuantity)
+
+		# The cart will be a list of dictionaries, each dict representing a product with the selected features
+		# How will I append to the list?
+		# Pass the cart on to the checkout!
+		session['cart'] = []
+
+		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
+		return redirect(url_for('index'))
+
 	# Get the product with the matching ID
 	prod = products.query.filter_by(id = product_id).first()
 	brands = brand.query.filter_by(id = prod.brandid).first()
@@ -103,7 +125,9 @@ def prodView(product_id):
 	proDict[prod] = [list(get_ratings(productid = product_id)),
 					brands.brandName,
 					materials.materialName,
-					categorys.categoryName]
+					categorys.categoryName,
+					prod.id
+					]
 
 	reviews = get_reviews(product_id)
 
