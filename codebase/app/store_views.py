@@ -111,12 +111,13 @@ def prodView(product_id):
 		# How will I append to the list?
 		# Pass the cart on to the checkout!!
 		# session['cart'] = {
-		# 	"pid1":["red","cotton","XL","5pcs","TOTAL"],
+		# 	"pid1":["name","red","cotton","XL","5pcs","TOTAL"],
 
 		# }
-		session['cart'] = []
+		session['cart'] = {prod_id : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
 
 		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
+		print(f'Cart {session["cart"]}')
 		return redirect(url_for('index'))
 
 	# Get the product with the matching ID
