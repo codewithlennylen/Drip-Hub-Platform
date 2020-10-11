@@ -110,6 +110,10 @@ def prodView(product_id):
 		# The cart will be a list of dictionaries, each dict representing a product with the selected features
 		# How will I append to the list?
 		# Pass the cart on to the checkout!!
+		# session['cart'] = {
+		# 	"pid1":["red","cotton","XL","5pcs","TOTAL"],
+
+		# }
 		session['cart'] = []
 
 		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
