@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2020 at 08:56 PM
+-- Generation Time: Oct 11, 2020 at 08:22 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.27
+-- PHP Version: 7.2.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dripbasetest`
+-- Database: `thriftrendybase`
 --
 
 -- --------------------------------------------------------
@@ -104,26 +103,26 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `categoryName`, `picPath`, `timeStamp`) VALUES
-(1, 'Shirts', 'categories/default.png', '2020-03-02 10:33:10'),
-(2, 'Shorts', 'categories/default.png', '2020-03-02 10:33:10'),
-(3, 'T-Shirts', 'categories/default.png', '2020-03-02 10:33:10'),
-(4, 'Trousers', 'categories/default.png', '2020-03-02 10:33:10'),
-(5, 'Socks', 'categories/default.png', '2020-03-02 10:33:10'),
-(6, 'Belts', 'categories/default.png', '2020-03-02 10:33:10'),
-(7, 'Shoes', 'categories/default.png', '2020-03-02 10:33:10'),
-(8, 'Sandals', 'categories/default.png', '2020-03-02 10:33:10'),
-(9, 'Jeans', 'categories/default.png', '2020-03-02 10:33:10'),
-(10, 'Scarfs', 'categories/default.png', '2020-03-02 10:33:10'),
-(11, 'Gloves', 'categories/default.png', '2020-03-02 10:33:10'),
-(12, 'Hats', 'categories/default.png', '2020-03-02 10:33:10'),
-(13, 'Jackets', 'categories/default.png', '2020-03-02 10:33:10'),
-(14, 'Sweaters', 'categories/default.png', '2020-03-02 10:33:10'),
-(15, 'Watches', 'categories/default.png', '2020-03-02 10:33:10'),
-(16, 'Suits', 'categories/default.png', '2020-03-02 10:33:10'),
-(17, 'Blazers', 'categories/default.png', '2020-03-02 10:33:10'),
-(18, 'Kanzu', 'categories/default.png', '2020-03-02 10:33:10'),
-(19, 'Underwears', 'categories/default.png', '2020-03-02 10:33:10'),
-(20, 'Sweatpants', 'categories/default.png', '2020-03-10 14:42:19');
+(1, 'Shirts', 'categories/Shirts.jpg', '2020-03-02 10:33:10'),
+(2, 'Shorts', 'categories/Shorts.jpg', '2020-03-02 10:33:10'),
+(3, 'T-Shirts', 'categories/T-Shirts.jpg', '2020-03-02 10:33:10'),
+(4, 'Trousers', 'categories/Trousers.jpg', '2020-03-02 10:33:10'),
+(5, 'Socks', 'categories/Socks.jpg', '2020-03-02 10:33:10'),
+(6, 'Belts', 'categories/Belts.jpg', '2020-03-02 10:33:10'),
+(7, 'Shoes', 'categories/Shoes.jpg', '2020-03-02 10:33:10'),
+(8, 'Sandals', 'categories/Sandals.jpg', '2020-03-02 10:33:10'),
+(9, 'Jeans', 'categories/Jeans.jpg', '2020-03-02 10:33:10'),
+(10, 'Scarfs', 'categories/Scarfs.jpg', '2020-03-02 10:33:10'),
+(11, 'Gloves', 'categories/Gloves.jpg', '2020-03-02 10:33:10'),
+(12, 'Hats', 'categories/Hats.jpg', '2020-03-02 10:33:10'),
+(13, 'Jackets', 'categories/Jackets.jpg', '2020-03-02 10:33:10'),
+(14, 'Sweaters', 'categories/Sweaters.jpg', '2020-03-02 10:33:10'),
+(15, 'Watches', 'categories/Watches.jpg', '2020-03-02 10:33:10'),
+(16, 'Suits', 'categories/Suits.jpg', '2020-03-02 10:33:10'),
+(17, 'Blazers', 'categories/Blazers.jpg', '2020-03-02 10:33:10'),
+(18, 'Kanzu', 'categories/Kanzu.jpg', '2020-03-02 10:33:10'),
+(19, 'Underwears', 'categories/Underwears.jpg', '2020-03-02 10:33:10'),
+(20, 'Sweatpants', 'categories/Sweatpants.jpg', '2020-03-10 14:42:19');
 
 -- --------------------------------------------------------
 
@@ -152,7 +151,14 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `fname`, `lname`, `phone1`, `phone2`, `email`, `pword`, `address`, `additionalInfo`, `city`, `region`, `timeStamp`) VALUES
 (1, 'John', 'Doe', '+254712345678', NULL, 'Doe@gmail.com', '12345678', NULL, NULL, NULL, NULL, '2020-03-02 10:50:42'),
-(2, 'Jane', 'Smith', '+254712345678', NULL, 'jane@gmail.com', '87654321', NULL, NULL, NULL, NULL, '2020-03-02 10:50:42');
+(2, 'Jane', 'Smith', '+254712345678', NULL, 'jane@gmail.com', '87654321', NULL, NULL, NULL, NULL, '2020-03-02 10:50:42'),
+(3, 'Abc', 'Def', '123456789', NULL, 'abc@def.xyz', 'a', NULL, NULL, NULL, NULL, '2020-07-29 12:51:53'),
+(4, 'qwe', 'rty', '12344321', NULL, 'qwe@rty.com', '$2b$12$tF7euQNR8kZ3BUNZrs6WmesNJjnS0iJbam8v92nkKnxU9TyV1Brxy', NULL, NULL, NULL, NULL, '2020-07-29 13:38:05'),
+(5, 'lenny', 'len', '12344321', NULL, 'lennylen@gmail.com', '$2b$12$NdmJAg6LYzJ.9J8VeI6ZFO9QCSGM9TRfXqe1PPZl/6sV3O37Zaamm', NULL, NULL, NULL, NULL, '2020-07-30 11:49:39'),
+(6, 'n', 'mm', '12344321', NULL, 'n@gmail.com', '$2b$12$rDHutNz77sP.fyfYQMfzMOfv.8saAFepyJiI0XPKmgIAd.8Hot1Iu', NULL, NULL, NULL, NULL, '2020-07-30 12:29:06'),
+(7, 'HP', 'not-a-dell', '430', '034', 'hp@gmail.com', '$2b$12$qab4T8R0jug5mR7EAPJ72.tsfUzt8TbfaSpt2OKblNsYu/53.GpjW', 'Black Rose', 'House 18', 'Nairobi', 'Kilimani', '2020-08-12 11:56:37'),
+(8, 'Lenny', 'Ng\'ang\'a', '0791485000', '0791485001', 'lennylen254@gmail.com', '$2b$12$BuIZOIGMujeVxlAAtTd3pumcMokNNVUQLqFBRiGGb2pil3wM6pT/u', 'Black Rose', 'Developer\r\n\r\n@codewithlenny', 'Nairobi', 'Kilimani', '2020-08-26 20:14:55'),
+(9, 'Lenny', 'Ng\'ang\'a', '0712345678', NULL, 'lennylen2020@gmail.com', '$2b$12$ug.kCcv6Po6GFYBnUGOJ6O2ON6GqNzKGNmovEU4Z/lmkoadVO0/MS', '30178-00100', 'My items should be delivered to Starehe Boy\'s Centre', 'Nairobi', 'Starehe', '2020-08-30 16:24:04');
 
 -- --------------------------------------------------------
 
@@ -331,7 +337,7 @@ INSERT INTO `products` (`id`, `adultOrNot`, `availableColor`, `availableDiscount
 (71, 1, 'yellow', NULL, 'male', 48, '\'XL\',\'XXL\'', 2, 4, NULL, 3, 'male/Trousers/Trousers.jpg', 'Coolest on the market', 'Cool Trousers', 1829, 1, '2020-03-11 11:12:31'),
 (72, 1, 'red', NULL, 'unisex', 22, '\'XL\',\'XXL\'', 1, 16, NULL, 3, 'male/Suits/Suits.jpg', 'Coolest on the market', 'Cool Suits', 552, 1, '2020-03-11 11:12:31'),
 (73, 0, '\'green\',\'pink\'', NULL, 'female', 43, 'XXL', 1, 3, NULL, 1, 'female/T-Shirts/T-Shirts.jpg', 'Coolest on the market', 'Cool T-Shirts', 4690, 1, '2020-03-11 11:12:31'),
-(74, 1, 'pink', NULL, 'male', 49, 'X', 2, 19, NULL, 1, 'male/Underwears/Underwears.jpg', 'Coolest on the market', 'Cool Underwears', 1215, 1, '2020-03-11 11:12:31'),
+(74, 1, '\'pink\',\'yellow\',\'black\',\'grey\',\'orange\',\'red\'', NULL, 'male', 49, '\'X\',\'XXL\',\'L\'', 2, 19, NULL, 1, 'male/Underwears/Underwears.jpg', 'Coolest on the market', 'Cool Underwear', 1215, 1, '2020-03-11 11:12:31'),
 (75, 0, 'black', NULL, 'unisex', 11, 'S', 2, 12, NULL, 3, 'male/Hats/Hats.jpg', 'Coolest on the market', 'Cool Hats', 1864, 1, '2020-03-11 11:12:31'),
 (76, 0, 'blue', NULL, 'female', 34, 'XXL', 2, 4, NULL, 2, 'female/Trousers/Trousers.jpg', 'Coolest on the market', 'Cool Trousers', 3242, 1, '2020-03-11 11:12:31'),
 (77, 0, 'green', NULL, 'unisex', 22, '\'X\', \'XL\'', 2, 12, NULL, 3, 'male/Hats/Hats.jpg', 'Coolest on the market', 'Cool Hats', 3713, 1, '2020-03-11 11:12:31'),
@@ -1766,7 +1772,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `material`
