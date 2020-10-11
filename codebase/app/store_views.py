@@ -114,10 +114,16 @@ def prodView(product_id):
 		# 	"pid1":["name","red","cotton","XL","5pcs","TOTAL"],
 
 		# }
-		session['cart'] = {prod_id : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
+		# session['cart'] = {}
+		# default_data.update({'item3': 3})
+		if 'cart' in session:
+			session['cart'].update({str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]})
+			# session['cart'][str(prod_id)] = [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]
+		else:
+			session['cart'] = {str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
 
 		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
-		print(f'Cart {session["cart"]}')
+		print(f'Cart {session["cart"].keys()}')
 		return redirect(url_for('index'))
 
 	# Get the product with the matching ID
