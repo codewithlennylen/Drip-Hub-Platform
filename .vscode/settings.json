@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\lenovo\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
-    "python.formatting.provider": "black"
+    "python.pythonPath": "codebase\\venv\\Scripts\\python.exe",
+    "python.formatting.provider": "autopep8"
 }
