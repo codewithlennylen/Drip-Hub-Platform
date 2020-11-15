@@ -118,9 +118,16 @@ def prodView(product_id):
 		# default_data.update({'item3': 3})
 		if 'cart' in session:
 			session['cart'].update({str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]})
+			# product = products.query.filter_by(id = prod_id).first()
+			product = products.query.get(prod_id)
+			session['cart_big'] = {str(prod_id) : [product, featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
+
 			# session['cart'][str(prod_id)] = [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]
 		else:
 			session['cart'] = {str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
+			# product = products.query.filter_by(id = prod_id).first()
+			product = products.query.get(prod_id)
+			session['cart_big'] = {str(prod_id) : [product, featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
 
 		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
 		print(f'Cart {session["cart"].keys()}')

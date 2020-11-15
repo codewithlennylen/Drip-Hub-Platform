@@ -125,11 +125,11 @@
                 </tr>
               </thead>
               <tbody>
-                {% for item in session['cart'] %}
+                {% for key in session['cart'] %}
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ item }}</td>
-                  <td>{{ item.productName }}</td>
+                  <td>{{ session['cart'][key][0].productName }}</td>
+                  <td>{{ session['cart'][key][0].productPrice }}</td>
                   <td>{{ item.productPrice }}</td>
                 </tr>
                 {% endfor %}
