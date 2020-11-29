@@ -117,20 +117,15 @@ def prodView(product_id):
 		# session['cart'] = {}
 		# default_data.update({'item3': 3})
 		if 'cart' in session:
-			session['cart'].update({str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]})
-			# product = products.query.filter_by(id = prod_id).first()
-			product = products.query.get(prod_id)
-			session['cart_big'] = {str(prod_id) : [product, featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
+			session['cart'].update({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
 
-			# session['cart'][str(prod_id)] = [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]
 		else:
-			session['cart'] = {str(prod_id) : [featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
-			# product = products.query.filter_by(id = prod_id).first()
-			product = products.query.get(prod_id)
-			session['cart_big'] = {str(prod_id) : [product, featureColor, featureMaterial, featureSize, featureQuantity, str(float(featureQuantity)*prod_price)]}
+			session['cart'] = {str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
 
-		print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
+
+		# print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
 		print(f'Cart {session["cart"].keys()}')
+		print(f'Cart {session["cart"]}')
 		return redirect(url_for('index'))
 
 	# Get the product with the matching ID
@@ -150,3 +145,8 @@ def prodView(product_id):
 	reviews = get_reviews(product_id)
 
 	return render_template('store_templates/productview2.html', proDict = proDict, reviews = reviews)
+
+
+@app.route('/checkout/')
+def checkout():
+	return redirect(url_for('index'))

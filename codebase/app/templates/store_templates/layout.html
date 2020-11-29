@@ -118,28 +118,23 @@
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Item</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Price</th>
                 </tr>
               </thead>
               <tbody>
-                {% for key in session['cart'] %}
+
+                {% for key in session['cart'].keys() %}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>{{ session['cart'][key][0].productName }}</td>
-                  <td>{{ session['cart'][key][0].productPrice }}</td>
-                  <td>{{ item.productPrice }}</td>
+                  <th scope="row">{{ key }}</th>
+                  <td>{{ session['cart'][key][0] }}</td>
+                  <td>{{ session['cart'][key][4] }}</td>
+                  <td>{{ session['cart'][key][5] }}</td>
                 </tr>
                 {% endfor %}
-
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
+                
 
                 <tr>
                   <th scope="row">3</th>
@@ -152,7 +147,8 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Checkout</button>
+            <a href="{{ url_for('checkout') }}" class="btn btn-primary">Checkout</a>
+            <!-- <button type="button" class="btn btn-primary"></button> -->
           </div>
         </div>
       </div>
