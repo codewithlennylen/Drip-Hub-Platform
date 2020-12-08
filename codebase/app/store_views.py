@@ -43,7 +43,10 @@ def index():
 	# Get all categories in the database categories table.
 	# * main_cards aren't part of this query
 	c = category.query.order_by("categoryName").all() # Get the categories in alphabetical order
-	return render_template('store_templates/homepage.html', c = c)
+	if 'cart' in session:
+		return render_template('store_templates/homepage.html', c = c, cart = session['cart'])
+	else:
+		return render_template('store_templates/homepage.html', c = c)
 
 @app.route('/gen/<string:category_name>/')
 def general(category_name):
