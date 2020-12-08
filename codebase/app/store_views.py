@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, flash
 from app import app
 from app.models import *
 
@@ -36,6 +36,15 @@ def get_reviews(productid):
 
 	return reviews_list
 
+def compute_cart_total():
+	cart_items = session['cart']
+	total = float()
+	for item in cart_items:
+		qty = cart_items[item][0]
+		unit_price = cart_items[item][1]
+		total += qty * unit_price
+	
+	return total
 
 @app.route('/')
 @app.route('/index/')
@@ -152,4 +161,20 @@ def prodView(product_id):
 
 @app.route('/checkout/')
 def checkout():
-	return redirect(url_for('index'))
+	if 'cart' in session:
+		items = session['cart']
+		# total = compute_cart_total()
+		return render_template('store_templates/checkout.html', items = items, total = 0)
+	else:
+		flash('You have Not added any Items to your Shopping Cart')
+		return redirect(url_for('index'))
+
+@app.route('/drop/')
+def drop():
+	if 'cart' in session:
+		session.pop('cart')
+		flash('You have Emptied Your Shopping Cart!!')
+		return redirect(url_for('index'))
+	else:
+		flash('You Do Not Have any Items in your Shopping Cart')
+		return redirect(url_for('index'))

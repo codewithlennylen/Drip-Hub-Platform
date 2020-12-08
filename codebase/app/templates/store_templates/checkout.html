@@ -1,0 +1,89 @@
+{% extends "store_templates/layout.html" %}
+
+{% block content %}
+
+
+<!-- <nav class="navbar sticky-top navbar-expand-lg navbar-light text-center bg-light border-success my-1"> -->
+
+	<div class="card text-center border-danger bg-white text-dark mb-3 w-100">
+      <div class="card-header bg-white">
+        <h4>You are Almost Done!</h4>
+      </div>
+    </div>
+
+<!-- </nav> -->
+
+
+<div class="card-deck">
+	<div class="card border-danger shadow-2 bg-light mb-3">
+		<div class="card-header text-center bg-light">
+	    	<h5><b>Your Cart</b></h5>
+	  	</div>
+		<div class="card-body">
+			<table class="table table-sm table-secondary table-hover table-bordered">
+			  <thead>
+			    <tr>
+			      <th scope="col">Product Name</th>
+			      <th scope="col">Quantity</th>
+			      <th scope="col">Unit Price($)</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for item in items %}
+				    <tr>
+				      <th scope="row">{{ item }}</th>
+				      <td>{{ items[item][0] }}</td>
+				      <td>{{ items[item][1] }}</td>
+				    </tr>
+			    {% endfor %}
+			  </tbody>
+			</table>
+		</div>
+
+		<div class="card-footer bg-light">
+		  <h4 class="text-dark"><b>Total : ${{ total }}</b></h4>
+		  <a href="/drop/" class="btn btn-outline-danger text-dark">Clear Items</a>
+		</div>
+	</div>
+
+	<div class="card border-danger shadow-2 bg-light mb-3">
+	  <div class="card-header text-center">
+	    <h5><b>A few more Details before Proceeding</b></h5>
+	  </div>
+
+	  <div class="card-body">
+
+		<form>
+			<div class="form-group">
+				<label for="formGroupExampleInput">First Name</label>
+				<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Jane">
+			</div>
+
+			<div class="form-group">
+				<label for="formGroupExampleInput">Last Name</label>
+				<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Smith">
+			</div>
+
+			<div class="form-group">
+				<label for="formGroupExampleInput">Phone Number</label>
+				<input type="text" class="form-control" id="formGroupExampleInput" placeholder="0712345678">
+			</div>
+
+			<div class="form-group">
+				<label for="exampleFormControlInput1">Email address</label>
+				<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+			</div>
+
+			<button type="submit" class="btn btn-success">Proceed to Checkout</button>
+		</form>
+	  </div>
+
+	  <div class="card-footer text-muted py-4">
+	    <b>For any Questions / Clarifications, Feel Free to <a href="/contact/" class="btn btn-outline-danger text-dark mb-2">Contact Us</a></b>	    
+	  </div>
+	</div>
+
+</div>
+
+
+{% endblock content %}
