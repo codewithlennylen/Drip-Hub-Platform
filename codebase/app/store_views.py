@@ -115,6 +115,7 @@ def general(category_name):
 # A product's ID is its unique identifier!
 @app.route('/provw/<int:product_id>/', methods=['GET', 'POST'])
 def prodView(product_id):
+    # Add item to Cart via POST Request
     if request.method == 'POST':
         features = request.form
         featureColor = features['featureColor']
@@ -138,18 +139,39 @@ def prodView(product_id):
         # }
         # session['cart'] = {}
         # default_data.update({'item3': 3})
-        if 'cart' in session:
-            session['cart'].update({str(prod_id): [
-                                   prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
+    
+        if 'cart' in session: # Check if cart was instantiated
+			# instantiate cart-session
+            session['cart'][str(prod_id)] = [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]
+			# flash(f'{prod_name} Added to Shopping Cart')
+			# Without redirecting, session isn't updated!!!
+            return redirect(url_for('prodView', product_id=prod_id))
 
         else:
-            session['cart'] = {str(prod_id): [
-                prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
+            # append item to cart-session
+            session['cart'] = {str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
+            # flash(f'{prod_name} Added to Shopping Cart')
+            return redirect(url_for('prodView', product_id=prod_id))
 
-        # print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
-        print(f'Cart {session["cart"].keys()}')
-        print(f'Cart {session["cart"]}')
-        return redirect(url_for('index'))
+        # if 'cart' in session:
+        #     session['cart'].update({str(prod_id): [
+        #                            prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
+        #     # Without redirecting, session isn't updated!!!
+        #     return redirect(url_for('prodView', product_id=prod_id))
+
+        # else:
+        #     session['cart'] = {str(prod_id): [
+        #         prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
+
+        #     # print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
+        #     print(f'Cart {session["cart"].keys()}')
+        #     print(f'Cart {session["cart"]}')
+        #     # return redirect(url_for('index'))
+
+        #    # Without redirecting, session isn't updated!!!
+        #     return redirect(url_for('prodView', product_id=prod_id))
+
+
 
     # Get the product with the matching ID
     prod = products.query.filter_by(id=product_id).first()
