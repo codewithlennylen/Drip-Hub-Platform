@@ -9,3 +9,4 @@ codebase/venv/
 codebase/app/config.py
 *.pyc
 .vscode
+mine/
