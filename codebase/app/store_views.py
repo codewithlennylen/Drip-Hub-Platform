@@ -139,17 +139,22 @@ def prodView(product_id):
         # }
         # session['cart'] = {}
         # default_data.update({'item3': 3})
+
+        # ##### CART UPDATE #####
+        # {'40': ['Cool Gloves', 'black', 'Silk', 'XXL', '1', 3975]}
     
         if 'cart' in session: # Check if cart was instantiated
-			# instantiate cart-session
-            session['cart'][str(prod_id)] = [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]
+			# append item to cart-session
+            session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
 			# flash(f'{prod_name} Added to Shopping Cart')
 			# Without redirecting, session isn't updated!!!
             return redirect(url_for('prodView', product_id=prod_id))
 
         else:
-            # append item to cart-session
-            session['cart'] = {str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
+            # instantiate cart-session
+            session['cart'] = [] # Create empty List > To store Cart Items (Dicts)
+            session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
+
             # flash(f'{prod_name} Added to Shopping Cart')
             return redirect(url_for('prodView', product_id=prod_id))
 
@@ -197,6 +202,7 @@ def checkout():
     if 'cart' in session:
         user_id = current_user.get_id()
         user_dict = customers.query.filter_by(id=user_id).first()
+        # {'40': ['Cool Gloves', 'black', 'Silk', 'XXL', '1', 3975]}
         items = session['cart']
         print(items)
         # total = compute_cart_total()

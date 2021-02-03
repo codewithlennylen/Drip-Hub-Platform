@@ -128,10 +128,10 @@
 
                 {% for item in cart %}
                 <tr>
-                  <th scope="row">{{ item }}</th>
-                  <td>{{ cart[item][0] }}</td>
-                  <td>{{ cart[item][4] }}</td>
-                  <td>{{ cart[item][5] }}</td>
+                  <th scope="row">{{ item.keys() }}</th>
+                  <td>{{ item.values()[0] }}</td>
+                  <td>{{ item.values()[4] }}</td>
+                  <td>{{ item.values()[5] }}</td>
                 </tr>
                 {% endfor %}                
 
