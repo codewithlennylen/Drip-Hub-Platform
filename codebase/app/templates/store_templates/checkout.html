@@ -31,13 +31,13 @@
         <tbody>
           {% for item in items %}
           <tr>
-            <th scope="row">{{ item.items() }}</th>
-            <td>{{ item.values()[0] }}</td>
-            <td>{{ item.values()[1] }}</td>
-            <td>{{ item.values()[2] }}</td>
-            <td>{{ item.values()[3] }}</td>
-            <td>{{ item.values()[4] }}</td>
-            <td>{{ item.values()[5] }}</td>
+            <th scope="row">{{ item.keys() }}</th>
+            <td>{{ item.values() }}</td>
+            <td>{{ item.values() }}</td>
+            <td>{{ item.values() }}</td>
+            <td>{{ item.values() }}</td>
+            <td>{{ item.values() }}</td>
+            <td>{{ item.values() }}</td>
           </tr>
           {% endfor %}
         </tbody>

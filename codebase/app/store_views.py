@@ -39,12 +39,15 @@ def get_reviews(productid):
 
 
 def compute_cart_total():
+    # {'129': ['Cool Belts', 'red', 'Silk', 'XL', '1', 1948]}
     cart_items = session['cart']
     total = float()
     for item in cart_items:
-        qty = cart_items[item][0]
-        unit_price = cart_items[item][1]
-        total += qty * unit_price
+        # Quantity-total is auto-calculated during cart entry
+        # qty = cart_items[item][0]
+        # unit_price = cart_items[item][1]
+        # total += qty * unit_price
+        item = []
 
     return total
 
@@ -130,52 +133,49 @@ def prodView(product_id):
         prod_price = prod.productPrice
         prod_total = prod_price * int(featureQuantity)
 
-        # The cart will be a list of dictionaries, each dict representing a product with the selected features
-        # How will I append to the list?
-        # Pass the cart on to the checkout!!
+        # CART 1.0 now CART 2.0
+        # The cart will be a list of dictionaries, each dict representing a product with the selected features. * > What I'm currently implementing
+        # 
+        # session['cart'] = [] # Create an empty list and append to it the dictionaries of products
+        # session['cart'] = [
+        #                       {'129': ['Cool Belts', 'red', 'Silk', 'XL', '1', 1948]},
+        #                       {'119': ['Cool Belts', 'red', 'Silk', 'XL', '1', 2048]},
+        #                       {'109': ['Cool Belts', 'red', 'Silk', 'XL', '1', 2148]}
+        #                   ]
+
+        # I DITCHED THE IDEA OF USING DICTIONARIES IN THE FOLLOWING WAY
         # session['cart'] = {
         # 	"pid1":["name","red","cotton","XL","5pcs","TOTAL"],
 
         # }
         # session['cart'] = {}
         # default_data.update({'item3': 3})
-
-        # ##### CART UPDATE #####
-        # {'40': ['Cool Gloves', 'black', 'Silk', 'XXL', '1', 3975]}
     
         if 'cart' in session: # Check if cart was instantiated
 			# append item to cart-session
             session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
-			# flash(f'{prod_name} Added to Shopping Cart')
+            flash(f'{prod_name} : Successfully Added to Shopping Cart')
 			# Without redirecting, session isn't updated!!!
-            return redirect(url_for('prodView', product_id=prod_id))
+            # *Redirecting to the same page doesn't update the NavBar Session Cart :> maybe Session
+            # aint pased on to the main/layout.html template?
+            # return redirect(url_for('prodView', product_id=prod_id))
+            # How about redirecting to homepage? -> Worked out for me and fixed the issue above (*)
+            return redirect(url_for('index'))
 
         else:
             # instantiate cart-session
-            session['cart'] = [] # Create empty List > To store Cart Items (Dicts)
+            # Create empty List > To store Cart Items (Dicts)
+            session['cart'] = []
             session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
 
-            # flash(f'{prod_name} Added to Shopping Cart')
-            return redirect(url_for('prodView', product_id=prod_id))
+            flash(f'{prod_name} : Successfully Added to Shopping Cart')
+            # return redirect(url_for('prodView', product_id=prod_id))
+            return redirect(url_for('index'))
 
-        # if 'cart' in session:
-        #     session['cart'].update({str(prod_id): [
-        #                            prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
-        #     # Without redirecting, session isn't updated!!!
-        #     return redirect(url_for('prodView', product_id=prod_id))
 
-        # else:
-        #     session['cart'] = {str(prod_id): [
-        #         prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]}
-
-        #     # print(f'Posted {featureColor} {featureSize} {featureMaterial} {featureQuantity}')
-        #     print(f'Cart {session["cart"].keys()}')
-        #     print(f'Cart {session["cart"]}')
-        #     # return redirect(url_for('index'))
-
-        #    # Without redirecting, session isn't updated!!!
-        #     return redirect(url_for('prodView', product_id=prod_id))
-
+    # GET REQUEST > DISPLAY THE PRODUCT AND ITS ATTRIBUTES.
+    # Could it be that the cart isn't updated coz i dont pass the cart to the
+    # template at this instance?
 
 
     # Get the product with the matching ID
@@ -202,11 +202,16 @@ def checkout():
     if 'cart' in session:
         user_id = current_user.get_id()
         user_dict = customers.query.filter_by(id=user_id).first()
-        # {'40': ['Cool Gloves', 'black', 'Silk', 'XXL', '1', 3975]}
+        
+        # The problem aint here! 
+        # Manually adding items to the cart works. And the items are displayed
+        # in the checkout.html template. 
+        # Why aren't the items auto-added????
+        # LET IT BE KNOWN THAT I FIXED THE CART ISSUE
         items = session['cart']
-        print(items)
+        # print(items)
         # total = compute_cart_total()
-        return render_template('store_templates/checkout.html', items=items, user_dict=user_dict, total=0)
+        return render_template('store_templates/checkout.html', items=items, user_dict=user_dict, total=150)
     else:
         flash('You have Not added any Items to your Shopping Cart')
         return redirect(url_for('index'))
