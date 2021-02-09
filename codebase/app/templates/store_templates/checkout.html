@@ -30,15 +30,17 @@
         </thead>
         <tbody>
           {% for item in items %}
-          <tr>
-            <th scope="row">{{ item.keys() }}</th>
-            <td>{{ item.values() }}</td>
-            <td>{{ item.values() }}</td>
-            <td>{{ item.values() }}</td>
-            <td>{{ item.values() }}</td>
-            <td>{{ item.values() }}</td>
-            <td>{{ item.values() }}</td>
-          </tr>
+            {% for key, value in item.items() %}
+              <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value[0] }}</td>
+                <td>{{ value[1] }}</td>
+                <td>{{ value[2] }}</td>
+                <td>{{ value[3] }}</td>
+                <td>{{ value[4] }}</td>
+                <td>{{ value[5] }}</td>
+              </tr>
+            {% endfor %}
           {% endfor %}
         </tbody>
       </table>

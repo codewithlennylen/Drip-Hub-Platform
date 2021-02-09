@@ -7,7 +7,7 @@ from app.models import *
 main_cards = ['mfashion', 'ffashion', 'kfashion', 'narrivals']
 
 
-def get_ratings(productid):
+def get_ratings(pr0oductid):
     # get all ratings for a certain product
     ratings = rating.query.filter_by(product_id=productid).all()
 
@@ -39,15 +39,23 @@ def get_reviews(productid):
 
 
 def compute_cart_total():
+    """Take the items in the cart and compute the total.
+
+    Returns:
+        float: total cash to be paid for checkout.
+    """
+
     # {'129': ['Cool Belts', 'red', 'Silk', 'XL', '1', 1948]}
     cart_items = session['cart']
     total = float()
     for item in cart_items:
+        for _, v in item.items():
+            cash = v[-1]
+            total += cash
         # Quantity-total is auto-calculated during cart entry
         # qty = cart_items[item][0]
         # unit_price = cart_items[item][1]
         # total += qty * unit_price
-        item = []
 
     return total
 
@@ -118,6 +126,14 @@ def general(category_name):
 # A product's ID is its unique identifier!
 @app.route('/provw/<int:product_id>/', methods=['GET', 'POST'])
 def prodView(product_id):
+    """After a product is clicked on, this route displays more info
+    about the product; reviews, attributes, etc
+    Also, adding items to cart is also handled here.
+
+    Args:
+        product_id (int): product_id is unique for all products.
+    """
+
     # Add item to Cart via POST Request
     if request.method == 'POST':
         features = request.form
@@ -154,6 +170,11 @@ def prodView(product_id):
         if 'cart' in session: # Check if cart was instantiated
 			# append item to cart-session
             session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
+            
+            # Compute the totals for the products in cart.
+            total = compute_cart_total()
+            session['total'] = total
+            
             flash(f'{prod_name} : Successfully Added to Shopping Cart')
 			# Without redirecting, session isn't updated!!!
             # *Redirecting to the same page doesn't update the NavBar Session Cart :> maybe Session
@@ -167,6 +188,10 @@ def prodView(product_id):
             # Create empty List > To store Cart Items (Dicts)
             session['cart'] = []
             session['cart'].append({str(prod_id) : [prod_name, featureColor, featureMaterial, featureSize, featureQuantity, prod_total]})
+
+            # Compute the totals for the products in cart.
+            total = compute_cart_total()
+            session['total'] = total
 
             flash(f'{prod_name} : Successfully Added to Shopping Cart')
             # return redirect(url_for('prodView', product_id=prod_id))
@@ -200,7 +225,7 @@ def prodView(product_id):
 @app.route('/checkout/')
 def checkout():
     if 'cart' in session:
-        user_id = current_user.get_id()
+        user_id = current_user.get_id() # from the log_in() session
         user_dict = customers.query.filter_by(id=user_id).first()
         
         # The problem aint here! 
@@ -210,8 +235,9 @@ def checkout():
         # LET IT BE KNOWN THAT I FIXED THE CART ISSUE
         items = session['cart']
         # print(items)
-        # total = compute_cart_total()
-        return render_template('store_templates/checkout.html', items=items, user_dict=user_dict, total=150)
+        total = compute_cart_total()
+        session['total'] = total
+        return render_template('store_templates/checkout.html', items=items, user_dict=user_dict, total=total)
     else:
         flash('You have Not added any Items to your Shopping Cart')
         return redirect(url_for('index'))
@@ -219,6 +245,11 @@ def checkout():
 
 @app.route('/drop/')
 def drop():
+    """Empties the cart by dropping the session['cart]
+
+    Returns:
+        [Redirect]: [Go back to the homepage.]
+    """
     if 'cart' in session:
         session.pop('cart')
         flash('You have Emptied Your Shopping Cart!!')

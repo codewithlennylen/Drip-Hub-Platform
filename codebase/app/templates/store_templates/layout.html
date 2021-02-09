@@ -127,18 +127,20 @@
               <tbody>
 
                 {% for item in cart %}
-                <tr>
-                  <th scope="row">{{ item.keys() }}</th>
-                  <td>{{ item.values()[0] }}</td>
-                  <td>{{ item.values()[4] }}</td>
-                  <td>{{ item.values()[5] }}</td>
-                </tr>
+                  {% for key,value in item.items() %}
+                    <tr>
+                      <th scope="row">{{ key }}</th>
+                      <td>{{ value[0] }}</td>
+                      <td>{{ value[4] }}</td>
+                      <td>{{ value[5] }}</td>
+                    </tr>
+                  {% endfor %}
                 {% endfor %}                
 
                 <tr>
-                  <th scope="row">3</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
+                  <th scope="row">##</th>
+                  <td colspan ="2"><strong>Grand Total : </strong></td>
+                  <td><strong>Ksh.{{ session.get('total') }}</strong></td>
                 </tr>
               </tbody>
             </table>
