@@ -140,7 +140,12 @@
                 <tr>
                   <th scope="row">##</th>
                   <td colspan ="2"><strong>Grand Total : </strong></td>
-                  <td><strong>Ksh.{{ session.get('total') }}</strong></td>
+                  {% if session.get('total') %}
+                    <td><strong>Ksh.{{ session.get('total') }}</strong></td>
+                  {% else %}
+                    <td><strong>Ksh.0</strong></td>
+                  {% endif %}
+                  
                 </tr>
               </tbody>
             </table>

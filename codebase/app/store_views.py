@@ -7,7 +7,7 @@ from app.models import *
 main_cards = ['mfashion', 'ffashion', 'kfashion', 'narrivals']
 
 
-def get_ratings(pr0oductid):
+def get_ratings(productid):
     # get all ratings for a certain product
     ratings = rating.query.filter_by(product_id=productid).all()
 
