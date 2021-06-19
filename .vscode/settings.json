@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "codebase\\venv\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\Lennylen\\.platformio\\penv\\Scripts\\python.exe",
     "python.formatting.provider": "autopep8"
 }
