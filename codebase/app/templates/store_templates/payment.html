@@ -1,0 +1,243 @@
+{% extends "store_templates/layout.html" %} {% block content %}
+
+<!-- <nav class="navbar sticky-top navbar-expand-lg navbar-light text-center bg-light border-success my-1"> -->
+
+<div class="card text-center border-danger bg-white text-dark mb-3 w-100">
+  <div class="card-header bg-white">
+    <h4>Payment Details</h4>
+  </div>
+</div>
+
+<!-- </nav> -->
+
+<!-- <div class="card-deck"> -->
+<!-- <div class="container"> -->
+<div class="row mx-auto">
+  <div class="col">
+    <div class="row">
+      <!-- Cart Items -->
+      <div class="card border-danger shadow-2 bg-light mb-3">
+        <div class="card-header text-center bg-light">
+          <h5><b>Your Cart</b></h5>
+        </div>
+        <div class="card-body">
+          <table
+            class="table table-sm table-secondary table-hover table-bordered"
+          >
+            <thead>
+              <tr>
+                <th scope="col">Product ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Color</th>
+                <th scope="col">Material</th>
+                <th scope="col">Size</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %} {% for key, value in item.items() %}
+              <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value[0] }}</td>
+                <td>{{ value[1] }}</td>
+                <td>{{ value[2] }}</td>
+                <td>{{ value[3] }}</td>
+                <td>{{ value[4] }}</td>
+                <td>{{ value[5] }}</td>
+              </tr>
+              {% endfor %} {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer bg-light">
+          <h5 class="text-dark"><b>Grand Total : Ksh.{{ total }}</b></h5>
+          <!-- <a href="/drop/" class="btn btn-outline-danger text-dark"
+            >Clear Items</a -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Address Information -->
+      <div class="card border-danger shadow-2 bg-light mb-3">
+        <div class="card-header text-center">
+          <h5><b>Billing Address</b></h5>
+        </div>
+
+        <div class="card-body">
+          <table
+            class="table table-sm table-secondary table-hover table-bordered"
+          >
+            <thead>
+              <tr>
+                <th scope="col">Current</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Address</td>
+                <td>{{ address }}</td>
+              </tr>
+              <tr>
+                <td>City</td>
+                <td>{{ city }}</td>
+              </tr>
+              <tr>
+                <td>Region</td>
+                <td>{{ region }}</td>
+              </tr>
+              <tr>
+                <td>Additional Info</td>
+                <td>{{ additionalInfo }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer bg-light">
+          <b>
+            <p>
+              You can
+              <a
+                href="{{ url_for('checkout') }}"
+                class="btn btn-outline-danger text-dark"
+                >Edit</a
+              >
+              this Address.
+            </p></b
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <!-- Payment Instructions -->
+    <div class="card border-danger shadow-2 bg-light mb-3">
+      <div class="card-header text-center">
+        <h5><b>Follow the instructions below to complete the order</b></h5>
+      </div>
+
+      <div class="card-body mb-2">
+        <form>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+          <h4>
+            <label for="selectDeliveryMethodRadio"
+              >1. Select your preferred delivery method</label
+            >
+          </h4>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="storePickup" name="deliveryStore" class="custom-control-input">
+            <label class="custom-control-label" for="storePickup">Pick up from our store - KES. 0.00</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="otherMeans" name="otherTransportOption" class="custom-control-input">
+            <label class="custom-control-label" for="otherMeans">Other Transport Option - KES. {{ shipping if shipping else 0.00 }}</label>
+          </div>
+          <!-- <div class="form-check" id="selectDeliveryMethodRadio">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="deliveryStore"
+              id="storePickup"
+              value="store"
+              checked
+            />
+            <label class="form-check-label" for="storePickup">
+              
+            </label>
+          </div> -->
+          <!-- <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="otherTransportOption"
+              id="otherMeans"
+              value="Other Transport Option"
+            />
+            <label class="form-check-label" for="otherMeans">
+              Other Transport Option - KES. {{ shipping if shipping else 0.00 }}
+            </label>
+          </div> -->
+
+          <!-- onClick event -> Update a label in instruction 2. -->
+          <!-- Thus form doesn't submit anything -->
+          <button type="submit" class="btn btn-success my-2">Select</button>
+        </form>
+        <h4>
+          <label for="selectDeliveryMethodRadio">2. Order Summary</label>
+        </h4>
+        <table
+          class="table table-sm table-secondary table-hover table-bordered"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Totals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>From Your Cart</td>
+              <td>{{ total }}</td>
+            </tr>
+            <tr>
+              <td>Transport Cost</td>
+              <!-- Should be Dynamic -> JS -->
+              <td>500</td>
+            </tr>
+            <tr>
+              <td>Net Cost</td>
+              <!-- Should be Dynamic -> JS -->
+              <td>1194</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>
+          <label for="selectDeliveryMethodRadio">3. Lipa na M-Pesa</label>
+        </h4>
+        <p>Go to the M-Pesa Menu</p>
+        <p>Select Lipa Na M-Pesa.</p>
+        <p>Buy Goods and Services</p>
+        <p>Enter Till Number: {{ tillNumber }}</p>
+        <p>After payment, enter the M-Pesa transaction Code below.</p>
+        <!-- <p>Place Order.</p> -->
+        <hr>
+
+        <form action="{{ url_for('place_order') }}" method="POST">
+          <div class="form-group row">
+            <label for="inputTransaction" class="col-md-4 col-form-label"
+              >Transaction Code</label
+            >
+            <div class="col-md-8">
+              <input
+                type="text"
+                class="form-control"
+                id="inputTransaction"
+                name="inputTransaction"
+              />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success mt-2">
+            Place Order
+          </button>
+        </form>
+      </div>
+
+      <div class="card-footer text-muted py-4">
+        <b
+          >For any Questions / Clarifications, Feel Free to
+          <a href="/contact/" class="btn btn-outline-danger text-dark mb-2"
+            >Contact Us</a
+          ></b
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+{% endblock content %}

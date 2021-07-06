@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session, flash
-from flask_login import current_user
+from flask_login import current_user,login_required
 from app import app
 from app.models import *
 
@@ -135,6 +135,8 @@ def prodView(product_id):
     """
 
     # Add item to Cart via POST Request
+    #! user must be logged in? > I am currently enforcing login on checkout, which seems enough?
+    #? Should I clear the cart on logout?
     if request.method == 'POST':
         features = request.form
         featureColor = features['featureColor']
@@ -222,25 +224,92 @@ def prodView(product_id):
     return render_template('store_templates/productview2.html', proDict=proDict, reviews=reviews)
 
 
-@app.route('/checkout/')
+@app.route('/checkout/', methods=['GET', 'POST'])
+@login_required
 def checkout():
     if 'cart' in session:
+        #* Poor(armature) way of getting the object
         user_id = current_user.get_id() # from the log_in() session
         user_dict = customers.query.filter_by(id=user_id).first()
-        
-        # The problem aint here! 
+        # A better way would be:
+        # user_obj = current_user # Easy, right?
+
+        # The problem ain't here! 
         # Manually adding items to the cart works. And the items are displayed
         # in the checkout.html template. 
         # Why aren't the items auto-added????
-        # LET IT BE KNOWN THAT I FIXED THE CART ISSUE
+        # LET IT BE KNOWN THAT I FIXED THE CART ISSUE.
+        # EDIT: It's 5 months later and I have no idea how I fixed the issue
         items = session['cart']
         # print(items)
         total = compute_cart_total()
         session['total'] = total
+        tillNumber = 12345
+        
+        if request.method == 'POST':
+            # Get the address from the Form <Temporary use>
+            # i.e. Do not update primary address unless user manually does so.
+            # From their profile.
+            billingAddressDetails = request.form
+            billingAddress = billingAddressDetails['billingAddress']
+            billingCity = billingAddressDetails['billingCity']
+            billingRegion = billingAddressDetails['billingRegion']
+            billingAdditionalInfo = billingAddressDetails['billingAdditionalInfo']
+
+            # Check if Billing Address is different from Primary / Home Address
+            homeAddress = current_user.address
+            homeCity = current_user.city
+            homeRegion = current_user.region
+            homeAdditionalInfo = current_user.additionalInfo
+
+            # Compute shipping price based on location? -> To be figured out later
+            shipping = 0
+
+            if billingAddress != homeAddress or billingCity != homeCity or billingRegion != homeRegion or billingAdditionalInfo != homeAdditionalInfo:
+                # Inform the user of the temporary billing address use.
+                # Use the Billing Address to complete the order as it is the most recent (up to date)
+                flash("This Billing Address Will be used for this Order only.")
+                flash("If you want to save it for future use, consider updating your primary address in the my-profile page.")
+                
+                shipping = 500
+
+                return render_template('store_templates/payment.html',
+                 items=items,
+                 user_dict=user_dict,
+                 total=total,
+                 address = billingAddress,
+                 city=billingCity,
+                 region=billingRegion,
+                 additionalInfo=billingAdditionalInfo,
+                 shipping=shipping,
+                 tillNumber=tillNumber)
+            else:
+                # print("match")
+                # Otherwise, use the current primary address.
+                shipping = 650
+
+                return render_template('store_templates/payment.html',
+                 items=items,
+                 user_dict=user_dict,
+                 total=total,
+                 address = homeAddress,
+                 city=homeCity,
+                 region=homeRegion,
+                 additionalInfo=homeAdditionalInfo,
+                 shipping=shipping,
+                 tillNumber=tillNumber)
+
+
+
         return render_template('store_templates/checkout.html', items=items, user_dict=user_dict, total=total)
     else:
         flash('You have Not added any Items to your Shopping Cart')
         return redirect(url_for('index'))
+
+
+@app.route('/place_order/', methods=['POST'])
+def place_order():
+    pass 
 
 
 @app.route('/drop/')
@@ -250,6 +319,8 @@ def drop():
     Returns:
         [Redirect]: [Go back to the homepage.]
     """
+    
+    #? Should I clear the cart on logout?
     if 'cart' in session:
         session.pop('cart')
         flash('You have Emptied Your Shopping Cart!!')

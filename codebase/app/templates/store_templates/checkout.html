@@ -11,6 +11,7 @@
 <!-- </nav> -->
 
 <div class="card-deck">
+  <!-- Cart Items -->
   <div class="card border-danger shadow-2 bg-light mb-3">
     <div class="card-header text-center bg-light">
       <h5><b>Your Cart</b></h5>
@@ -52,20 +53,23 @@
     </div>
   </div>
 
+  <!-- Address Information -->
   <div class="card border-danger shadow-2 bg-light mb-3">
     <div class="card-header text-center">
       <h5><b>A few more Details before Proceeding</b></h5>
     </div>
 
     <div class="card-body">
-      <form>
+      <form action="{{ url_for('checkout') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="form-group">
           <label for="formGroupExampleInput">Address</label>
           <input
             type="text"
             class="form-control"
             id="formGroupExampleInput"
-            placeholder="Jane"
+            placeholder="Black Rose Apartments,House 411"
+            name="billingAddress"
             value="{{ user_dict.address if user_dict.address }}"
           />
         </div>
@@ -76,18 +80,20 @@
             type="text"
             class="form-control"
             id="formGroupExampleInput"
-            placeholder="Smith"
+            placeholder="Nairobi"
+            name="billingCity"
             value="{{ user_dict.city if user_dict.city }}"
           />
         </div>
 
         <div class="form-group">
-          <label for="formGroupExampleInput">Region</label>
+          <label for="formGroupExampleInput">Region / Area</label>
           <input
             type="text"
             class="form-control"
             id="formGroupExampleInput"
-            placeholder="0712345678"
+            placeholder="Kilimani"
+            name="billingRegion"
             value="{{ user_dict.region if user_dict.region }}"
           />
         </div>
@@ -97,7 +103,7 @@
           <textarea
             rows="4"
             class="form-control border-secondary"
-            name="accAdditionalInfo"
+            name="billingAdditionalInfo"
           >
 {{ user_dict.additionalInfo if user_dict.additionalInfo }}</textarea
           >

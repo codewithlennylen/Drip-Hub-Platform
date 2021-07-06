@@ -101,6 +101,7 @@ class customers(db.Model, UserMixin):
 			return None
 
 		return customers.query.get(user_id)
+
 # -----------------------------------------------------------------------------------
 
 # ############### ############# SELLERS ################ ######################
@@ -121,31 +122,7 @@ class sellers(db.Model):
 	region = db.Column(db.String(60), index=True, nullable=False)
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 
-
 # -----------------------------------------------------------------------------------
-
-
-# ############### ############# SHIPPERS ################ ######################
-
-class shippers(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	companyName = db.Column(db.String(60), index=True, nullable=False)
-	companyLogo = db.Column(db.String(60), index=True, nullable=False) # If not available, Drip-Hub provides a default
-	phone1 = db.Column(db.String(60), index=True, nullable=False)
-	phone2 = db.Column(db.String(60), index=True, nullable=True) # Second Phone Number is optional
-	email1 = db.Column(db.String(60), index=True, nullable=False) # Auto-send notifications
-	email2 = db.Column(db.String(60), index=True, nullable=True) # Second E-mail address is optional
-
-	# Address information may be different from the home address (customer table).
-	address = db.Column(db.String(60), index=True, nullable=False)
-	additionalInfo = db.Column(db.String(60), index=True, nullable=False)
-	city = db.Column(db.String(60), index=True, nullable=False)
-	region = db.Column(db.String(60), index=True, nullable=False)
-
-	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
-# -----------------------------------------------------------------------------------
-
 
 # ############### ############# ADMINS ################ ######################
 
@@ -162,28 +139,60 @@ class admin(db.Model):
 
 # -----------------------------------------------------------------------------------
 
+
+# ############### ############# SHIPPERS ################ ######################
+
+class shippers(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	
+	# One shipper can have multiple orders.
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+	
+	companyName = db.Column(db.String(60), index=True, nullable=False)
+	companyLogo = db.Column(db.String(60), index=True, nullable=False) # If not available, Drip-Hub provides a default
+	phone1 = db.Column(db.String(60), index=True, nullable=False)
+	phone2 = db.Column(db.String(60), index=True, nullable=True) # Second Phone Number is optional
+	#? Consider a biker, where's the time to open email notifications?
+	#* This is still relevant for the future; scaling!
+	email1 = db.Column(db.String(60), index=True, nullable=False) # Auto-send notifications
+	email2 = db.Column(db.String(60), index=True, nullable=True) # Second E-mail address is optional
+
+	# Address information may be different from the home address (customer table).
+	#? If shipping is outsourced, why the heck would we need their address?
+	# address = db.Column(db.String(60), index=True, nullable=False)
+	# additionalInfo = db.Column(db.String(60), index=True, nullable=False)
+	# city = db.Column(db.String(60), index=True, nullable=False)
+	# region = db.Column(db.String(60), index=True, nullable=False)
+
+	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
+
+# -----------------------------------------------------------------------------------
+
+
 # ############### ############# ORDERS ################ ######################
 
 class orders(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	# customerID = db.Column(db.Integer, nullable=False)
-	transactionCode = db.Column(db.String(60), index=True, nullable=False) # Get this info from payment table
 
+	# Relationships
+	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 	orderdetailsid = db.relationship('orderdetails', backref='odid', lazy='dynamic')
 	paymentid = db.relationship('payment', backref='pid', lazy='dynamic')
 	shipperid = db.relationship('shippers', backref='sid', lazy='dynamic')
 
+	# Get this info from payment table ->> Poor Implementation
+	#// transactionCode = db.Column(db.String(60), index=True, nullable=False) 
+	#* I removed the line/column above  as it was unnecessary. >> Redundant & extra work
+
 	# Date the order was placed
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
 class orderdetails(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	# orderID = db.Column(db.Integer, nullable=False)
-	# productID = db.Column(db.Integer, nullable=False)
-	# shipperID = db.Column(db.Integer, nullable=False) # Handled by the orders table
 
-	# product_id = db.relationship('products', backref='pid', lazy='dynamic')
+	# From relationships
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 	price = db.Column(db.Integer, index=True, nullable=False)
 	quantity = db.Column(db.Integer, index=True, nullable=False)
@@ -194,8 +203,6 @@ class orderdetails(db.Model):
 	fulfilledDate = db.Column(db.String(20), index=True, nullable=False) #Date/N
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
-	product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 # -----------------------------------------------------------------------------------
 
@@ -204,19 +211,21 @@ class orderdetails(db.Model):
 # This is not a very future-proof model. More thought has to be invested in this section!
 class payment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	transactionCode = db.Column(db.String(60), index=True, nullable=False) # M-PESA
 	
+	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+
+	transactionCode = db.Column(db.String(60), index=True, nullable=False) # M-PESA
 	paidTotal = db.Column(db.Integer, index=True, nullable=False)
 	shipperPrice = db.Column(db.Integer, index=True, nullable=False)
-	dripQuota = db.Column(db.Integer, index=True, nullable=False) # Percentage of unit price
-	dripQuotaTotal = db.Column(db.Integer, index=True, nullable=False)
 
+	#! This was for an 'open' model where other sellers can list their items > Poor implementation thoigh
+	#// dripQuota = db.Column(db.Integer, index=True, nullable=False) # Percentage of unit price
+	#// dripQuotaTotal = db.Column(db.Integer, index=True, nullable=False)
 	# paidTotal-(shipperPrice+dripQuotaTotal)
 	# Back to seller
-	sellerReturns = db.Column(db.Integer, index=True, nullable=False)
-	
-	total = db.Column(db.Integer, index=True, nullable=False)
+	#// sellerReturns = db.Column(db.Integer, index=True, nullable=False)
+	#// total = db.Column(db.Integer, index=True, nullable=False)
 	
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
-	order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+
 # -----------------------------------------------------------------------------------
