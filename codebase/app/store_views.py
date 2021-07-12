@@ -309,7 +309,46 @@ def checkout():
 
 @app.route('/place_order/', methods=['POST'])
 def place_order():
-    pass 
+    #! M-pesa stuff should be implemented here.
+    transactionForm = request.form
+    transportOptionStore = 1 if transactionForm.get('deliveryStore')=="on" else 0
+    transportOptionCustom = 1 if transactionForm.get('otherTransportOption')=="on" else 0
+    transactionCode = transactionForm.get('inputTransaction')
+
+    print(f"T1:{transportOptionStore} T2:{transportOptionCustom} TC:{transactionCode}")
+
+    #* Server-Side Input Validation
+    # Check for blank fields 
+    error = ''
+    if transportOptionCustom == None and transportOptionStore == None:
+       error = "Please Select your Preferred Transport Option."
+
+    if transactionCode == '':
+        error = "Please Enter the Transaction Code."
+
+    if error:
+        flash(error)
+        return redirect(url_for("checkout"))
+
+    #! Simulate Successful Transaction
+    success = "ABC123"
+    if transactionCode == success:
+        #! Add order to DB
+        
+        flash("Order has been placed Successfully. Thank you for Shopping with us.")
+        # Empty Cart
+        # drop()
+        #? Better yet, redirect to order history page. 
+        return redirect(url_for('index'))
+    else:
+        # Fail does not necessarily mean that the payment failed.
+        # It could be that Mpesa is still processing the transaction.
+        #? Thus details of failure are important
+        flash("Mpesa is still processing the transaction. Please Try again in a minute.")
+        return redirect(url_for('checkout'))
+
+    # Code unreachable.
+    # return redirect(url_for('index'))
 
 
 @app.route('/drop/')
