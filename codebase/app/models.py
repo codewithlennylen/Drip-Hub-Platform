@@ -142,6 +142,7 @@ class admin(db.Model):
 
 # ############### ############# SHIPPERS ################ ######################
 
+#! Will be implemented in the future, once we've figured out the logistics
 class shippers(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	
@@ -178,6 +179,8 @@ class orders(db.Model):
 	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 	orderdetailsid = db.relationship('orderdetails', backref='odid', lazy='dynamic')
 	paymentid = db.relationship('payment', backref='pid', lazy='dynamic')
+	
+	# This relationship is dormant for now. Until shippers are implemented.
 	shipperid = db.relationship('shippers', backref='sid', lazy='dynamic')
 
 	# Get this info from payment table ->> Poor Implementation
@@ -198,9 +201,13 @@ class orderdetails(db.Model):
 	quantity = db.Column(db.Integer, index=True, nullable=False)
 	discount = db.Column(db.Integer, index=True, nullable=False)
 	total = db.Column(db.Integer, index=True, nullable=False)
+	material = db.Column(db.String(60), index=True, nullable=True)
 	size = db.Column(db.String(60), index=True, nullable=False)
 	color = db.Column(db.String(60), index=True, nullable=True)
-	fulfilledDate = db.Column(db.String(20), index=True, nullable=False) #Date/N
+	fulfilledDate = db.Column(db.String(20), index=True, nullable=False) #Date/N -> Tracking purposes.
+
+	# After definitely-not-enough thought put into this, I have decided to include Product name as a column
+	productName = db.Column(db.String(60), index=True, nullable=True)
 
 	timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # Auto-Generated During Input
 

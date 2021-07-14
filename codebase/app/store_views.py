@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, session, flash
 from flask_login import current_user,login_required
 from app import app
 from app.models import *
+import time
 
 
 main_cards = ['mfashion', 'ffashion', 'kfashion', 'narrivals']
@@ -308,6 +309,7 @@ def checkout():
 
 
 @app.route('/place_order/', methods=['POST'])
+@login_required # Require login so that customer Id can be used in placing order.
 def place_order():
     #! M-pesa stuff should be implemented here.
     transactionForm = request.form
@@ -330,14 +332,46 @@ def place_order():
         flash(error)
         return redirect(url_for("checkout"))
 
+    cartItems = session['cart']
+
     #! Simulate Successful Transaction
+    #? Add transaction to db
     success = "ABC123"
     if transactionCode == success:
         #! Add order to DB
+        # print(cartItems)
+        newOrder = orders(
+            customer_id = current_user.id
+        )
+        db.session.add(newOrder)
+        
+
+        # Iterate through the cart.
+        for product in cartItems:
+            for key,value in product.items():
+                productID = int(key)
+                productObject = products.query.filter_by(id=productID).first()
+                orderDetails = orderdetails(
+                    order_id = newOrder.id,
+                    product_id = productID,
+                    productName = value[0],
+                    price = productObject.productPrice,
+                    material = value[2],
+                    quantity = value[4],
+                    discount = 0,
+                    total = value[5],
+                    size = value[3],
+                    color = value[1],
+                    fulfilledDate = "N/A"
+                )
+                db.session.add(orderDetails)
+                time.sleep(0.4)
+
+        db.session.commit()
         
         flash("Order has been placed Successfully. Thank you for Shopping with us.")
         # Empty Cart
-        # drop()
+        drop()
         #? Better yet, redirect to order history page. 
         return redirect(url_for('index'))
     else:
@@ -362,7 +396,11 @@ def drop():
     #? Should I clear the cart on logout?
     if 'cart' in session:
         session.pop('cart')
-        flash('You have Emptied Your Shopping Cart!!')
+        session.pop('total')
+        # I am also emptying the cart after order is successfully placed.
+        # With this in mind, it doesn't look good to display the warning message anymore
+        # This is of course a trade-off as I never display the warning even when reasonably necessary to do so.
+        #// flash('You have Emptied Your Shopping Cart!!')
         return redirect(url_for('index'))
     else:
         flash('You Do Not Have any Items in your Shopping Cart')
