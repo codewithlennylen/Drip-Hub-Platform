@@ -1,7 +1,7 @@
 from flask import render_template, redirect, flash, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from app import app, db, bcrypt, mail
-from app.models import customers
+from app.models import customers, orders, orderdetails
 from flask_mail import Message
 
 
@@ -179,8 +179,28 @@ def logout():
 @app.route('/account/')
 @login_required
 def account():
+	"""User's Profile Page. Where They can:
+	   + Change / Update Personal Details
+	   + Change / Update Delivery Details
+	   + View Order History / Details
+
+	Returns:
+		[type]: [description]
+	"""	
 	user_id = current_user.get_id()
 	user_dict = customers.query.filter_by(id=user_id).first()
+
+	customerOrders = orders.query.filter_by(customer_id=user_id).all()
+	print(f'Orders: {customerOrders}')
+	#! https://stackoverflow.com/questions/45576199/python-assignment-to-appenderbasequery-property-in-flask-sqlalchemy-without-effe
+	print(f'Details: {[order.orderdetailsid.all() for order in customerOrders] }')
+	customerOrdersDict = {}
+	for order in customerOrders:
+		customerOrdersDict[order.id] = (str(order.timeStamp), [order.orderdetailsid.all() for order in customerOrders])
+
+	# {2: ('2021-07-14 22:51:39', [[<orderdetails 2>, <orderdetails 3>, <orderdetails 4>, <orderdetails 5>]])}
+	#? Use Accordion to display
+	print(f'customerOrdersDict: {customerOrdersDict}')
 	return render_template('UMS_templates/account.html', user_dict=user_dict)
 
 	
