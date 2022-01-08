@@ -9,77 +9,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
 
     <!-- Icon Library and CSS Files -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/rasta.css') }}">
 
     <link href=" {{ url_for('static', filename='logo.png') }}" rel="shortcut icon">
-    <title>Thrift_Trendy</title>
+    <title>Deluxe</title>
   </head>
 
 
   <body>
   <div class="container-fluid bg-light">
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-white mb-3">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img
+            src="{{ url_for('static', filename='logo.png') }}"
+            width="30"
+            height="30"
+            class="d-inline-block align-text-top"
+            alt="Logo"
+          />
+          Deluxe</a
+        >
 
-    <!-- Navbar with Image and text -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarTogglerLen"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <!-- Sticky navbar - hide driphub logo. this also auto fixes to top -->
-    <!-- Still need to work on the spacing to align the layout better -->
-    <!-- The search bar should still be visible - sticky?? -->
+        <div class="collapse navbar-collapse" id="navbarTogglerLen">
+          <!-- 
+      <form class="form-inline ml-auto">
+        <input class="form-control mw-100 px-5 mr-2" type="search" placeholder="Search our Store">
+        <button class="btn btn-outline-danger my-2 px-4 my-sm-0" type="submit">Search</button>
+      </form> -->
+      <form class="d-flex">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-danger" type="submit">
+          Search
+        </button>
+      </form>
 
-
-    <!-- <nav class="navbar navbar-expand-md bg-primary sticky-top"> -->
-    <nav class="navbar shadow-sm border navbar-expand-lg navbar-light bg-white mb-3">
-      <a class="navbar-brand"  href="/">
-        <img src="{{ url_for('static', filename='logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo"> Thrift_Trendy</a>
-
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerLen">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarTogglerLen">
-
-        <form class="form-inline ml-auto">
-          <input class="form-control mw-100 px-5 mr-2" type="search" placeholder="Search our Store">
-          <button class="btn btn-outline-danger my-2 px-4 my-sm-0" type="submit">Search</button>
-        </form>
-
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <ul class="navbar-nav">
             {% if current_user.is_authenticated %}
-              <div class="btn-group">
-                <button type="button" class="btn px-auto btn-outline-danger dropdown-toggle" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  My Account
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{{ url_for('account') }}" class="btn my-2 px-auto my-sm-0">My Profile</a>
-                  <a href="{{ url_for('logout') }}" class="btn my-2 px-auto my-sm-0">Log Out</a>
-                </div>
-              </div>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span class="btn btn-outline-danger dropdown-toggle"
+                  >My Account</span
+                >
+              </a>
+
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('account') }}"
+                    >My Profile</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('logout') }}"
+                    >Log Out</a
+                  >
+                </li>
+              </ul>
+            </li>
+
             {% else %}
-              <a href="{{ url_for('login') }}" class="btn btn-outline-danger my-2 px-4 my-sm-0">Sign In</a>
+            <li class="nav-item">
+              <a
+                href="{{ url_for('login') }}"
+                class="nav-link"
+                >
+                <span class="btn btn-outline-danger">Sign In</a></span>
+            </li>
             {% endif %}
-            
-            <div class="btn-group">
-              <button type="button" class="btn px-auto btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                More
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a href="/" class="btn my-2 px-auto my-sm-0">Contact Us</a>
-                <a href="/" class="btn my-2 px-auto my-sm-0">About Us</a>
-                <a href="/" class="btn my-2 px-auto my-sm-0">Need Help ?</a>
-              </div>
-            </div>
 
-            <a href="/" class="btn btn-outline-danger my-2 px-3 my-sm-0">View Cart</a>
-          </li>
-        </ul>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span class="btn btn-outline-danger dropdown-toggle"
+                  >More</span
+                >
+              </a>
 
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" href="#">Contact Us</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Need Help ?</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a
+                href="/"
+                class="nav-link"
+                data-toggle="modal"
+                data-target="#staticBackdropCart"
+              >
+                <span class="btn btn-outline-danger">View Cart</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -106,7 +176,7 @@
 
       <!-- Copyright -->
       <div class="footer-copyright text-center py-3">
-        <h6><a class="p-3 mb-2 nav-link text-light" href="/">© 2020 Copyright: Thrift_Trendy.com</a></h6>
+        <h6><a class="p-3 mb-2 nav-link text-light" href="/">© 2022 Copyright: Deluxe.com</a></h6>
       </div>
       <!-- Copyright -->
 
@@ -115,10 +185,15 @@
     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 
   </div>
   </body>
