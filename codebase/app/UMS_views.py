@@ -160,7 +160,7 @@ def register():
 			return render_template('UMS_templates/register.html')
 		elif status == 'Failed : Exception':
 			flash(
-				f'Error Occured at Exception')
+				f'Error occurred at Exception')
 			return render_template('UMS_templates/register.html')
 		else:
 			flash(
@@ -251,7 +251,7 @@ def account_update(action):
 								phone_number, phone_number2, email_address)
 
 			if status == 'Success':
-				flash(f'Your Peronal Info has been Updated.')
+				flash(f'Your Personal Info has been Updated.')
 				return redirect(url_for("account", user_dict=user_dict))
 			elif status == 'Email Exists':
 				flash(
@@ -259,7 +259,7 @@ def account_update(action):
 				return render_template('UMS_templates/account.html', user_dict=user_dict)
 			elif status == 'Failed : Exception':
 				flash(
-					f'Error Occured at Exception')
+					f'Error occurred at Exception')
 				return render_template('UMS_templates/account.html', user_dict=user_dict)
 			else:
 				flash(
@@ -302,7 +302,7 @@ def account_update(action):
 				return redirect(url_for("account", user_dict=user_dict))
 			elif status == 'Failed : Exception':
 				flash(
-					f'Error Occured at Exception')
+					f'Error occurred at Exception')
 				return render_template('UMS_templates/account.html', user_dict=user_dict)
 			else:
 				flash(
@@ -319,6 +319,7 @@ def account_update(action):
 
 def send_reset_email(user):
 	token = user.get_reset_token()
+	print(f"token: {token}")
 	msg = Message('Password Reset Request', 
 					sender='noreply@demo.com', 
 					recipients=[user.email])

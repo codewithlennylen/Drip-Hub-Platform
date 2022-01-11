@@ -7,17 +7,19 @@
         <h3>Reset Password</h3>
     </div>
 
-    <form action="/reset_password/" method="POST">
+    <div class="card-body">
+    <form action="{{ url_for('reset_request') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-        <div class="form-group ml-4 mt-2">
+        <div class="form-group mb-2">
             <label for="inputEmail">Email address</label>
             <input type="email" class="form-control border-secondary" id="inputEmail" name="inputEmail"
                 aria-describedby="emailHelp">
         </div>
 
-        <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Reset</button>
+        <button type="submit" class="btn btn-lg btn-outline-danger my-3">Reset</button>
     </form>
+    </div>
 
 </div>
 

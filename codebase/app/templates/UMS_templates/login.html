@@ -6,28 +6,29 @@
       <div class="card-header text-center">
         <h3>Sign In</h3>
       </div>
-
-        <form action="/login/" method="POST">
+      <div class="card-body">
+        <form action="{{ url_for('login') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             
-            <div class="form-group ml-4 mt-2">
+            <div class="form-group mb-2">
                 <label for="inputEmail">Email address</label>
                 <input type="email" class="form-control border-secondary" id="inputEmail" name="inputEmail" aria-describedby="emailHelp">
             </div>
 
-            <div class="form-group ml-4">
+            <div class="form-group mb-2">
                 <label for="inputPassword">Password</label>
                 <input type="password" class="form-control border-secondary" id="inputPassword" name="inputPassword">
             </div>
 
-            <button type="submit" class="btn btn-lg btn-outline-danger ml-4 mb-2">Sign In</button>
+            <button type="submit" class="btn btn-lg btn-outline-danger my-3">Sign In</button>
             <small>
               <strong><a href="{{ url_for('reset_request') }}" class="text-danger m-3">Forgot Your Password?</a></strong>
             </small>
         </form>
+        </div>
 
       <div class="card-footer text-muted text-center">
-        <strong> Don't Have An Account? <a href="/register/" class="text-warning">Sign Up Instead</a></strong>
+        <strong> Don't Have An Account? <a href="{{ url_for('register') }}" class="text-warning">Sign Up Instead</a></strong>
       </div>
     </div>
 
