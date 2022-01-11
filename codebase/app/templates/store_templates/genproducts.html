@@ -1,169 +1,174 @@
-{% extends "store_templates/layout.html" %}
+{% extends "store_templates/layout.html" %} {% block content %} {% if toggle ==
+1 %} {% for cat in c %}
+<div class="card mb-3 text-center">
+  <div class="card-header bg-white">
+    <a href="#" class="btn btn-outline-danger">{{ cat.categoryName }}</a>
+  </div>
+</div>
 
-{% block content %}
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  {% for prods in proDict %} {% if prods.categoryid == cat.id %}
 
+  <div class="col mb-3">
+    <div class="card shadow-sm p-2 h-100">
+      <!-- style="width: 18rem;" == Non-responsive -->
+      <a
+        class="text-danger"
+        href="{{ url_for('prodView',product_id=prods.id) }}"
+      >
+        <img
+          src="{{ url_for('static', filename=prods.picturePath) }}"
+          class="card-img-top"
+          alt="{{ prods.productName }}"
+        />
+      </a>
 
+      <div class="card-body">
+        <a
+          class="text-danger"
+          href="{{ url_for('prodView',product_id=prods.id) }}"
+        >
+          <h5 class="card-title text-dark">{{ prods.productName }}</h5>
+        </a>
 
+        {# rating and reviews rendering #} {% if proDict[prods][0] == 5 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked">
+          ({{ proDict[prods][1] }} Reviews)</span
+        >
+        {% elif proDict[prods][0] == 4 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 3 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 2 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 1 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% else %}
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% endif %}
 
-{% if toggle == 1 %}
-  {% for cat in c %}
-    <div class="card mb-3 text-center">
-      <div class="card-header bg-white">
-        <a href="#" class="btn btn-outline-danger">{{ cat.categoryName }}</a>
+        <p class="card-text">{{ prods.productDescription }}</p>
+      </div>
+
+      <div class="card-footer bg-white">
+        <a
+          class="btn btn-danger"
+          href="{{ url_for('prodView',product_id=prods.id) }}"
+        >
+          Ksh. {{ prods.productPrice }} /=
+        </a>
       </div>
     </div>
+  </div>
 
+  {% endif %} {% endfor %}
+</div>
 
-    <div class="card-deck">
-    <div class="row row-cols-1 row-cols-md-4">
+{% endfor %} {% else %}
 
-    {% for prods in proDict %}
-      {% if prods.categoryid == cat.id %}
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  {% for prods in proDict %}
 
-          <div class="col mb-3">
-            <div class="card shadow-sm p-2 h-100" > <!-- style="width: 18rem;" == Non-responsive -->
-              <a class="text-danger" href="/provw/{{ prods.id }}/">
-                <img src="{{ url_for('static', filename=prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
-              </a>
-              
-              <div class="card-body">
-                <a class="text-danger" href="/provw/{{ prods.id }}/">
-                  <h5 class="card-title text-dark">{{ prods.productName }}</h5>
-                </a>
+  <div class="col mb-3">
+    <div class="card shadow-sm p-2 h-100">
+      <a
+        class="text-danger"
+        href="{{ url_for('prodView',product_id=prods.id) }}"
+      >
+        <img
+          src="{{ url_for('static', filename=prods.picturePath) }}"
+          class="card-img-top"
+          alt="{{ prods.productName }}"
+        />
+      </a>
 
-                {# rating and reviews rendering #}
-                {% if proDict[prods][0] == 5 %}
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked">   ({{ proDict[prods][1] }} Reviews)</span>
-                {% elif proDict[prods][0] == 4 %}
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-                {% elif proDict[prods][0] == 3 %}
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-                {% elif proDict[prods][0] == 2 %}
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-                {% elif proDict[prods][0] == 1 %}
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>
-                {% else %}
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star "></span>
-                  <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-                {% endif %}
+      <div class="card-body">
+        <a
+          class="text-danger"
+          href="{{ url_for('prodView',product_id=prods.id) }}"
+        >
+          <h5 class="card-title text-dark">{{ prods.productName }}</h5>
+        </a>
 
-                <p class="card-text">{{ prods.productDescription }}</p>
-              </div>
+        {# rating and reviews rendering #} {% if proDict[prods][0] == 5 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked">
+          ({{ proDict[prods][1] }} Reviews)</span
+        >
+        {% elif proDict[prods][0] == 4 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 3 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 2 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% elif proDict[prods][0] == 1 %}
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% else %}
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"> ({{ proDict[prods][1] }} Reviews)</span>
+        {% endif %}
 
-              <div class="card-footer bg-white">
-                <a class="btn btn-danger" href="/provw/{{ prods.id }}/">
-                  Ksh. {{ prods.productPrice }} /=
-                </a>
-              </div>
+        <p class="card-text">{{ prods.productDescription }}</p>
+      </div>
 
-            </div>
-          </div>
-
-      {% endif %}
-    {% endfor %}
-   </div>
-   </div>
+      <div class="card-footer bg-white">
+        <a
+          class="btn btn-danger"
+          href="{{ url_for('prodView',product_id=prods.id) }}"
+        >
+          Ksh. {{ prods.productPrice }} /=
+        </a>
+      </div>
+    </div>
+  </div>
 
   {% endfor %}
+</div>
 
-{% else %}
-
-  <div class="card-deck">
-  <div class="row row-cols-1 row-cols-md-4">
-
-    {% for prods in proDict %}
-
-      <div class="col mb-3">
-        <div class="card shadow-sm p-2 h-100">
-          <a class="text-danger" href="/provw/{{ prods.id }}/">
-            <img src="{{ url_for('static', filename=prods.picturePath) }}" class="card-img-top" alt="{{ prods.productName }}">
-          </a>
-          
-          <div class="card-body">
-            <a class="text-danger" href="/provw/{{ prods.id }}/">
-              <h5 class="card-title text-dark">{{ prods.productName }}</h5>
-            </a>
-
-            {# rating and reviews rendering #}
-            {% if proDict[prods][0] == 5 %}
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked">   ({{ proDict[prods][1] }} Reviews)</span>
-            {% elif proDict[prods][0] == 4 %}
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-            {% elif proDict[prods][0] == 3 %}
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-            {% elif proDict[prods][0] == 2 %}
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-            {% elif proDict[prods][0] == 1 %}
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>
-            {% else %}
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star ">   ({{ proDict[prods][1] }} Reviews)</span>          
-            {% endif %}
-
-            <p class="card-text">{{ prods.productDescription }}</p>
-          </div>
-
-          <div class="card-footer bg-white">
-            <a class="btn btn-danger" href="/provw/{{ prods.id }}/">
-              Ksh. {{ prods.productPrice }} /=
-            </a>
-          </div>
-
-        </div>
-      </div>
-      
-
-    {% endfor %}
-
-  </div>
-  </div>
-
-{% endif %}
-
-{% endblock content %}
+{% endif %} {% endblock content %}

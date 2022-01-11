@@ -2,6 +2,7 @@
     "python.pythonPath": "C:\\Users\\Lennylen\\.platformio\\penv\\Scripts\\python.exe",
     "python.formatting.provider": "autopep8",
     "cSpell.words": [
+        "categoryid",
         "orderid",
         "provw"
     ]
