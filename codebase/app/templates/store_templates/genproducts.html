@@ -1,5 +1,8 @@
-{% extends "store_templates/layout.html" %} {% block content %} {% if toggle ==
-1 %} {% for cat in c %}
+{% extends "store_templates/layout.html" %} 
+{% block content %} 
+
+{% if toggle ==1 %}
+ {% for cat in c %}
 <div class="card mb-3 text-center">
   <div class="card-header bg-white">
     <a href="#" class="btn btn-outline-danger">{{ cat.categoryName }}</a>
