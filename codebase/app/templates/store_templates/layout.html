@@ -157,8 +157,8 @@
                 <a
                   href="/"
                   class="nav-link"
-                  data-toggle="modal"
-                  data-target="#staticBackdropCart"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropCart"
                 >
                   <span class="btn btn-outline-danger">View Cart</span>
                 </a>
@@ -190,10 +190,10 @@
       <div
         class="modal fade"
         id="staticBackdropCart"
-        data-backdrop="static"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="staticBackdropLabel"
+        data-bs-backdrop="static" 
+        data-bs-keyboard="false" 
+        tabindex="-1" 
+        aria-labelledby="staticBackdropLabel" 
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -202,14 +202,7 @@
               <h5 class="modal-title" id="staticBackdropLabel">
                 Your Shopping Cart
               </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -246,11 +239,7 @@
             </div>
 
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
               <a href="{{ url_for('checkout') }}" class="btn btn-primary"
