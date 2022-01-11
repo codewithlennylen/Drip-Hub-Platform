@@ -10,118 +10,122 @@
 
 <!-- </nav> -->
 
-<div class="card-deck">
+<div class="row row-cols-1 row-cols-md-2 g-4">
   <!-- Cart Items -->
-  <div class="card border-danger shadow-2 bg-light mb-3">
-    <div class="card-header text-center bg-light">
-      <h5><b>Your Cart</b></h5>
-    </div>
-    <div class="card-body">
-      <table class="table table-sm table-secondary table-hover table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Product ID</th>
-            <th scope="col">Product Name</th>
-            <th scope="col">Color</th>
-            <th scope="col">Material</th>
-            <th scope="col">Size</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in items %}
-            {% for key, value in item.items() %}
-              <tr>
-                <th scope="row">{{ key }}</th>
-                <td>{{ value[0] }}</td>
-                <td>{{ value[1] }}</td>
-                <td>{{ value[2] }}</td>
-                <td>{{ value[3] }}</td>
-                <td>{{ value[4] }}</td>
-                <td>{{ value[5] }}</td>
-              </tr>
+  <div class="col">
+    <div class="card border-danger h-100 shadow-2 bg-light mb-3">
+      <div class="card-header text-center bg-light">
+        <h5><b>Your Cart</b></h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-sm table-secondary table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Product ID</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Color</th>
+              <th scope="col">Material</th>
+              <th scope="col">Size</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+              {% for key, value in item.items() %}
+                <tr>
+                  <th scope="row">{{ key }}</th>
+                  <td>{{ value[0] }}</td>
+                  <td>{{ value[1] }}</td>
+                  <td>{{ value[2] }}</td>
+                  <td>{{ value[3] }}</td>
+                  <td>{{ value[4] }}</td>
+                  <td>{{ value[5] }}</td>
+                </tr>
+              {% endfor %}
             {% endfor %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
 
-    <div class="card-footer bg-light">
-      <h4 class="text-dark"><b>Grand Total : Ksh.{{ total }}</b></h4>
-      <a href="/drop/" class="btn btn-outline-danger text-dark">Clear Items</a>
+      <div class="card-footer bg-light">
+        <h4 class="text-dark"><b>Grand Total : Ksh.{{ total }}</b></h4>
+        <a href="/drop/" class="btn btn-outline-danger text-dark">Clear Items</a>
+      </div>
     </div>
   </div>
 
   <!-- Address Information -->
-  <div class="card border-danger shadow-2 bg-light mb-3">
-    <div class="card-header text-center">
-      <h5><b>A few more Details before Proceeding</b></h5>
-    </div>
+  <div class="col">
+    <div class="card border-danger h-100 shadow-2 bg-light mb-3">
+      <div class="card-header text-center">
+        <h5><b>A few more Details before Proceeding</b></h5>
+      </div>
 
-    <div class="card-body">
-      <form action="{{ url_for('checkout') }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <div class="form-group">
-          <label for="formGroupExampleInput">Address</label>
-          <input
-            type="text"
-            class="form-control"
-            id="formGroupExampleInput"
-            placeholder="Black Rose Apartments,House 411"
-            name="billingAddress"
-            value="{{ user_dict.address if user_dict.address }}"
-          />
-        </div>
+      <div class="card-body">
+        <form action="{{ url_for('checkout') }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <div class="form-group md-3">
+            <label for="formGroupExampleInput" class="form-label">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupExampleInput"
+              placeholder="Black Rose Apartments,House 411"
+              name="billingAddress"
+              value="{{ user_dict.address if user_dict.address }}"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="formGroupExampleInput">City</label>
-          <input
-            type="text"
-            class="form-control"
-            id="formGroupExampleInput"
-            placeholder="Nairobi"
-            name="billingCity"
-            value="{{ user_dict.city if user_dict.city }}"
-          />
-        </div>
+          <div class="form-group md-3">
+            <label for="formGroupExampleInput" class="form-label">City</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupExampleInput"
+              placeholder="Nairobi"
+              name="billingCity"
+              value="{{ user_dict.city if user_dict.city }}"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="formGroupExampleInput">Region / Area</label>
-          <input
-            type="text"
-            class="form-control"
-            id="formGroupExampleInput"
-            placeholder="Kilimani"
-            name="billingRegion"
-            value="{{ user_dict.region if user_dict.region }}"
-          />
-        </div>
+          <div class="form-group md-3">
+            <label for="formGroupExampleInput" class="form-label">Region / Area</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupExampleInput"
+              placeholder="Kilimani"
+              name="billingRegion"
+              value="{{ user_dict.region if user_dict.region }}"
+            />
+          </div>
 
-        <div class="form-group mt-2">
-          <label for="inputEmail">Additional Information (Optional)</label>
-          <textarea
-            rows="4"
-            class="form-control border-secondary"
-            name="billingAdditionalInfo"
-          >
-{{ user_dict.additionalInfo if user_dict.additionalInfo }}</textarea
-          >
-        </div>
+          <div class="form-group md-3">
+            <label for="inputEmail" class="form-label">Additional Information (Optional)</label>
+            <textarea
+              rows="4"
+              class="form-control border-secondary"
+              name="billingAdditionalInfo"
+            >
+  {{ user_dict.additionalInfo if user_dict.additionalInfo }}</textarea
+            >
+          </div>
 
-        <button type="submit" class="btn btn-success">
-          Proceed to Checkout
-        </button>
-      </form>
-    </div>
+          <button type="submit" class="btn btn-success mt-2">
+            Proceed to Checkout
+          </button>
+        </form>
+      </div>
 
-    <div class="card-footer text-muted py-4">
-      <b
-        >For any Questions / Clarifications, Feel Free to
-        <a href="/contact/" class="btn btn-outline-danger text-dark mb-2"
-          >Contact Us</a
-        ></b
-      >
+      <div class="card-footer text-muted py-4">
+        <b
+          >For any Questions / Clarifications, Feel Free to
+          <a href="#" class="btn btn-outline-danger text-dark mb-2"
+            >Contact Us</a
+          ></b
+        >
+      </div>
     </div>
   </div>
 </div>
