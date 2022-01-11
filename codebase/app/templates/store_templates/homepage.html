@@ -1,95 +1,146 @@
-{% extends "store_templates/layout.html" %}
-
-{% block content %}
+{% extends "store_templates/layout.html" %} {% block content %}
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
-  
   <div class="col">
     <div class="card">
-      <a class="text-danger" href="{{ url_for('general', category_name='ffashion') }}">
-      <img src="{{ url_for('static', filename='female/female.jpg') }}" class="card-img-top" alt="..."></a>
+      <a
+        class="text-danger"
+        href="{{ url_for('general', category_name='ffashion') }}"
+      >
+        <img
+          src="{{ url_for('static', filename='female/female.jpg') }}"
+          class="card-img-top"
+          alt="..."
+      /></a>
 
       <div class="card-footer bg-white">
-        <a class="text-danger" href="{{ url_for('general', category_name='ffashion') }}">
-        <h5 class="card-title text-dark">Ladies' Fashion</h5>
+        <a
+          class="text-danger"
+          href="{{ url_for('general', category_name='ffashion') }}"
+        >
+          <h5 class="card-title text-dark">Ladies' Fashion</h5>
         </a>
-        <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text text-dark">
+          This is a longer card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
       </div>
     </div>
-
   </div>
 
   <div class="col">
     <div class="card">
-        <a class="text-danger" href="{{ url_for('general', category_name='mfashion') }}">
-      <img src="{{ url_for('static', filename='male/men.jpg') }}" class="card-img-top" alt="...">
-        </a>
-
-      <div class="card-footer bg-white">
-        <a class="text-danger" href="{{ url_for('general', category_name='mfashion') }}">
-        <h5 class="card-title text-dark">Men's Fashion</h5></a>
-        <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    </div>
-    </div>
-  </div>
-
-  <div class="col mb-4">
-    <div class="card">
-        <a class="text-danger" href="{{ url_for('general', category_name='kfashion') }}">
-      <img src="{{ url_for('static', filename='kids/kids.jpg') }}" class="card-img-top" alt="...">
-        </a>
-
-      <div class="card-footer bg-white">
-        <a class="text-danger" href="{{ url_for('general', category_name='kfashion') }}">
-        <h5 class="card-title text-dark">Kids' Fashion</h5></a>
-        <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>      
-    </div>
-  </div>
-
-  <div class="col mb-4">
-    <div class="card">
-        <a class="text-danger" href="{{ url_for('general', category_name='narrivals') }}">
-      <img src="{{ url_for('static', filename='male/new.jpg') }}" class="card-img-top" alt="...">
+      <a
+        class="text-danger"
+        href="{{ url_for('general', category_name='mfashion') }}"
+      >
+        <img
+          src="{{ url_for('static', filename='male/men.jpg') }}"
+          class="card-img-top"
+          alt="..."
+        />
       </a>
 
-
       <div class="card-footer bg-white">
-        <a class="text-danger" href="{{ url_for('general', category_name='narrivals') }}">
-        <h5 class="card-title text-dark">New Arrivals!</h5></a>
-        <p class="card-text text-dark">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>      
+        <a
+          class="text-danger"
+          href="{{ url_for('general', category_name='mfashion') }}"
+        >
+          <h5 class="card-title text-dark">Men's Fashion</h5></a
+        >
+        <p class="card-text text-dark">
+          This is a longer card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
+      </div>
     </div>
   </div>
 
-</div>
+  <div class="col mb-4">
+    <div class="card">
+      <a
+        class="text-danger"
+        href="{{ url_for('general', category_name='kfashion') }}"
+      >
+        <img
+          src="{{ url_for('static', filename='kids/kids.jpg') }}"
+          class="card-img-top"
+          alt="..."
+        />
+      </a>
 
-
-
-<div class="card-deck">
-<div class="row row-cols-1 row-cols-md-4">
-
-  {% for categories in c %}
-
-    <a class="text-danger" href="/gen/{{ categories.categoryName }}/">
-    <div class="col mb-4">
-      <div class="card">
-        <img src="{{ url_for('static', filename='logo.png').replace('logo.png', categories.picPath) }}" class="card-img-top" alt="{{ categories.categoryName }}">
-
-        <div class="card-footer bg-white">
-          <h5 class="card-title text-dark">{{ categories.categoryName }}</h5>
-        </div>
+      <div class="card-footer bg-white">
+        <a
+          class="text-danger"
+          href="{{ url_for('general', category_name='kfashion') }}"
+        >
+          <h5 class="card-title text-dark">Kids' Fashion</h5></a
+        >
+        <p class="card-text text-dark">
+          This is a longer card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
       </div>
     </div>
-    </a>
+  </div>
+
+  <div class="col mb-4">
+    <div class="card">
+      <a
+        class="text-danger"
+        href="{{ url_for('general', category_name='narrivals') }}"
+      >
+        <img
+          src="{{ url_for('static', filename='male/new.jpg') }}"
+          class="card-img-top"
+          alt="..."
+        />
+      </a>
+
+      <div class="card-footer bg-white">
+        <a
+          class="text-danger"
+          href="{{ url_for('general', category_name='narrivals') }}"
+        >
+          <h5 class="card-title text-dark">New Arrivals!</h5></a
+        >
+        <p class="card-text text-dark">
+          This is a longer card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  {% for categories in c %}
+
+  <div class="col">
+    <div class="card">
+      <a
+        class="text-danger"
+        href="{{ url_for('general',category_name=categories.categoryName) }}"
+      >
+        <img
+          src="{{ url_for('static', filename='logo.png').replace('logo.png', categories.picPath) }}"
+          class="card-img-top"
+          alt="{{ categories.categoryName }}"
+        />
+      </a>
+
+      <div class="card-footer bg-white">
+        <a
+          class="text-danger"
+          href="{{ url_for('general',category_name=categories.categoryName) }}"
+        >
+          <h5 class="card-title text-dark">{{ categories.categoryName }}</h5>
+        </a>
+      </div>
+    </div>
+  </div>
 
   {% endfor %}
-
 </div>
-</div>
-
-
-
-
 
 {% endblock content %}
