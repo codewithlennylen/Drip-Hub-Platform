@@ -180,7 +180,7 @@ The following images show the screenshots of the various pages that the web-app 
 <!-- ROADMAP -->
 ## Roadmap
 
-**NB: This is a pretty old project and I have no intention of maintaining the codebase. Feel free to play around with it as much as you want.**
+**NB: This is a pretty old project (Started on 4th February 2020) and I have no intention of maintaining the codebase. Feel free to play around with it as much as you want.**
 
 See the [open issues](https://github.com/codewithlennylen/Drip-Hub-Platform/issues) for a full list of proposed features (and known issues).
 
