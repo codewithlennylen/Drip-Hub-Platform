@@ -134,7 +134,9 @@ To get a local copy up and running follow these simple example steps.
    pip3 install -r requirements.txt
    ```
 
-5. Run Application
+5. **<p style="color:red;">Set up Database</p>**
+
+6. Run Application
 
    ```sh
    flask run
